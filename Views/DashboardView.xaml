@@ -2,15 +2,221 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModels="clr-namespace:PcPerformanceManager.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <TextBlock Text="Dashboard" 
-                   FontSize="24" 
-                   HorizontalAlignment="Center" 
-                   VerticalAlignment="Center"
-                   Foreground="Gray"/>
-    </Grid>
-</UserControl>
+             d:DesignHeight="600" d:DesignWidth="800">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="10">
+            <!-- Header -->
+            <TextBlock Text="System Overview" 
+                       FontSize="28" 
+                       FontWeight="Bold" 
+                       Margin="0,0,0,20"
+                       Foreground="#2C3E50"/>
+            
+            <!-- Status Bar -->
+            <Border Background="#ECF0F1" 
+                    Padding="15" 
+                    CornerRadius="5" 
+                    Margin="0,0,0,20">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding StatusMessage}" 
+                               FontSize="14" 
+                               VerticalAlignment="Center"
+                               Foreground="#34495E"/>
+                    <Button Grid.Column="1" 
+                            Content="Refresh" 
+                            Command="{Binding RefreshDataCommand}"
+                            IsEnabled="{Binding IsRefreshing, Converter={StaticResource InverseBooleanConverter}}"
+                            Padding="15,8"
+                            Margin="10,0,0,0"
+                            Cursor="Hand"/>
+                </Grid>
+            </Border>
 
+            <!-- System Info Cards -->
+            <UniformGrid Columns="2" Rows="2" Margin="0,0,0,20">
+                <!-- CPU Card -->
+                <Border Background="White" 
+                        BorderBrush="#BDC3C7" 
+                        BorderThickness="1" 
+                        CornerRadius="8" 
+                        Padding="20" 
+                        Margin="5"
+                        Effect="{StaticResource CardShadow}">
+                    <StackPanel>
+                        <TextBlock Text="CPU Usage" 
+                                   FontSize="16" 
+                                   FontWeight="SemiBold" 
+                                   Foreground="#7F8C8D"
+                                   Margin="0,0,0,10"/>
+                        <ProgressBar Value="{Binding CpuUsage}" 
+                                     Maximum="100" 
+                                     Height="25" 
+                                     Margin="0,0,0,10"/>
+                        <TextBlock Text="{Binding CpuUsage, StringFormat='{}{0:F1}%'}" 
+                                   FontSize="24" 
+                                   FontWeight="Bold" 
+                                   Foreground="#3498DB"/>
+                        <TextBlock Text="{Binding SystemInfo.CpuName}" 
+                                   FontSize="12" 
+                                   Foreground="#95A5A6"
+                                   TextWrapping="Wrap"
+                                   Margin="0,5,0,0"/>
+                        <TextBlock Margin="0,5,0,0">
+                            <Run Text="Cores: " FontSize="12" Foreground="#95A5A6"/>
+                            <Run Text="{Binding SystemInfo.CpuCores}" FontSize="12" Foreground="#2C3E50"/>
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+
+                <!-- RAM Card -->
+                <Border Background="White" 
+                        BorderBrush="#BDC3C7" 
+                        BorderThickness="1" 
+                        CornerRadius="8" 
+                        Padding="20" 
+                        Margin="5">
+                    <StackPanel>
+                        <TextBlock Text="RAM Usage" 
+                                   FontSize="16" 
+                                   FontWeight="SemiBold" 
+                                   Foreground="#7F8C8D"
+                                   Margin="0,0,0,10"/>
+                        <ProgressBar Value="{Binding MemoryInfo.UsedPercentage}" 
+                                     Maximum="100" 
+                                     Height="25" 
+                                     Margin="0,0,0,10"/>
+                        <TextBlock FontSize="24" FontWeight="Bold" Foreground="#E74C3C">
+                            <Run Text="{Binding MemoryInfo.UsedGB, StringFormat='{}{0:F1}'}"/>
+                            <Run Text=" GB / "/>
+                            <Run Text="{Binding MemoryInfo.TotalGB, StringFormat='{}{0:F1}'}"/>
+                            <Run Text=" GB"/>
+                        </TextBlock>
+                        <TextBlock Text="{Binding MemoryInfo.UsedPercentage, StringFormat='{}{0:F1}% Used'}" 
+                                   FontSize="12" 
+                                   Foreground="#95A5A6"
+                                   Margin="0,5,0,0"/>
+                        <Button Content="Clear RAM" 
+                                Command="{Binding QuickRamCleanupCommand}"
+                                Margin="0,10,0,0"
+                                Padding="10,5"
+                                Cursor="Hand"
+                                Background="#E74C3C"
+                                Foreground="White"
+                                BorderThickness="0"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Disk Card -->
+                <Border Background="White" 
+                        BorderBrush="#BDC3C7" 
+                        BorderThickness="1" 
+                        CornerRadius="8" 
+                        Padding="20" 
+                        Margin="5">
+                    <StackPanel>
+                        <TextBlock Text="Disk Usage" 
+                                   FontSize="16" 
+                                   FontWeight="SemiBold" 
+                                   Foreground="#7F8C8D"
+                                   Margin="0,0,0,10"/>
+                        <ProgressBar Value="{Binding SystemInfo.UsedDiskPercentage}" 
+                                     Maximum="100" 
+                                     Height="25" 
+                                     Margin="0,0,0,10"/>
+                        <TextBlock FontSize="24" FontWeight="Bold" Foreground="#F39C12">
+                            <Run Text="{Binding SystemInfo.UsedDiskGB, StringFormat='{}{0:F1}'}"/>
+                            <Run Text=" GB / "/>
+                            <Run Text="{Binding SystemInfo.TotalDiskGB, StringFormat='{}{0:F1}'}"/>
+                            <Run Text=" GB"/>
+                        </TextBlock>
+                        <TextBlock Text="{Binding SystemInfo.FreeDiskGB, StringFormat='{}{0:F1} GB Free'}" 
+                                   FontSize="12" 
+                                   Foreground="#95A5A6"
+                                   Margin="0,5,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Power Plan Card -->
+                <Border Background="White" 
+                        BorderBrush="#BDC3C7" 
+                        BorderThickness="1" 
+                        CornerRadius="8" 
+                        Padding="20" 
+                        Margin="5">
+                    <StackPanel>
+                        <TextBlock Text="Power Plan" 
+                                   FontSize="16" 
+                                   FontWeight="SemiBold" 
+                                   Foreground="#7F8C8D"
+                                   Margin="0,0,0,10"/>
+                        <TextBlock Text="{Binding ActivePowerPlan.Name, FallbackValue='Unknown'}" 
+                                   FontSize="20" 
+                                   FontWeight="Bold" 
+                                   Foreground="#27AE60"
+                                   Margin="0,0,0,5"/>
+                        <TextBlock Text="{Binding ActivePowerPlan.Description, FallbackValue='No active plan'}" 
+                                   FontSize="12" 
+                                   Foreground="#95A5A6"
+                                   TextWrapping="Wrap"
+                                   Margin="0,0,0,10"/>
+                        <Button Content="Manage Power Plans" 
+                                Command="{Binding OpenPowerViewCommand}"
+                                Margin="0,10,0,0"
+                                Padding="10,5"
+                                Cursor="Hand"
+                                Background="#27AE60"
+                                Foreground="White"
+                                BorderThickness="0"/>
+                    </StackPanel>
+                </Border>
+            </UniformGrid>
+
+            <!-- Quick Actions -->
+            <TextBlock Text="Quick Actions" 
+                       FontSize="22" 
+                       FontWeight="Bold" 
+                       Margin="0,10,0,15"
+                       Foreground="#2C3E50"/>
+            
+            <UniformGrid Columns="3" Margin="0,0,0,20">
+                <Border Margin="5" CornerRadius="5" Background="#3498DB">
+                    <Button Content="RAM Management" 
+                            Command="{Binding OpenRamViewCommand}"
+                            Padding="20,15"
+                            FontSize="16"
+                            Cursor="Hand"
+                            Background="Transparent"
+                            Foreground="White"
+                            BorderThickness="0"/>
+                </Border>
+                <Border Margin="5" CornerRadius="5" Background="#27AE60">
+                    <Button Content="Power Management" 
+                            Command="{Binding OpenPowerViewCommand}"
+                            Padding="20,15"
+                            FontSize="16"
+                            Cursor="Hand"
+                            Background="Transparent"
+                            Foreground="White"
+                            BorderThickness="0"/>
+                </Border>
+                <Border Margin="5" CornerRadius="5" Background="#F39C12">
+                    <Button Content="Disk Cleanup" 
+                            Command="{Binding OpenCleanupViewCommand}"
+                            Padding="20,15"
+                            FontSize="16"
+                            Cursor="Hand"
+                            Background="Transparent"
+                            Foreground="White"
+                            BorderThickness="0"/>
+                </Border>
+            </UniformGrid>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
