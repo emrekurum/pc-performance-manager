@@ -29,7 +29,7 @@ public partial class MainViewModel : ObservableObject
         };
 
         SelectedNavigationItem = NavigationItems[0];
-        CurrentContent = new DashboardView();
+        CurrentContent = CreateViewWithViewModel("Dashboard");
     }
 
     partial void OnSelectedNavigationItemChanged(NavigationItem? value)
@@ -38,11 +38,23 @@ public partial class MainViewModel : ObservableObject
 
         CurrentContent = value.Title switch
         {
-            "Dashboard" => new DashboardView(),
-            "RAM" => new RamView(),
-            "Güç" => new PowerView(),
-            "Temizlik" => new CleanupView(),
-            _ => new DashboardView()
+            "Dashboard" => CreateViewWithViewModel("Dashboard"),
+            "RAM" => CreateViewWithViewModel("RAM"),
+            "Güç" => CreateViewWithViewModel("Güç"),
+            "Temizlik" => CreateViewWithViewModel("Temizlik"),
+            _ => CreateViewWithViewModel("Dashboard")
+        };
+    }
+
+    private UserControl CreateViewWithViewModel(string viewName)
+    {
+        return viewName switch
+        {
+            "Dashboard" => new DashboardView { DataContext = new DashboardViewModel() },
+            "RAM" => new RamView { DataContext = new RamViewModel() },
+            "Güç" => new PowerView { DataContext = new PowerViewModel() },
+            "Temizlik" => new CleanupView { DataContext = new CleanupViewModel() },
+            _ => new DashboardView { DataContext = new DashboardViewModel() }
         };
     }
 }
