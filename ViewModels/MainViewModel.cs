@@ -48,14 +48,23 @@ public partial class MainViewModel : ObservableObject
 
     private UserControl CreateViewWithViewModel(string viewName)
     {
-        return viewName switch
+        try
         {
-            "Dashboard" => new DashboardView { DataContext = new DashboardViewModel() },
-            "RAM" => new RamView { DataContext = new RamViewModel() },
-            "Güç" => new PowerView { DataContext = new PowerViewModel() },
-            "Temizlik" => new CleanupView { DataContext = new CleanupViewModel() },
-            _ => new DashboardView { DataContext = new DashboardViewModel() }
-        };
+            return viewName switch
+            {
+                "Dashboard" => new DashboardView { DataContext = new DashboardViewModel() },
+                "RAM" => new RamView { DataContext = new RamViewModel() },
+                "Güç" => new PowerView { DataContext = new PowerViewModel() },
+                "Temizlik" => new CleanupView { DataContext = new CleanupViewModel() },
+                _ => new DashboardView { DataContext = new DashboardViewModel() }
+            };
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Error creating view {viewName}: {ex.Message}");
+            System.Windows.MessageBox.Show($"Error loading view: {ex.Message}", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+            return new DashboardView { DataContext = new DashboardViewModel() };
+        }
     }
 }
 

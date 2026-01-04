@@ -55,7 +55,7 @@
                                    FontWeight="SemiBold" 
                                    Foreground="#7F8C8D"
                                    Margin="0,0,0,10"/>
-                        <ProgressBar Value="{Binding CpuUsage}" 
+                        <ProgressBar Value="{Binding CpuUsage, Mode=OneWay}" 
                                      Maximum="100" 
                                      Height="25" 
                                      Margin="0,0,0,10"/>
@@ -88,7 +88,7 @@
                                    FontWeight="SemiBold" 
                                    Foreground="#7F8C8D"
                                    Margin="0,0,0,10"/>
-                        <ProgressBar Value="{Binding MemoryInfo.UsedPercentage}" 
+                        <ProgressBar Value="{Binding MemoryInfo.UsedPercentage, Mode=OneWay}" 
                                      Maximum="100" 
                                      Height="25" 
                                      Margin="0,0,0,10"/>
@@ -126,7 +126,7 @@
                                    FontWeight="SemiBold" 
                                    Foreground="#7F8C8D"
                                    Margin="0,0,0,10"/>
-                        <ProgressBar Value="{Binding SystemInfo.UsedDiskPercentage}" 
+                        <ProgressBar Value="{Binding SystemInfo.UsedDiskPercentage, Mode=OneWay}" 
                                      Maximum="100" 
                                      Height="25" 
                                      Margin="0,0,0,10"/>
