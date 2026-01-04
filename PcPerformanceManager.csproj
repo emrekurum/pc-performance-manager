@@ -7,6 +7,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Authors>emrekurum</Authors>
+    <Company>emrekurum</Company>
+    <Product>PC Performance Manager</Product>
+    <Description>A modern Windows desktop application for optimizing system performance</Description>
+    <Copyright>Copyright © 2026</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/emrekurum/pc-performance-manager.git</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>

@@ -2,34 +2,44 @@
 
 A modern Windows desktop application built with WPF and .NET 8.0 for optimizing system performance by managing RAM usage, power plans, and cleaning up unnecessary files.
 
-## 🚀 Features
+## Overview
+
+PC Performance Manager is a comprehensive system optimization tool designed for Windows 10/11. It provides users with powerful features to monitor system resources, optimize memory usage, manage power plans, and clean up temporary files to improve overall system performance.
+
+## Features
 
 ### Current Features
+
 - **MVVM Architecture**: Clean separation of concerns using the Model-View-ViewModel pattern
 - **Modern UI**: Responsive design with intuitive navigation
-- **Admin Privileges**: Built-in administrator privilege handling
+- **Administrator Privileges**: Built-in administrator privilege handling and validation
+- **System Information**: Real-time system information gathering (CPU, RAM, Disk)
+- **RAM Management**: Memory usage monitoring and optimization capabilities
+- **Power Management**: Windows power plan management and switching
+- **File Cleanup**: Temporary file analysis and cleanup functionality
 
 ### Planned Features
-- **RAM Management**: Monitor and optimize RAM usage with working set clearing
-- **Power Management**: View and switch between Windows power plans
-- **File Cleanup**: Analyze and clean temporary files, cache, and unnecessary system files
-- **System Monitoring**: Real-time system information dashboard (CPU, RAM, Disk usage)
-- **Process Management**: View running processes and their memory consumption
 
-## 📋 Requirements
+- **Real-time Monitoring**: Live system performance dashboard with charts
+- **Advanced Process Management**: Detailed process monitoring and management
+- **Scheduled Tasks**: Automated cleanup and optimization schedules
+- **Settings Panel**: Application configuration and preferences
+- **Logging System**: Comprehensive logging for debugging and auditing
 
-- **.NET 8.0 SDK** or later
-- **Windows 10/11** (64-bit)
-- **Administrator privileges** (required for system operations)
+## Requirements
 
-## 🛠️ Technologies
+- .NET 8.0 SDK or later
+- Windows 10/11 (64-bit)
+- Administrator privileges (required for system operations)
 
-- **.NET 8.0**: Latest .NET framework
-- **WPF**: Windows Presentation Foundation for UI
-- **CommunityToolkit.Mvvm**: Modern MVVM implementation
-- **System.Management**: System information and monitoring
+## Technologies
 
-## 📁 Project Structure
+- **.NET 8.0**: Latest .NET framework for Windows desktop applications
+- **WPF**: Windows Presentation Foundation for rich UI development
+- **CommunityToolkit.Mvvm**: Modern MVVM implementation with code generation
+- **System.Management**: System information and performance monitoring via WMI
+
+## Project Structure
 
 ```
 PcPerformanceManager/
@@ -39,7 +49,11 @@ PcPerformanceManager/
 │   ├── PowerView.xaml
 │   └── CleanupView.xaml
 ├── ViewModels/         # ViewModel classes (business logic)
-│   └── MainViewModel.cs
+│   ├── MainViewModel.cs
+│   ├── DashboardViewModel.cs
+│   ├── RamViewModel.cs
+│   ├── PowerViewModel.cs
+│   └── CleanupViewModel.cs
 ├── Models/             # Data models
 │   ├── SystemInfo.cs
 │   ├── MemoryInfo.cs
@@ -59,7 +73,7 @@ PcPerformanceManager/
 └── app.manifest        # Application manifest (requires admin privileges)
 ```
 
-## 🔧 Installation
+## Installation
 
 ### Prerequisites
 
@@ -85,7 +99,7 @@ dotnet run
 
 **Note**: The application requires administrator privileges. Run your terminal/IDE as administrator, or the application will request elevation at startup.
 
-## 📖 Usage
+## Usage
 
 1. Launch the application (as administrator)
 2. Navigate through the menu on the left:
@@ -94,27 +108,31 @@ dotnet run
    - **Power**: Power plan management
    - **Cleanup**: File cleanup and disk space management
 
-## 🏗️ Architecture
+## Architecture
 
 ### MVVM Pattern
 
 The application follows the Model-View-ViewModel (MVVM) architectural pattern:
 
-- **Model**: Data structures and business entities
-- **View**: XAML UI definitions (Views folder)
-- **ViewModel**: Business logic and data binding (ViewModels folder)
-- **Services**: Reusable business services (Services folder)
-- **Helpers**: Utility and helper classes (Helpers folder)
+- **Model**: Data structures and business entities located in the Models folder
+- **View**: XAML UI definitions in the Views folder
+- **ViewModel**: Business logic and data binding in the ViewModels folder
+- **Services**: Reusable business services in the Services folder
+- **Helpers**: Utility and helper classes in the Helpers folder
 
 ### Key Components
 
 - **MainViewModel**: Handles navigation and main window logic
-- **MemoryService**: Provides RAM monitoring and optimization capabilities
-- **PowerService**: Manages Windows power plans
-- **CleanupService**: Handles file analysis and cleanup operations
-- **SystemInfoHelper**: Collects system information using WMI
+- **DashboardViewModel**: Manages system overview and quick actions
+- **RamViewModel**: Provides RAM monitoring and optimization capabilities
+- **PowerViewModel**: Manages Windows power plans
+- **CleanupViewModel**: Handles file analysis and cleanup operations
+- **MemoryService**: Implements RAM optimization using Windows API
+- **PowerService**: Manages power plans using Windows powercfg utility
+- **CleanupService**: Handles file system cleanup operations
+- **SystemInfoHelper**: Collects system information using WMI queries
 
-## 🔒 Security
+## Security
 
 The application requires administrator privileges to:
 - Access system performance counters
@@ -122,29 +140,29 @@ The application requires administrator privileges to:
 - Clean system directories
 - Optimize memory usage
 
-All operations are performed with proper error handling and user consent.
+All operations are performed with proper error handling and user consent. The application does not collect or transmit any user data.
 
-## 📊 Development Status
+## Development Status
 
-### ✅ Phase 1: Complete
+### Phase 1: Complete
 - Project setup and MVVM architecture
 - Helper classes (AdminHelper, SystemInfoHelper)
 - Data models (SystemInfo, MemoryInfo, PowerPlan, CleanupItem)
 - Service layer (MemoryService, PowerService, CleanupService)
 
-### 🚧 Phase 2: In Progress
-- ViewModel implementations
-- UI/UX enhancements
+### Phase 2: Complete
+- ViewModel implementations for all modules
 - Service integration
+- Command patterns and async operations
 
-### 📅 Phase 3: Planned
-- View implementations
+### Phase 3: In Progress
+- View implementations with modern UI
 - Real-time monitoring
 - Advanced features
 
 See [ROADMAP.md](ROADMAP.md) for detailed development plan.
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
@@ -154,22 +172,24 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📝 License
+Please ensure your code follows the existing code style and includes appropriate documentation.
 
-This project is open source and available under the MIT License.
+## License
 
-## 👤 Author
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Author
 
 **emrekurum**
 
 - GitHub: [@emrekurum](https://github.com/emrekurum)
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Built with [CommunityToolkit.Mvvm](https://github.com/CommunityToolkit/dotnet)
 - Powered by .NET 8.0
+- Windows Presentation Foundation (WPF) framework
 
----
+## Disclaimer
 
-**⚠️ Disclaimer**: This application performs system-level operations. Use at your own risk. Always backup your data before using cleanup features.
-
+This application performs system-level operations that can affect system performance and stability. Use at your own risk. Always backup your data before using cleanup features. The authors are not responsible for any data loss or system damage that may occur from using this software.
