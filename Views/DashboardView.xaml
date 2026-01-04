@@ -59,18 +59,18 @@
                                      Maximum="100" 
                                      Height="25" 
                                      Margin="0,0,0,10"/>
-                        <TextBlock Text="{Binding CpuUsage, StringFormat='{}{0:F1}%'}" 
+                        <TextBlock Text="{Binding CpuUsage, Mode=OneWay, StringFormat='{}{0:F1}%'}" 
                                    FontSize="24" 
                                    FontWeight="Bold" 
                                    Foreground="#3498DB"/>
-                        <TextBlock Text="{Binding SystemInfo.CpuName}" 
+                        <TextBlock Text="{Binding SystemInfo.CpuName, Mode=OneWay}" 
                                    FontSize="12" 
                                    Foreground="#95A5A6"
                                    TextWrapping="Wrap"
                                    Margin="0,5,0,0"/>
                         <TextBlock Margin="0,5,0,0">
                             <Run Text="Cores: " FontSize="12" Foreground="#95A5A6"/>
-                            <Run Text="{Binding SystemInfo.CpuCores}" FontSize="12" Foreground="#2C3E50"/>
+                            <Run Text="{Binding SystemInfo.CpuCores, Mode=OneWay}" FontSize="12" Foreground="#2C3E50"/>
                         </TextBlock>
                     </StackPanel>
                 </Border>
@@ -93,12 +93,12 @@
                                      Height="25" 
                                      Margin="0,0,0,10"/>
                         <TextBlock FontSize="24" FontWeight="Bold" Foreground="#E74C3C">
-                            <Run Text="{Binding MemoryInfo.UsedGB, StringFormat='{}{0:F1}'}"/>
+                            <Run Text="{Binding MemoryInfo.UsedGB, Mode=OneWay, StringFormat='{}{0:F1}'}"/>
                             <Run Text=" GB / "/>
-                            <Run Text="{Binding MemoryInfo.TotalGB, StringFormat='{}{0:F1}'}"/>
+                            <Run Text="{Binding MemoryInfo.TotalGB, Mode=OneWay, StringFormat='{}{0:F1}'}"/>
                             <Run Text=" GB"/>
                         </TextBlock>
-                        <TextBlock Text="{Binding MemoryInfo.UsedPercentage, StringFormat='{}{0:F1}% Used'}" 
+                        <TextBlock Text="{Binding MemoryInfo.UsedPercentage, Mode=OneWay, StringFormat='{}{0:F1}% Used'}" 
                                    FontSize="12" 
                                    Foreground="#95A5A6"
                                    Margin="0,5,0,0"/>
@@ -131,12 +131,12 @@
                                      Height="25" 
                                      Margin="0,0,0,10"/>
                         <TextBlock FontSize="24" FontWeight="Bold" Foreground="#F39C12">
-                            <Run Text="{Binding SystemInfo.UsedDiskGB, StringFormat='{}{0:F1}'}"/>
+                            <Run Text="{Binding SystemInfo.UsedDiskGB, Mode=OneWay, StringFormat='{}{0:F1}'}"/>
                             <Run Text=" GB / "/>
-                            <Run Text="{Binding SystemInfo.TotalDiskGB, StringFormat='{}{0:F1}'}"/>
+                            <Run Text="{Binding SystemInfo.TotalDiskGB, Mode=OneWay, StringFormat='{}{0:F1}'}"/>
                             <Run Text=" GB"/>
                         </TextBlock>
-                        <TextBlock Text="{Binding SystemInfo.FreeDiskGB, StringFormat='{}{0:F1} GB Free'}" 
+                        <TextBlock Text="{Binding SystemInfo.FreeDiskGB, Mode=OneWay, StringFormat='{}{0:F1} GB Free'}" 
                                    FontSize="12" 
                                    Foreground="#95A5A6"
                                    Margin="0,5,0,0"/>
@@ -156,12 +156,12 @@
                                    FontWeight="SemiBold" 
                                    Foreground="#7F8C8D"
                                    Margin="0,0,0,10"/>
-                        <TextBlock Text="{Binding ActivePowerPlan.Name, FallbackValue='Unknown'}" 
+                        <TextBlock Text="{Binding ActivePowerPlan.Name, Mode=OneWay, FallbackValue='Unknown'}" 
                                    FontSize="20" 
                                    FontWeight="Bold" 
                                    Foreground="#27AE60"
                                    Margin="0,0,0,5"/>
-                        <TextBlock Text="{Binding ActivePowerPlan.Description, FallbackValue='No active plan'}" 
+                        <TextBlock Text="{Binding ActivePowerPlan.Description, Mode=OneWay, FallbackValue='No active plan'}" 
                                    FontSize="12" 
                                    Foreground="#95A5A6"
                                    TextWrapping="Wrap"

@@ -155,7 +155,7 @@
                                             Width="150"
                                             ElementStyle="{StaticResource DataGridTextStyle}"/>
                         <DataGridTextColumn Header="Size" 
-                                            Binding="{Binding SizeGB, StringFormat='{}{0:F2} GB'}" 
+                                            Binding="{Binding SizeGB, Mode=OneWay, StringFormat='{}{0:F2} GB'}" 
                                             Width="120"
                                             ElementStyle="{StaticResource DataGridTextStyle}"/>
                     </DataGrid.Columns>
