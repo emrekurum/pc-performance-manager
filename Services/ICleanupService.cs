@@ -32,3 +32,4 @@ public class CleanupResult
     public double GBCleaned => BytesCleaned / (1024.0 * 1024.0 * 1024.0);
 }
 
+

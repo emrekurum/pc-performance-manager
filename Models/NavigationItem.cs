@@ -6,3 +6,4 @@ public class NavigationItem
     public string Icon { get; set; } = string.Empty;
 }
 
+

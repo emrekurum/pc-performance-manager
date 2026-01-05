@@ -14,3 +14,4 @@ public class MemoryInfo
     public double FreePercentage => TotalBytes > 0 ? (FreeBytes / (double)TotalBytes) * 100 : 0;
 }
 
+

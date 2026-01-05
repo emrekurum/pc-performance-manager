@@ -40,10 +40,24 @@ public partial class RamViewModel : ObservableObject
     [ObservableProperty]
     private int refreshIntervalSeconds = 5;
 
+    // Formatted display strings
+    public string TotalMemoryDisplay => $"{MemoryInfo.TotalGB:F2} GB";
+    public string UsedMemoryDisplay => $"{MemoryInfo.UsedGB:F2} GB";
+    public string FreeMemoryDisplay => $"{MemoryInfo.FreeGB:F2} GB";
+
     public RamViewModel()
     {
         _memoryService = new MemoryService();
+        LoadMemoryInfo();
         _ = RefreshDataAsync(); // Fire and forget
+    }
+
+    private void LoadMemoryInfo()
+    {
+        MemoryInfo = _memoryService.GetMemoryInfo();
+        OnPropertyChanged(nameof(TotalMemoryDisplay));
+        OnPropertyChanged(nameof(UsedMemoryDisplay));
+        OnPropertyChanged(nameof(FreeMemoryDisplay));
     }
 
     partial void OnIsAutoRefreshEnabledChanged(bool value)
@@ -65,6 +79,13 @@ public partial class RamViewModel : ObservableObject
             StopAutoRefresh();
             StartAutoRefresh();
         }
+    }
+
+    partial void OnMemoryInfoChanged(MemoryInfo value)
+    {
+        OnPropertyChanged(nameof(TotalMemoryDisplay));
+        OnPropertyChanged(nameof(UsedMemoryDisplay));
+        OnPropertyChanged(nameof(FreeMemoryDisplay));
     }
 
     private void StartAutoRefresh()
@@ -94,20 +115,26 @@ public partial class RamViewModel : ObservableObject
 
         try
         {
+            MemoryInfo memoryInfoData = new();
+            List<ProcessMemoryInfo> processList = new();
+
             await Task.Run(() =>
             {
-                MemoryInfo = _memoryService.GetMemoryInfo();
-                var processList = _memoryService.GetProcessMemoryUsage();
-                
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    Processes.Clear();
-                    foreach (var process in processList)
-                    {
-                        Processes.Add(process);
-                    }
-                });
+                memoryInfoData = _memoryService.GetMemoryInfo();
+                processList = _memoryService.GetProcessMemoryUsage();
             });
+
+            // Update UI thread - must be on UI thread for property changes
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                MemoryInfo = memoryInfoData;
+            });
+            
+            Processes.Clear();
+            foreach (var process in processList)
+            {
+                Processes.Add(process);
+            }
 
             StatusMessage = $"Updated - {Processes.Count} processes";
         }
@@ -120,7 +147,6 @@ public partial class RamViewModel : ObservableObject
             IsRefreshing = false;
         }
     }
-
 
     [RelayCommand]
     private async Task ClearAllMemoryAsync()
@@ -228,4 +254,3 @@ public partial class RamViewModel : ObservableObject
         StatusMessage = "Sorted by name";
     }
 }
-

@@ -28,3 +28,4 @@ public interface IPowerService
     Task<bool> SetActivePowerPlanByNameAsync(string powerPlanName);
 }
 
+

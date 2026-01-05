@@ -42,10 +42,10 @@
                                FontSize="14" 
                                Foreground="#7F8C8D"
                                Margin="0,0,0,5"/>
-                    <TextBlock FontSize="32" FontWeight="Bold" Foreground="#3498DB">
-                        <Run Text="{Binding MemoryInfo.TotalGB, Mode=OneWay, StringFormat='{}{0:F2}'}"/>
-                        <Run Text=" GB"/>
-                    </TextBlock>
+                    <TextBlock Text="{Binding TotalMemoryDisplay, Mode=OneWay}" 
+                               FontSize="32" 
+                               FontWeight="Bold" 
+                               Foreground="#3498DB"/>
                 </StackPanel>
                 
                 <StackPanel Grid.Column="1" Margin="20,0">
@@ -53,10 +53,10 @@
                                FontSize="14" 
                                Foreground="#7F8C8D"
                                Margin="0,0,0,5"/>
-                    <TextBlock FontSize="32" FontWeight="Bold" Foreground="#E74C3C">
-                        <Run Text="{Binding MemoryInfo.UsedGB, Mode=OneWay, StringFormat='{}{0:F2}'}"/>
-                        <Run Text=" GB"/>
-                    </TextBlock>
+                    <TextBlock Text="{Binding UsedMemoryDisplay, Mode=OneWay}" 
+                               FontSize="32" 
+                               FontWeight="Bold" 
+                               Foreground="#E74C3C"/>
                     <ProgressBar Value="{Binding MemoryInfo.UsedPercentage, Mode=OneWay}" 
                                  Maximum="100" 
                                  Height="10" 
@@ -68,10 +68,10 @@
                                FontSize="14" 
                                Foreground="#7F8C8D"
                                Margin="0,0,0,5"/>
-                    <TextBlock FontSize="24" FontWeight="Bold" Foreground="#27AE60">
-                        <Run Text="{Binding MemoryInfo.FreeGB, Mode=OneWay, StringFormat='{}{0:F2}'}"/>
-                        <Run Text=" GB"/>
-                    </TextBlock>
+                    <TextBlock Text="{Binding FreeMemoryDisplay, Mode=OneWay}" 
+                               FontSize="24" 
+                               FontWeight="Bold" 
+                               Foreground="#27AE60"/>
                     <TextBlock Text="{Binding MemoryInfo.FreePercentage, Mode=OneWay, StringFormat='{}{0:F1}%'}" 
                                FontSize="14" 
                                Foreground="#95A5A6"

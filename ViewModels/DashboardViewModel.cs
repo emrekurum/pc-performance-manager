@@ -33,6 +33,10 @@ public partial class DashboardViewModel : ObservableObject
     [ObservableProperty]
     private string statusMessage = "Ready";
 
+    // Formatted strings for display
+    public string MemoryUsedDisplay => $"{MemoryInfo.UsedGB:F1} GB / {MemoryInfo.TotalGB:F1} GB";
+    public string DiskUsedDisplay => $"{SystemInfo.UsedDiskGB:F1} GB / {SystemInfo.TotalDiskGB:F1} GB";
+
     public DashboardViewModel()
     {
         _memoryService = new MemoryService();
@@ -40,12 +44,19 @@ public partial class DashboardViewModel : ObservableObject
         _cleanupService = new CleanupService();
 
         LoadSystemInfo();
+        LoadMemoryInfo();
         _ = RefreshDataAsync(); // Fire and forget
     }
 
     private void LoadSystemInfo()
     {
         SystemInfo = SystemInfoHelper.GetSystemInfo();
+    }
+
+    private void LoadMemoryInfo()
+    {
+        MemoryInfo = _memoryService.GetMemoryInfo();
+        OnPropertyChanged(nameof(MemoryUsedDisplay));
     }
 
     [RelayCommand]
@@ -58,19 +69,36 @@ public partial class DashboardViewModel : ObservableObject
 
         try
         {
+            SystemInfo systemInfoData = new();
+            MemoryInfo memoryInfoData = new();
+            double cpuUsageData = 0;
+            PowerPlan? activePowerPlanData = null;
+
             await Task.Run(() =>
             {
                 // Load system info
-                SystemInfo = SystemInfoHelper.GetSystemInfo();
+                systemInfoData = SystemInfoHelper.GetSystemInfo();
 
                 // Load memory info
-                MemoryInfo = _memoryService.GetMemoryInfo();
+                memoryInfoData = _memoryService.GetMemoryInfo();
 
                 // Load CPU usage
-                CpuUsage = SystemInfoHelper.GetCpuUsagePercentage();
+                cpuUsageData = SystemInfoHelper.GetCpuUsagePercentage();
 
                 // Load active power plan
-                ActivePowerPlan = _powerService.GetActivePowerPlan();
+                activePowerPlanData = _powerService.GetActivePowerPlan();
+            });
+
+            // Update UI thread - must be on UI thread for property changes
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                SystemInfo = systemInfoData;
+                MemoryInfo = memoryInfoData;
+                CpuUsage = cpuUsageData;
+                ActivePowerPlan = activePowerPlanData;
+
+                OnPropertyChanged(nameof(MemoryUsedDisplay));
+                OnPropertyChanged(nameof(DiskUsedDisplay));
             });
 
             StatusMessage = "Data refreshed successfully";
@@ -83,6 +111,16 @@ public partial class DashboardViewModel : ObservableObject
         {
             IsRefreshing = false;
         }
+    }
+
+    partial void OnMemoryInfoChanged(MemoryInfo value)
+    {
+        OnPropertyChanged(nameof(MemoryUsedDisplay));
+    }
+
+    partial void OnSystemInfoChanged(SystemInfo value)
+    {
+        OnPropertyChanged(nameof(DiskUsedDisplay));
     }
 
     [RelayCommand]
@@ -149,4 +187,3 @@ public partial class DashboardViewModel : ObservableObject
         StatusMessage = "Navigate to Cleanup view";
     }
 }
-

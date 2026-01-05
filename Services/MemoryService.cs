@@ -23,10 +23,44 @@ public class MemoryService : IMemoryService
     {
         var processList = new List<ProcessMemoryInfo>();
 
+        // Kritik sistem process'leri - bunları gösterme
+        var criticalProcesses = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        {
+            "Idle",
+            "System",
+            "smss",           // Session Manager
+            "csrss",          // Client Server Runtime Process
+            "wininit",        // Windows Initialization
+            "winlogon",       // Windows Logon
+            "services",       // Services and Controller
+            "lsass",          // Local Security Authority
+            "svchost",        // Service Host
+            "spoolsv",        // Print Spooler
+            "explorer",       // Windows Explorer
+            "dwm",            // Desktop Window Manager
+            "conhost",        // Console Window Host
+            "audiodg",        // Windows Audio Device Graph
+            "dllhost",        // COM Surrogate
+            "taskhost",       // Task Host
+            "taskhostw",      // Task Host Window
+            "sihost",         // Shell Infrastructure Host
+            "RuntimeBroker",  // Runtime Broker
+            "SearchIndexer",  // Windows Search Indexer
+            "SearchProtocolHost", // Search Protocol Host
+            "SearchFilterHost",  // Search Filter Host
+            "WmiPrvSE",       // WMI Provider Host
+            "MsMpEng",        // Windows Defender
+            "SecurityHealthService", // Windows Security Health Service
+            "CompatTelRunner", // Compatibility Telemetry
+            "WUDFHost",       // Windows Driver Foundation
+            "WmiApSrv"        // WMI Performance Adapter
+        };
+
         try
         {
             var processes = Process.GetProcesses()
-                .Where(p => p.ProcessName != "Idle" && p.ProcessName != "System")
+                .Where(p => !criticalProcesses.Contains(p.ProcessName) && 
+                           p.WorkingSet64 > 50 * 1024 * 1024) // En az 50 MB kullanan process'ler
                 .OrderByDescending(p => p.WorkingSet64);
 
             foreach (var process in processes)
@@ -126,4 +160,5 @@ public class MemoryService : IMemoryService
         }
     }
 }
+
 

@@ -32,3 +32,4 @@ Uygulamayı test etmeden önce çalışan tüm PcPerformanceManager.exe process'
 - ✅ Exception handling eklendi
 - ✅ Resource dictionary'ler App.xaml içine taşındı
 
+

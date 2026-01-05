@@ -168,3 +168,4 @@ Bu doküman, PC Performance Manager uygulamasının adım adım geliştirme plan
 - Gerektiğinde önceki fazlara geri dönüş yapılabilir
 - Kullanıcı geri bildirimlerine göre öncelikler değişebilir
 
+

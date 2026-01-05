@@ -92,12 +92,10 @@
                                      Maximum="100" 
                                      Height="25" 
                                      Margin="0,0,0,10"/>
-                        <TextBlock FontSize="24" FontWeight="Bold" Foreground="#E74C3C">
-                            <Run Text="{Binding MemoryInfo.UsedGB, Mode=OneWay, StringFormat='{}{0:F1}'}"/>
-                            <Run Text=" GB / "/>
-                            <Run Text="{Binding MemoryInfo.TotalGB, Mode=OneWay, StringFormat='{}{0:F1}'}"/>
-                            <Run Text=" GB"/>
-                        </TextBlock>
+                        <TextBlock Text="{Binding MemoryUsedDisplay, Mode=OneWay}" 
+                                   FontSize="24" 
+                                   FontWeight="Bold" 
+                                   Foreground="#E74C3C"/>
                         <TextBlock Text="{Binding MemoryInfo.UsedPercentage, Mode=OneWay, StringFormat='{}{0:F1}% Used'}" 
                                    FontSize="12" 
                                    Foreground="#95A5A6"
@@ -130,12 +128,10 @@
                                      Maximum="100" 
                                      Height="25" 
                                      Margin="0,0,0,10"/>
-                        <TextBlock FontSize="24" FontWeight="Bold" Foreground="#F39C12">
-                            <Run Text="{Binding SystemInfo.UsedDiskGB, Mode=OneWay, StringFormat='{}{0:F1}'}"/>
-                            <Run Text=" GB / "/>
-                            <Run Text="{Binding SystemInfo.TotalDiskGB, Mode=OneWay, StringFormat='{}{0:F1}'}"/>
-                            <Run Text=" GB"/>
-                        </TextBlock>
+                        <TextBlock Text="{Binding DiskUsedDisplay, Mode=OneWay}" 
+                                   FontSize="24" 
+                                   FontWeight="Bold" 
+                                   Foreground="#F39C12"/>
                         <TextBlock Text="{Binding SystemInfo.FreeDiskGB, Mode=OneWay, StringFormat='{}{0:F1} GB Free'}" 
                                    FontSize="12" 
                                    Foreground="#95A5A6"

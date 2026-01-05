@@ -17,3 +17,4 @@ public class SystemInfo
     public double UsedDiskPercentage => TotalDiskBytes > 0 ? (UsedDiskGB / TotalDiskGB) * 100 : 0;
 }
 
+

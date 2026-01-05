@@ -8,3 +8,4 @@ public class ProcessMemoryInfo
     public double WorkingSetMB => WorkingSetBytes / (1024.0 * 1024.0);
 }
 
+
