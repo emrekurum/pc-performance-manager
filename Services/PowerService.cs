@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PcPerformanceManager.Helpers;
 using PcPerformanceManager.Models;
 
 namespace PcPerformanceManager.Services;
@@ -94,23 +95,46 @@ public class PowerService : IPowerService
         {
             try
             {
-                var processStartInfo = new ProcessStartInfo
+                // Admin kontrolü yap
+                if (!AdminHelper.IsRunningAsAdministrator())
                 {
-                    FileName = "powercfg",
-                    Arguments = $"/setactive {powerPlanGuid}",
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true,
-                    Verb = "runas" // Yönetici izinleri için
-                };
+                    // Admin değilse, runas ile çalıştır
+                    var processStartInfo = new ProcessStartInfo
+                    {
+                        FileName = "powercfg",
+                        Arguments = $"/setactive {powerPlanGuid}",
+                        UseShellExecute = true,
+                        Verb = "runas",
+                        CreateNoWindow = true
+                    };
 
-                using (var process = Process.Start(processStartInfo))
-                {
+                    var process = Process.Start(processStartInfo);
                     if (process != null)
                     {
                         process.WaitForExit();
                         return process.ExitCode == 0;
+                    }
+                }
+                else
+                {
+                    // Admin ise direkt çalıştır
+                    var processStartInfo = new ProcessStartInfo
+                    {
+                        FileName = "powercfg",
+                        Arguments = $"/setactive {powerPlanGuid}",
+                        RedirectStandardOutput = true,
+                        RedirectStandardError = true,
+                        UseShellExecute = false,
+                        CreateNoWindow = true
+                    };
+
+                    using (var process = Process.Start(processStartInfo))
+                    {
+                        if (process != null)
+                        {
+                            process.WaitForExit();
+                            return process.ExitCode == 0;
+                        }
                     }
                 }
             }

@@ -110,16 +110,24 @@ public partial class PowerViewModel : ObservableObject
 
             if (success)
             {
-                ActivePowerPlan = SelectedPowerPlan;
-                StatusMessage = $"Active power plan changed to '{SelectedPowerPlan.Name}'";
-
-                // Update IsActive flags
-                foreach (var plan in PowerPlans)
+                // Yeniden yükle - aktif planı güncellemek için
+                await Task.Delay(500); // Değişikliğin uygulanması için bekle
+                var updatedActive = _powerService.GetActivePowerPlan();
+                
+                Application.Current.Dispatcher.Invoke(() =>
                 {
-                    plan.IsActive = plan.Guid == SelectedPowerPlan.Guid;
-                }
+                    ActivePowerPlan = updatedActive ?? SelectedPowerPlan;
+                    SelectedPowerPlan = ActivePowerPlan;
+                    
+                    // Update IsActive flags
+                    foreach (var plan in PowerPlans)
+                    {
+                        plan.IsActive = plan.Guid == ActivePowerPlan?.Guid;
+                    }
+                });
 
-                MessageBox.Show($"Power plan changed to '{SelectedPowerPlan.Name}' successfully.",
+                StatusMessage = $"Active power plan changed to '{ActivePowerPlan?.Name ?? SelectedPowerPlan.Name}'";
+                MessageBox.Show($"Power plan changed to '{ActivePowerPlan?.Name ?? SelectedPowerPlan.Name}' successfully.",
                     "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else

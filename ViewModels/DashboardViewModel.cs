@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using PcPerformanceManager.Helpers;
@@ -171,19 +172,38 @@ public partial class DashboardViewModel : ObservableObject
     [RelayCommand]
     private void OpenRamView()
     {
-        // Navigation will be handled by MainViewModel
-        StatusMessage = "Navigate to RAM view";
+        NavigateToView("RAM");
     }
 
     [RelayCommand]
     private void OpenPowerView()
     {
-        StatusMessage = "Navigate to Power view";
+        NavigateToView("Güç");
     }
 
     [RelayCommand]
     private void OpenCleanupView()
     {
-        StatusMessage = "Navigate to Cleanup view";
+        NavigateToView("Temizlik");
+    }
+
+    private void NavigateToView(string viewName)
+    {
+        try
+        {
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            if (mainWindow?.DataContext is MainViewModel mainViewModel)
+            {
+                var targetItem = mainViewModel.NavigationItems.FirstOrDefault(n => n.Title == viewName);
+                if (targetItem != null)
+                {
+                    mainViewModel.SelectedNavigationItem = targetItem;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"Navigation error: {ex.Message}";
+        }
     }
 }
