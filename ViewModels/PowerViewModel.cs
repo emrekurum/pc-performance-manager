@@ -113,9 +113,16 @@ public partial class PowerViewModel : ObservableObject
 
             if (success)
             {
-                // Kısa bekle ve listeyi yeniden yükle
-                await Task.Delay(500);
-                await LoadPowerPlansAsync();
+                // UI'ı hemen güncelle - mevcut koleksiyondaki IsActive flaglerini değiştir
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    foreach (var p in PowerPlans)
+                    {
+                        p.IsActive = p.Guid == targetPlan.Guid;
+                    }
+                    ActivePowerPlan = targetPlan;
+                    SelectedPowerPlan = targetPlan;
+                });
 
                 StatusMessage = $"Güç planı '{targetPlan.Name}' olarak değiştirildi";
                 MessageBox.Show($"Güç planı '{targetPlan.Name}' olarak başarıyla değiştirildi!",
