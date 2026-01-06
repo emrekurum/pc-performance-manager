@@ -25,5 +25,20 @@ public interface IMemoryService
     /// Belirli bir sürecin RAM kullanımını temizler
     /// </summary>
     bool ClearProcessMemory(int processId);
+
+    /// <summary>
+    /// Sistemdeki gereksiz/bloatware process'leri analiz eder
+    /// </summary>
+    List<CleanableProcess> AnalyzeUnnecessaryProcesses();
+
+    /// <summary>
+    /// Seçilen process'leri sonlandırır (kapatır)
+    /// </summary>
+    Task<(int terminated, int failed, double freedMB)> TerminateProcessesAsync(IEnumerable<CleanableProcess> processes);
+
+    /// <summary>
+    /// Tüm güvenli process'leri otomatik temizler
+    /// </summary>
+    Task<(int terminated, double freedMB)> AutoCleanSafeProcessesAsync();
 }
 
