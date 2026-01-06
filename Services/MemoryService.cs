@@ -13,53 +13,65 @@ public class MemoryService : IMemoryService
 {
     [DllImport("kernel32.dll")]
     private static extern int EmptyWorkingSet(IntPtr hProcess);
+    
+    [DllImport("user32.dll")]
+    private static extern IntPtr GetForegroundWindow();
+    
+    [DllImport("user32.dll")]
+    private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
+
+    // Kritik sistem process'leri - bunlara dokunma
+    private static readonly HashSet<string> CriticalProcesses = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "Idle", "System", "smss", "csrss", "wininit", "winlogon", "services", "lsass",
+        "svchost", "spoolsv", "explorer", "dwm", "conhost", "audiodg", "dllhost",
+        "taskhost", "taskhostw", "sihost", "RuntimeBroker", "SearchIndexer",
+        "SearchProtocolHost", "SearchFilterHost", "WmiPrvSE", "MsMpEng",
+        "SecurityHealthService", "CompatTelRunner", "WUDFHost", "WmiApSrv",
+        "fontdrvhost", "lsaiso", "Memory Compression", "Registry", "Secure System",
+        "ShellExperienceHost", "StartMenuExperienceHost", "TextInputHost",
+        "ctfmon", "SystemSettings", "ApplicationFrameHost", "LockApp"
+    };
+
+    // Aktif kullanılan uygulamalar - bunları koru (temizleme sırasında)
+    private static readonly HashSet<string> ActiveAppProcesses = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "Cursor", "Code", "devenv", "idea64", "rider64", "webstorm64", // IDE'ler
+        "chrome", "firefox", "msedge", "opera", "brave", // Tarayıcılar
+        "WINWORD", "EXCEL", "POWERPNT", "OUTLOOK", "Teams", "slack", // Office & iletişim
+        "Discord", "Telegram", "WhatsApp", // Mesajlaşma
+        "Spotify", "vlc", "wmplayer", // Medya
+        "steam", "EpicGamesLauncher", // Oyun platformları
+        "PcPerformanceManager" // Kendimiz
+    };
 
     public MemoryInfo GetMemoryInfo()
     {
         return SystemInfoHelper.GetMemoryInfo();
     }
 
+    private int GetForegroundProcessId()
+    {
+        try
+        {
+            IntPtr hwnd = GetForegroundWindow();
+            GetWindowThreadProcessId(hwnd, out uint processId);
+            return (int)processId;
+        }
+        catch
+        {
+            return 0;
+        }
+    }
+
     public List<ProcessMemoryInfo> GetProcessMemoryUsage()
     {
         var processList = new List<ProcessMemoryInfo>();
 
-        // Kritik sistem process'leri - bunları gösterme
-        var criticalProcesses = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
-        {
-            "Idle",
-            "System",
-            "smss",           // Session Manager
-            "csrss",          // Client Server Runtime Process
-            "wininit",        // Windows Initialization
-            "winlogon",       // Windows Logon
-            "services",       // Services and Controller
-            "lsass",          // Local Security Authority
-            "svchost",        // Service Host
-            "spoolsv",        // Print Spooler
-            "explorer",       // Windows Explorer
-            "dwm",            // Desktop Window Manager
-            "conhost",        // Console Window Host
-            "audiodg",        // Windows Audio Device Graph
-            "dllhost",        // COM Surrogate
-            "taskhost",       // Task Host
-            "taskhostw",      // Task Host Window
-            "sihost",         // Shell Infrastructure Host
-            "RuntimeBroker",  // Runtime Broker
-            "SearchIndexer",  // Windows Search Indexer
-            "SearchProtocolHost", // Search Protocol Host
-            "SearchFilterHost",  // Search Filter Host
-            "WmiPrvSE",       // WMI Provider Host
-            "MsMpEng",        // Windows Defender
-            "SecurityHealthService", // Windows Security Health Service
-            "CompatTelRunner", // Compatibility Telemetry
-            "WUDFHost",       // Windows Driver Foundation
-            "WmiApSrv"        // WMI Performance Adapter
-        };
-
         try
         {
             var processes = Process.GetProcesses()
-                .Where(p => !criticalProcesses.Contains(p.ProcessName) && 
+                .Where(p => !CriticalProcesses.Contains(p.ProcessName) && 
                            p.WorkingSet64 > 50 * 1024 * 1024) // En az 50 MB kullanan process'ler
                 .OrderByDescending(p => p.WorkingSet64);
 
@@ -94,30 +106,32 @@ public class MemoryService : IMemoryService
         {
             try
             {
-                if (!AdminHelper.IsRunningAsAdministrator())
-                {
-                    return false;
-                }
-
-                // Çalışan tüm süreçlerin working set'ini temizle
+                int foregroundPid = GetForegroundProcessId();
+                int currentPid = Process.GetCurrentProcess().Id;
+                
+                // Temizlenecek process'leri filtrele
                 var processes = Process.GetProcesses()
-                    .Where(p => p.ProcessName != "Idle" && 
-                                p.ProcessName != "System" && 
-                                p.Id != Process.GetCurrentProcess().Id);
+                    .Where(p => 
+                        !CriticalProcesses.Contains(p.ProcessName) && // Kritik değil
+                        !ActiveAppProcesses.Contains(p.ProcessName) && // Aktif uygulama değil
+                        p.Id != currentPid && // Kendi process'imiz değil
+                        p.Id != foregroundPid && // Ön planda çalışan değil
+                        p.WorkingSet64 > 10 * 1024 * 1024) // En az 10 MB
+                    .ToList();
 
                 int clearedCount = 0;
                 foreach (var process in processes)
                 {
                     try
                     {
-                        if (EmptyWorkingSet(process.Handle) != 0)
-                        {
-                            clearedCount++;
-                        }
+                        // Process handle'a erişmeye çalış
+                        IntPtr handle = process.Handle;
+                        EmptyWorkingSet(handle);
+                        clearedCount++;
                     }
                     catch
                     {
-                        // Süreç erişilemiyorsa atla
+                        // Erişim reddedildiyse atla - bu normal
                     }
                 }
 
@@ -126,6 +140,7 @@ public class MemoryService : IMemoryService
                 GC.WaitForPendingFinalizers();
                 GC.Collect();
 
+                Debug.WriteLine($"RAM temizleme: {clearedCount} process temizlendi");
                 return clearedCount > 0;
             }
             catch (Exception ex)
@@ -140,15 +155,20 @@ public class MemoryService : IMemoryService
     {
         try
         {
-            if (!AdminHelper.IsRunningAsAdministrator())
-            {
-                return false;
-            }
-
             var process = Process.GetProcessById(processId);
             if (process != null && process.Id != Process.GetCurrentProcess().Id)
             {
-                return EmptyWorkingSet(process.Handle) != 0;
+                try
+                {
+                    IntPtr handle = process.Handle;
+                    EmptyWorkingSet(handle);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Process handle erişim hatası: {ex.Message}");
+                    return false;
+                }
             }
 
             return false;

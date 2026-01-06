@@ -152,15 +152,18 @@ public partial class RamViewModel : ObservableObject
     private async Task ClearAllMemoryAsync()
     {
         var result = MessageBox.Show(
-            "This will clear the working set of all processes. Continue?",
-            "Clear All RAM",
+            "Bu işlem arka planda çalışan gereksiz uygulamaların RAM kullanımını temizleyecek.\n\n" +
+            "• Aktif kullandığınız uygulamalar (tarayıcı, IDE, Office vb.) korunacak\n" +
+            "• Sistem uygulamaları korunacak\n\n" +
+            "Devam etmek istiyor musunuz?",
+            "RAM Temizle",
             MessageBoxButton.YesNo,
-            MessageBoxImage.Warning);
+            MessageBoxImage.Question);
 
         if (result != MessageBoxResult.Yes) return;
 
         IsClearingMemory = true;
-        StatusMessage = "Clearing RAM...";
+        StatusMessage = "RAM temizleniyor...";
 
         try
         {
@@ -168,21 +171,22 @@ public partial class RamViewModel : ObservableObject
 
             if (success)
             {
-                StatusMessage = "RAM cleared successfully";
+                StatusMessage = "RAM başarıyla temizlendi";
                 await RefreshDataAsync();
-                MessageBox.Show("RAM has been cleared successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("RAM başarıyla temizlendi!\n\nAktif uygulamalarınız korundu.", 
+                    "Başarılı", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
-                StatusMessage = "Failed to clear RAM";
-                MessageBox.Show("Failed to clear RAM. Please ensure the application is running with administrator privileges.",
-                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                StatusMessage = "Temizlenecek process bulunamadı";
+                MessageBox.Show("Temizlenecek uygun process bulunamadı veya tüm process'ler zaten optimize edilmiş.",
+                    "Bilgi", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
         catch (Exception ex)
         {
-            StatusMessage = $"Error: {ex.Message}";
-            MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            StatusMessage = $"Hata: {ex.Message}";
+            MessageBox.Show($"Bir hata oluştu: {ex.Message}", "Hata", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         finally
         {
