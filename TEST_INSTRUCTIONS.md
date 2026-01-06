@@ -33,3 +33,5 @@ Uygulamayı test etmeden önce çalışan tüm PcPerformanceManager.exe process'
 - ✅ Resource dictionary'ler App.xaml içine taşındı
 
 
+
+

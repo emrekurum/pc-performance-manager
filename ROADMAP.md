@@ -169,3 +169,5 @@ Bu doküman, PC Performance Manager uygulamasının adım adım geliştirme plan
 - Kullanıcı geri bildirimlerine göre öncelikler değişebilir
 
 
+
+
