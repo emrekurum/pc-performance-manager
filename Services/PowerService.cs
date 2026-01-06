@@ -95,46 +95,30 @@ public class PowerService : IPowerService
         {
             try
             {
-                // Admin kontrolü yap
-                if (!AdminHelper.IsRunningAsAdministrator())
+                var processStartInfo = new ProcessStartInfo
                 {
-                    // Admin değilse, runas ile çalıştır
-                    var processStartInfo = new ProcessStartInfo
-                    {
-                        FileName = "powercfg",
-                        Arguments = $"/setactive {powerPlanGuid}",
-                        UseShellExecute = true,
-                        Verb = "runas",
-                        CreateNoWindow = true
-                    };
+                    FileName = "powercfg",
+                    Arguments = $"/setactive {powerPlanGuid}",
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
 
-                    var process = Process.Start(processStartInfo);
+                using (var process = Process.Start(processStartInfo))
+                {
                     if (process != null)
                     {
+                        string output = process.StandardOutput.ReadToEnd();
+                        string error = process.StandardError.ReadToEnd();
                         process.WaitForExit();
+                        
+                        Debug.WriteLine($"PowerCfg Output: {output}");
+                        Debug.WriteLine($"PowerCfg Error: {error}");
+                        Debug.WriteLine($"PowerCfg ExitCode: {process.ExitCode}");
+                        
+                        // Exit code 0 = başarılı
                         return process.ExitCode == 0;
-                    }
-                }
-                else
-                {
-                    // Admin ise direkt çalıştır
-                    var processStartInfo = new ProcessStartInfo
-                    {
-                        FileName = "powercfg",
-                        Arguments = $"/setactive {powerPlanGuid}",
-                        RedirectStandardOutput = true,
-                        RedirectStandardError = true,
-                        UseShellExecute = false,
-                        CreateNoWindow = true
-                    };
-
-                    using (var process = Process.Start(processStartInfo))
-                    {
-                        if (process != null)
-                        {
-                            process.WaitForExit();
-                            return process.ExitCode == 0;
-                        }
                     }
                 }
             }

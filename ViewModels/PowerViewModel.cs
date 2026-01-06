@@ -79,68 +79,59 @@ public partial class PowerViewModel : ObservableObject
 
 
     [RelayCommand]
-    private async Task SetActivePowerPlanAsync()
+    private async Task SetActivePowerPlanAsync(PowerPlan? plan)
     {
-        if (SelectedPowerPlan == null)
+        // Eğer parametre olarak plan geldiyse onu kullan, yoksa SelectedPowerPlan
+        var targetPlan = plan ?? SelectedPowerPlan;
+        
+        if (targetPlan == null)
         {
-            MessageBox.Show("Please select a power plan first.", "No Selection", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Lütfen önce bir güç planı seçin.", "Seçim Yok", MessageBoxButton.OK, MessageBoxImage.Information);
             return;
         }
 
-        if (SelectedPowerPlan.Guid == ActivePowerPlan?.Guid)
+        if (targetPlan.Guid == ActivePowerPlan?.Guid)
         {
-            MessageBox.Show("This power plan is already active.", "Already Active", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Bu güç planı zaten aktif.", "Zaten Aktif", MessageBoxButton.OK, MessageBoxImage.Information);
             return;
         }
 
         var result = MessageBox.Show(
-            $"Do you want to set '{SelectedPowerPlan.Name}' as the active power plan?",
-            "Change Power Plan",
+            $"'{targetPlan.Name}' güç planını aktif yapmak istiyor musunuz?",
+            "Güç Planı Değiştir",
             MessageBoxButton.YesNo,
             MessageBoxImage.Question);
 
         if (result != MessageBoxResult.Yes) return;
 
         IsRefreshing = true;
-        StatusMessage = "Changing power plan...";
+        StatusMessage = "Güç planı değiştiriliyor...";
 
         try
         {
-            var success = await _powerService.SetActivePowerPlanAsync(SelectedPowerPlan.Guid);
+            var success = await _powerService.SetActivePowerPlanAsync(targetPlan.Guid);
 
             if (success)
             {
-                // Yeniden yükle - aktif planı güncellemek için
-                await Task.Delay(500); // Değişikliğin uygulanması için bekle
-                var updatedActive = _powerService.GetActivePowerPlan();
-                
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    ActivePowerPlan = updatedActive ?? SelectedPowerPlan;
-                    SelectedPowerPlan = ActivePowerPlan;
-                    
-                    // Update IsActive flags
-                    foreach (var plan in PowerPlans)
-                    {
-                        plan.IsActive = plan.Guid == ActivePowerPlan?.Guid;
-                    }
-                });
+                // Kısa bekle ve listeyi yeniden yükle
+                await Task.Delay(500);
+                await LoadPowerPlansAsync();
 
-                StatusMessage = $"Active power plan changed to '{ActivePowerPlan?.Name ?? SelectedPowerPlan.Name}'";
-                MessageBox.Show($"Power plan changed to '{ActivePowerPlan?.Name ?? SelectedPowerPlan.Name}' successfully.",
-                    "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                StatusMessage = $"Güç planı '{targetPlan.Name}' olarak değiştirildi";
+                MessageBox.Show($"Güç planı '{targetPlan.Name}' olarak başarıyla değiştirildi!",
+                    "Başarılı", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
-                StatusMessage = "Failed to change power plan";
-                MessageBox.Show("Failed to change power plan. Please ensure the application is running with administrator privileges.",
-                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                StatusMessage = "Güç planı değiştirilemedi";
+                MessageBox.Show("Güç planı değiştirilemedi. Lütfen uygulamanın yönetici olarak çalıştığından emin olun.",
+                    "Hata", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         catch (Exception ex)
         {
-            StatusMessage = $"Error: {ex.Message}";
-            MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            StatusMessage = $"Hata: {ex.Message}";
+            MessageBox.Show($"Bir hata oluştu: {ex.Message}", "Hata", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         finally
         {

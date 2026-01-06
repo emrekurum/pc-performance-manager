@@ -204,16 +204,21 @@
                                         
                                         <!-- Action Button -->
                                         <Button Grid.Column="2" 
-                                                Content="Set Active" 
+                                                Content="Aktif Yap" 
                                                 Command="{Binding DataContext.SetActivePowerPlanCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                Style="{StaticResource SuccessButton}"
+                                                CommandParameter="{Binding}"
                                                 Padding="20,12"
                                                 VerticalAlignment="Center">
-                                            <Button.Visibility>
-                                                <Binding Path="IsActive" Converter="{StaticResource InverseBooleanConverter}">
-                                                    <Binding.ConverterParameter>Visibility</Binding.ConverterParameter>
-                                                </Binding>
-                                            </Button.Visibility>
+                                            <Button.Style>
+                                                <Style TargetType="Button" BasedOn="{StaticResource SuccessButton}">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsActive}" Value="True">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
                                         </Button>
                                         
                                         <!-- Active Indicator (shown when active) -->
