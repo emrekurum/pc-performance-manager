@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converters="clr-namespace:PcPerformanceManager.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="800">
+             d:DesignHeight="700" d:DesignWidth="900">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -14,46 +14,66 @@
         </Grid.RowDefinitions>
 
         <!-- Header -->
-        <TextBlock Grid.Row="0" 
-                   Text="Power Management" 
-                   FontSize="28" 
-                   FontWeight="Bold" 
-                   Margin="0,0,0,20"
-                   Foreground="#2C3E50"/>
+        <Grid Grid.Row="0" Margin="0,0,0,28">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <StackPanel Grid.Column="0">
+                <TextBlock Text="Power Management" 
+                           FontSize="32" 
+                           FontWeight="Bold" 
+                           Foreground="#F0F6FC"/>
+                <TextBlock Text="Configure system power plans for optimal performance" 
+                           FontSize="14" 
+                           Foreground="#8B949E"
+                           Margin="0,6,0,0"/>
+            </StackPanel>
+            
+            <Button Grid.Column="1" 
+                    Command="{Binding RefreshCommand}"
+                    IsEnabled="{Binding IsRefreshing, Converter={StaticResource InverseBooleanConverter}}"
+                    Style="{StaticResource PrimaryButton}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="🔄" FontSize="14" Margin="0,0,8,0"/>
+                    <TextBlock Text="Refresh"/>
+                </StackPanel>
+            </Button>
+        </Grid>
 
         <!-- Status Bar -->
         <Border Grid.Row="1" 
-                Background="#ECF0F1" 
-                Padding="15" 
-                CornerRadius="5" 
-                Margin="0,0,0,20">
+                Background="#161B22" 
+                Padding="16" 
+                CornerRadius="10" 
+                BorderThickness="1"
+                BorderBrush="#30363D"
+                Margin="0,0,0,24">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" 
+                <Border Grid.Column="0" 
+                        Width="10" Height="10" 
+                        CornerRadius="5" 
+                        Background="#3FB950"
+                        Margin="0,0,12,0"/>
+                <TextBlock Grid.Column="1" 
                            Text="{Binding StatusMessage}" 
                            FontSize="14" 
-                           VerticalAlignment="Center"
-                           Foreground="#34495E"/>
-                <Button Grid.Column="1" 
-                        Content="Refresh" 
-                        Command="{Binding RefreshCommand}"
-                        IsEnabled="{Binding IsRefreshing, Converter={StaticResource InverseBooleanConverter}}"
-                        Padding="15,8"
-                        Margin="10,0,0,0"
-                        Cursor="Hand"/>
+                           Foreground="#8B949E"
+                           VerticalAlignment="Center"/>
             </Grid>
         </Border>
 
-        <!-- Power Plans List -->
+        <!-- Power Plans Section -->
         <Border Grid.Row="2" 
-                Background="White" 
-                BorderBrush="#BDC3C7" 
+                Background="#161B22" 
+                BorderBrush="#30363D" 
                 BorderThickness="1" 
-                CornerRadius="8" 
-                Padding="20">
+                CornerRadius="14">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -61,98 +81,210 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="0" 
-                           Text="Available Power Plans" 
-                           FontSize="18" 
-                           FontWeight="SemiBold" 
-                           Margin="0,0,0,15"
-                           Foreground="#2C3E50"/>
-
-                <ListBox Grid.Row="1" 
-                         ItemsSource="{Binding PowerPlans}"
-                         SelectedItem="{Binding SelectedPowerPlan}"
-                         BorderThickness="0"
-                         Background="Transparent">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Border Background="White" 
-                                    BorderBrush="#BDC3C7" 
-                                    BorderThickness="1" 
-                                    CornerRadius="5" 
-                                    Padding="20" 
-                                    Margin="0,0,0,10">
-                                <Border.Style>
-                                    <Style TargetType="Border">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsActive}" Value="True">
-                                                <Setter Property="Background" Value="#E8F5E9"/>
-                                                <Setter Property="BorderBrush" Value="#27AE60"/>
-                                                <Setter Property="BorderThickness" Value="2"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <StackPanel Grid.Column="0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Name}" FontSize="18" FontWeight="Bold" Foreground="#2C3E50"/>
-                                            <TextBlock Text=" (Active)" Foreground="#27AE60" FontSize="14" Margin="5,0,0,0" Visibility="{Binding IsActive, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                                        </StackPanel>
-                                        <TextBlock Text="{Binding Description}" 
-                                                   FontSize="12" 
-                                                   Foreground="#7F8C8D"
-                                                   TextWrapping="Wrap"
-                                                   Margin="0,5,0,0"/>
-                                        <TextBlock FontSize="11" Foreground="#95A5A6" Margin="0,5,0,0">
-                                            <Run Text="GUID: "/>
-                                            <Run Text="{Binding Guid}"/>
-                                        </TextBlock>
-                                    </StackPanel>
-                                    <Button Grid.Column="1" 
-                                            Content="Set Active" 
-                                            Command="{Binding DataContext.SetActivePowerPlanCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                            Padding="20,10"
-                                            Background="#27AE60"
-                                            Foreground="White"
-                                            BorderThickness="0"
-                                            Cursor="Hand">
-                                        <Button.Style>
-                                            <Style TargetType="Button">
-                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding IsActive, Converter={StaticResource InverseBooleanConverter}}" Value="True">
-                                                        <Setter Property="Visibility" Value="Visible"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Button.Style>
-                                    </Button>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-
-                <Border Grid.Row="2" 
-                        Background="#FFF3CD" 
-                        Padding="15" 
-                        CornerRadius="5" 
-                        Margin="0,15,0,0"
-                        Visibility="{Binding ActivePowerPlan, Converter={StaticResource NullToVisibilityConverter}}">
-                    <StackPanel>
-                        <TextBlock Text="Active Power Plan" 
-                                   FontWeight="Bold" 
-                                   FontSize="14"
-                                   Foreground="#856404"
-                                   Margin="0,0,0,5"/>
-                        <TextBlock FontSize="16" Foreground="#856404">
-                            <Run Text="{Binding ActivePowerPlan.Name, FallbackValue='None'}"/>
-                        </TextBlock>
+                <!-- Section Header -->
+                <Border Grid.Row="0" 
+                        Background="#21262D" 
+                        Padding="24,18"
+                        CornerRadius="14,14,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="⚡" FontSize="20" Margin="0,0,12,0"/>
+                        <TextBlock Text="Available Power Plans" 
+                                   FontSize="18" 
+                                   FontWeight="SemiBold" 
+                                   Foreground="#F0F6FC"
+                                   VerticalAlignment="Center"/>
                     </StackPanel>
+                </Border>
+
+                <!-- Power Plans List -->
+                <ScrollViewer Grid.Row="1" 
+                              VerticalScrollBarVisibility="Auto"
+                              Padding="20">
+                    <ItemsControl ItemsSource="{Binding PowerPlans}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Margin="0,0,0,12" 
+                                        CornerRadius="12" 
+                                        Padding="20"
+                                        Cursor="Hand">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Background" Value="#1C2128"/>
+                                            <Setter Property="BorderThickness" Value="1"/>
+                                            <Setter Property="BorderBrush" Value="#30363D"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsActive}" Value="True">
+                                                    <Setter Property="Background">
+                                                        <Setter.Value>
+                                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                                <GradientStop Color="#153FB950" Offset="0"/>
+                                                                <GradientStop Color="#0A3FB950" Offset="1"/>
+                                                            </LinearGradientBrush>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Setter Property="BorderBrush" Value="#3FB950"/>
+                                                    <Setter Property="BorderThickness" Value="1"/>
+                                                </DataTrigger>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#21262D"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <!-- Icon -->
+                                        <Border Grid.Column="0" 
+                                                Width="52" Height="52" 
+                                                CornerRadius="12"
+                                                Margin="0,0,18,0">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="Background" Value="#21262D"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsActive}" Value="True">
+                                                            <Setter Property="Background">
+                                                                <Setter.Value>
+                                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                                        <GradientStop Color="#3FB950" Offset="0"/>
+                                                                        <GradientStop Color="#238636" Offset="1"/>
+                                                                    </LinearGradientBrush>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                            <TextBlock FontSize="24" 
+                                                       HorizontalAlignment="Center" 
+                                                       VerticalAlignment="Center">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Text" Value="⚡"/>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </Border>
+                                        
+                                        <!-- Info -->
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                            <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                                <TextBlock Text="{Binding Name}" 
+                                                           FontSize="17" 
+                                                           FontWeight="Bold" 
+                                                           Foreground="#F0F6FC"/>
+                                                <Border Background="#203FB950" 
+                                                        CornerRadius="6" 
+                                                        Padding="10,4"
+                                                        Margin="12,0,0,0"
+                                                        Visibility="{Binding IsActive, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                    <TextBlock Text="ACTIVE" 
+                                                               FontSize="10" 
+                                                               FontWeight="Bold"
+                                                               Foreground="#3FB950"/>
+                                                </Border>
+                                            </StackPanel>
+                                            <TextBlock Text="{Binding Description}" 
+                                                       FontSize="13" 
+                                                       Foreground="#8B949E"
+                                                       TextWrapping="Wrap"
+                                                       MaxWidth="400"/>
+                                            <TextBlock FontSize="11" 
+                                                       Foreground="#484F58" 
+                                                       Margin="0,8,0,0">
+                                                <Run Text="GUID: "/>
+                                                <Run Text="{Binding Guid}"/>
+                                            </TextBlock>
+                                        </StackPanel>
+                                        
+                                        <!-- Action Button -->
+                                        <Button Grid.Column="2" 
+                                                Content="Set Active" 
+                                                Command="{Binding DataContext.SetActivePowerPlanCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                Style="{StaticResource SuccessButton}"
+                                                Padding="20,12"
+                                                VerticalAlignment="Center">
+                                            <Button.Visibility>
+                                                <Binding Path="IsActive" Converter="{StaticResource InverseBooleanConverter}">
+                                                    <Binding.ConverterParameter>Visibility</Binding.ConverterParameter>
+                                                </Binding>
+                                            </Button.Visibility>
+                                        </Button>
+                                        
+                                        <!-- Active Indicator (shown when active) -->
+                                        <Border Grid.Column="2" 
+                                                Background="#203FB950" 
+                                                CornerRadius="8" 
+                                                Padding="16,10"
+                                                VerticalAlignment="Center"
+                                                Visibility="{Binding IsActive, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="✓" 
+                                                           FontSize="14" 
+                                                           FontWeight="Bold"
+                                                           Foreground="#3FB950"
+                                                           Margin="0,0,8,0"/>
+                                                <TextBlock Text="Currently Active" 
+                                                           FontSize="13" 
+                                                           FontWeight="SemiBold"
+                                                           Foreground="#3FB950"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+
+                <!-- Active Plan Info Footer -->
+                <Border Grid.Row="2" 
+                        Padding="20,16"
+                        CornerRadius="0,0,14,14"
+                        Visibility="{Binding ActivePowerPlan, Converter={StaticResource NullToVisibilityConverter}}">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Color="#15D29922" Offset="0"/>
+                            <GradientStop Color="#0AD29922" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" 
+                                Width="40" Height="40" 
+                                CornerRadius="10"
+                                Margin="0,0,14,0">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#D29922" Offset="0"/>
+                                    <GradientStop Color="#B08020" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <TextBlock Text="💡" FontSize="18" 
+                                       HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center"/>
+                        </Border>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="Tip: Power Plans" 
+                                       FontWeight="SemiBold" 
+                                       FontSize="14"
+                                       Foreground="#D29922"/>
+                            <TextBlock FontSize="13" 
+                                       Foreground="#8B949E"
+                                       Margin="0,4,0,0"
+                                       TextWrapping="Wrap">
+                                <Run Text="Choose 'High Performance' for maximum speed or 'Power Saver' for longer battery life on laptops."/>
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
                 </Border>
             </Grid>
         </Border>
