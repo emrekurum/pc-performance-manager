@@ -96,7 +96,8 @@ public static class SystemInfoHelper
 
         try
         {
-            using (var searcher = new ManagementObjectSearcher("SELECT TotalPhysicalMemory, FreePhysicalMemory FROM Win32_ComputerSystem"))
+            // Total Physical Memory from Win32_ComputerSystem
+            using (var searcher = new ManagementObjectSearcher("SELECT TotalPhysicalMemory FROM Win32_ComputerSystem"))
             {
                 foreach (ManagementObject obj in searcher.Get())
                 {
@@ -107,17 +108,24 @@ public static class SystemInfoHelper
                 }
             }
 
-            using (var searcher = new ManagementObjectSearcher("SELECT FreePhysicalMemory FROM Win32_OperatingSystem"))
+            // Free Physical Memory from Win32_OperatingSystem (in KB)
+            using (var searcher = new ManagementObjectSearcher("SELECT FreePhysicalMemory, TotalVisibleMemorySize FROM Win32_OperatingSystem"))
             {
                 foreach (ManagementObject obj in searcher.Get())
                 {
+                    // TotalVisibleMemorySize daha doğru (KB cinsinden)
+                    if (obj["TotalVisibleMemorySize"] != null && memoryInfo.TotalBytes == 0)
+                    {
+                        memoryInfo.TotalBytes = Convert.ToUInt64(obj["TotalVisibleMemorySize"]) * 1024;
+                    }
+                    
                     if (obj["FreePhysicalMemory"] != null)
                     {
                         // FreePhysicalMemory KB cinsinden, byte'a çevir
                         memoryInfo.FreeBytes = Convert.ToUInt64(obj["FreePhysicalMemory"]) * 1024;
                         memoryInfo.UsedBytes = memoryInfo.TotalBytes - memoryInfo.FreeBytes;
-                        break;
                     }
+                    break;
                 }
             }
         }

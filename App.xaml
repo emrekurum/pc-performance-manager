@@ -7,27 +7,17 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <!-- Styles and Themes -->
+                <ResourceDictionary Source="Resources/Styles.xaml"/>
+                
+                <!-- Converters -->
                 <ResourceDictionary>
-                    <!-- Converters -->
                     <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
                     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
                     <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
                     <converters:CountToVisibilityConverter x:Key="CountToVisibilityConverter"/>
                     <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
                     <converters:BytesToGBConverter x:Key="BytesToGBConverter"/>
-                    
-                    <!-- Styles -->
-                    <DropShadowEffect x:Key="CardShadow" 
-                                      Color="Gray" 
-                                      Direction="315" 
-                                      ShadowDepth="3" 
-                                      Opacity="0.3" 
-                                      BlurRadius="5"/>
-                    
-                    <Style x:Key="DataGridTextStyle" TargetType="TextBlock">
-                        <Setter Property="Padding" Value="5"/>
-                        <Setter Property="VerticalAlignment" Value="Center"/>
-                    </Style>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
