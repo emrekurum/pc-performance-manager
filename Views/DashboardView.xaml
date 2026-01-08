@@ -5,22 +5,31 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:PcPerformanceManager.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="700" d:DesignWidth="900">
-    <Grid>
-        <StackPanel>
+             d:DesignHeight="800" d:DesignWidth="1000">
+    
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <Grid Margin="0,0,10,20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
             <!-- Header Section -->
-            <Grid Margin="0,0,0,32">
+            <Grid Grid.Row="0" Margin="0,0,0,28">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 
                 <StackPanel Grid.Column="0">
-                    <TextBlock Text="System Overview" 
+                    <TextBlock Text="Sistem Özeti" 
                                FontSize="32" 
                                FontWeight="Bold" 
                                Foreground="#F0F6FC"/>
-                    <TextBlock Text="Monitor your system performance in real-time" 
+                    <TextBlock Text="Sistem performansınızı gerçek zamanlı takip edin" 
                                FontSize="14" 
                                Foreground="#8B949E"
                                Margin="0,6,0,0"/>
@@ -31,18 +40,18 @@
                         Command="{Binding RefreshDataCommand}"
                         IsEnabled="{Binding IsRefreshing, Converter={StaticResource InverseBooleanConverter}}"
                         Style="{StaticResource PrimaryButton}"
-                        Padding="20,12">
+                        Padding="24,14">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="🔄" FontSize="14" Margin="0,0,8,0"/>
-                        <TextBlock Text="Refresh"/>
+                        <TextBlock Text="🔄" FontSize="16" Margin="0,0,10,0"/>
+                        <TextBlock Text="Yenile" FontSize="14"/>
                     </StackPanel>
                 </Button>
             </Grid>
             
             <!-- Status Message Bar -->
-            <Border Background="#161B22" 
-                    Padding="16" 
-                    CornerRadius="10" 
+            <Border Grid.Row="1" Background="#161B22" 
+                    Padding="20,16" 
+                    CornerRadius="12" 
                     Margin="0,0,0,24"
                     BorderThickness="1"
                     BorderBrush="#30363D">
@@ -50,24 +59,41 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <Border Grid.Column="0" 
-                            Width="8" Height="8" 
-                            CornerRadius="4" 
+                            Width="10" Height="10" 
+                            CornerRadius="5" 
                             Background="#3FB950"
-                            Margin="0,0,12,0"/>
+                            Margin="0,0,14,0"/>
                     <TextBlock Grid.Column="1" 
                                Text="{Binding StatusMessage}" 
                                FontSize="14" 
                                Foreground="#8B949E"
                                VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="2" 
+                               Text="🟢 Sistem Aktif" 
+                               FontSize="12" 
+                               Foreground="#3FB950"
+                               FontWeight="SemiBold"
+                               VerticalAlignment="Center"/>
                 </Grid>
             </Border>
 
             <!-- System Stats Cards -->
-            <UniformGrid Columns="4" Margin="0,0,0,32">
+            <Grid Grid.Row="2" Margin="0,0,0,32">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
                 <!-- CPU Card -->
-                <Border Margin="0,0,12,0" CornerRadius="16" Padding="24"
+                <Border Grid.Column="0" CornerRadius="16" Padding="24"
                         Background="#161B22" BorderThickness="1" BorderBrush="#30363D">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -80,16 +106,16 @@
                         
                         <!-- Icon & Title -->
                         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,16">
-                            <Border Width="40" Height="40" CornerRadius="10" Margin="0,0,12,0">
+                            <Border Width="44" Height="44" CornerRadius="12" Margin="0,0,14,0">
                                 <Border.Background>
                                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                                         <GradientStop Color="#2058A6FF" Offset="0"/>
                                         <GradientStop Color="#1058A6FF" Offset="1"/>
                                     </LinearGradientBrush>
                                 </Border.Background>
-                                <TextBlock Text="💻" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <TextBlock Text="💻" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
-                            <TextBlock Text="CPU" FontSize="16" FontWeight="SemiBold" Foreground="#8B949E" VerticalAlignment="Center"/>
+                            <TextBlock Text="İşlemci" FontSize="15" FontWeight="SemiBold" Foreground="#8B949E" VerticalAlignment="Center"/>
                         </StackPanel>
                         
                         <!-- Value -->
@@ -98,13 +124,13 @@
                                    FontSize="36" 
                                    FontWeight="Bold" 
                                    Foreground="#58A6FF"
-                                   Margin="0,0,0,12"/>
+                                   Margin="0,0,0,14"/>
                         
                         <!-- Progress Bar -->
                         <ProgressBar Grid.Row="2" 
                                      Value="{Binding CpuUsage, Mode=OneWay}" 
                                      Maximum="100" 
-                                     Height="6"
+                                     Height="8"
                                      Style="{StaticResource ModernProgressBar}"
                                      Margin="0,0,0,16"/>
                         
@@ -115,17 +141,17 @@
                                    Foreground="#484F58"
                                    TextWrapping="Wrap"
                                    TextTrimming="CharacterEllipsis"
-                                   MaxHeight="32"/>
+                                   MaxHeight="34"/>
                         
-                        <TextBlock Grid.Row="4" Margin="0,8,0,0" FontSize="12" Foreground="#8B949E">
-                            <Run Text="Cores: "/>
-                            <Run Text="{Binding SystemInfo.CpuCores, Mode=OneWay}" Foreground="#F0F6FC"/>
+                        <TextBlock Grid.Row="4" Margin="0,10,0,0" FontSize="12" Foreground="#8B949E">
+                            <Run Text="Çekirdek: "/>
+                            <Run Text="{Binding SystemInfo.CpuCores, Mode=OneWay}" Foreground="#F0F6FC" FontWeight="SemiBold"/>
                         </TextBlock>
                     </Grid>
                 </Border>
 
                 <!-- RAM Card -->
-                <Border Margin="6,0" CornerRadius="16" Padding="24"
+                <Border Grid.Column="2" CornerRadius="16" Padding="24"
                         Background="#161B22" BorderThickness="1" BorderBrush="#30363D">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -137,50 +163,50 @@
                         </Grid.RowDefinitions>
                         
                         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,16">
-                            <Border Width="40" Height="40" CornerRadius="10" Margin="0,0,12,0">
+                            <Border Width="44" Height="44" CornerRadius="12" Margin="0,0,14,0">
                                 <Border.Background>
                                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                                         <GradientStop Color="#20F78166" Offset="0"/>
                                         <GradientStop Color="#10F78166" Offset="1"/>
                                     </LinearGradientBrush>
                                 </Border.Background>
-                                <TextBlock Text="🧠" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <TextBlock Text="🧠" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
-                            <TextBlock Text="RAM" FontSize="16" FontWeight="SemiBold" Foreground="#8B949E" VerticalAlignment="Center"/>
+                            <TextBlock Text="Bellek" FontSize="15" FontWeight="SemiBold" Foreground="#8B949E" VerticalAlignment="Center"/>
                         </StackPanel>
                         
                         <TextBlock Grid.Row="1" 
                                    Text="{Binding MemoryUsedDisplay, Mode=OneWay}" 
-                                   FontSize="36" 
+                                   FontSize="28" 
                                    FontWeight="Bold" 
                                    Foreground="#F78166"
-                                   Margin="0,0,0,12"/>
+                                   Margin="0,0,0,14"/>
                         
                         <ProgressBar Grid.Row="2" 
                                      Value="{Binding MemoryInfo.UsedPercentage, Mode=OneWay}" 
                                      Maximum="100" 
-                                     Height="6"
+                                     Height="8"
                                      Style="{StaticResource ProgressBarOrange}"
                                      Margin="0,0,0,16"/>
                         
                         <TextBlock Grid.Row="3" 
-                                   Text="{Binding MemoryInfo.UsedPercentage, Mode=OneWay, StringFormat='{}{0:F1}% Used'}" 
+                                   Text="{Binding MemoryInfo.UsedPercentage, Mode=OneWay, StringFormat='%{0:F1} Kullanımda'}" 
                                    FontSize="12" 
                                    Foreground="#8B949E"/>
                         
                         <Button Grid.Row="4" 
-                                Content="Clear RAM" 
+                                Content="RAM Temizle" 
                                 Command="{Binding QuickRamCleanupCommand}"
                                 Style="{StaticResource DangerButton}"
-                                Padding="12,8"
+                                Padding="14,10"
                                 FontSize="12"
-                                Margin="0,12,0,0"
+                                Margin="0,14,0,0"
                                 HorizontalAlignment="Left"/>
                     </Grid>
                 </Border>
 
                 <!-- Disk Card -->
-                <Border Margin="6,0" CornerRadius="16" Padding="24"
+                <Border Grid.Column="4" CornerRadius="16" Padding="24"
                         Background="#161B22" BorderThickness="1" BorderBrush="#30363D">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -192,41 +218,41 @@
                         </Grid.RowDefinitions>
                         
                         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,16">
-                            <Border Width="40" Height="40" CornerRadius="10" Margin="0,0,12,0">
+                            <Border Width="44" Height="44" CornerRadius="12" Margin="0,0,14,0">
                                 <Border.Background>
                                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                                         <GradientStop Color="#20D29922" Offset="0"/>
                                         <GradientStop Color="#10D29922" Offset="1"/>
                                     </LinearGradientBrush>
                                 </Border.Background>
-                                <TextBlock Text="💾" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <TextBlock Text="💾" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
-                            <TextBlock Text="Disk" FontSize="16" FontWeight="SemiBold" Foreground="#8B949E" VerticalAlignment="Center"/>
+                            <TextBlock Text="Disk" FontSize="15" FontWeight="SemiBold" Foreground="#8B949E" VerticalAlignment="Center"/>
                         </StackPanel>
                         
                         <TextBlock Grid.Row="1" 
                                    Text="{Binding DiskUsedDisplay, Mode=OneWay}" 
-                                   FontSize="36" 
+                                   FontSize="28" 
                                    FontWeight="Bold" 
                                    Foreground="#D29922"
-                                   Margin="0,0,0,12"/>
+                                   Margin="0,0,0,14"/>
                         
                         <ProgressBar Grid.Row="2" 
                                      Value="{Binding SystemInfo.UsedDiskPercentage, Mode=OneWay}" 
                                      Maximum="100" 
-                                     Height="6"
+                                     Height="8"
                                      Style="{StaticResource ProgressBarPurple}"
                                      Margin="0,0,0,16"/>
                         
                         <TextBlock Grid.Row="3" FontSize="12" Foreground="#8B949E">
                             <Run Text="{Binding SystemInfo.FreeDiskGB, Mode=OneWay, StringFormat='{}{0:F1}'}"/>
-                            <Run Text=" GB Free"/>
+                            <Run Text=" GB Boş"/>
                         </TextBlock>
                     </Grid>
                 </Border>
 
                 <!-- Power Plan Card -->
-                <Border Margin="12,0,0,0" CornerRadius="16" Padding="24"
+                <Border Grid.Column="6" CornerRadius="16" Padding="24"
                         Background="#161B22" BorderThickness="1" BorderBrush="#30363D">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -237,135 +263,184 @@
                         </Grid.RowDefinitions>
                         
                         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,16">
-                            <Border Width="40" Height="40" CornerRadius="10" Margin="0,0,12,0">
+                            <Border Width="44" Height="44" CornerRadius="12" Margin="0,0,14,0">
                                 <Border.Background>
                                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                                         <GradientStop Color="#203FB950" Offset="0"/>
                                         <GradientStop Color="#103FB950" Offset="1"/>
                                     </LinearGradientBrush>
                                 </Border.Background>
-                                <TextBlock Text="⚡" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <TextBlock Text="⚡" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
-                            <TextBlock Text="Power" FontSize="16" FontWeight="SemiBold" Foreground="#8B949E" VerticalAlignment="Center"/>
+                            <TextBlock Text="Güç" FontSize="15" FontWeight="SemiBold" Foreground="#8B949E" VerticalAlignment="Center"/>
                         </StackPanel>
                         
                         <TextBlock Grid.Row="1" 
-                                   Text="{Binding ActivePowerPlan.Name, Mode=OneWay, FallbackValue='Unknown'}" 
-                                   FontSize="20" 
+                                   Text="{Binding ActivePowerPlan.Name, Mode=OneWay, FallbackValue='Bilinmiyor'}" 
+                                   FontSize="18" 
                                    FontWeight="Bold" 
                                    Foreground="#3FB950"
                                    TextTrimming="CharacterEllipsis"
-                                   Margin="0,0,0,8"/>
+                                   Margin="0,0,0,10"/>
                         
                         <TextBlock Grid.Row="2" 
-                                   Text="{Binding ActivePowerPlan.Description, Mode=OneWay, FallbackValue='No active plan'}" 
+                                   Text="{Binding ActivePowerPlan.Description, Mode=OneWay, FallbackValue='Aktif güç planı yok'}" 
                                    FontSize="11" 
                                    Foreground="#484F58"
                                    TextWrapping="Wrap"
                                    MaxHeight="40"
-                                   Margin="0,0,0,12"/>
+                                   Margin="0,0,0,14"/>
                         
                         <Button Grid.Row="3" 
-                                Content="Manage" 
+                                Content="Yönet" 
                                 Command="{Binding OpenPowerViewCommand}"
                                 Style="{StaticResource SuccessButton}"
-                                Padding="12,8"
+                                Padding="14,10"
                                 FontSize="12"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Bottom"/>
                     </Grid>
                 </Border>
-            </UniformGrid>
+            </Grid>
 
             <!-- Quick Actions Section -->
-            <TextBlock Text="Quick Actions" 
-                       FontSize="24" 
-                       FontWeight="Bold" 
-                       Foreground="#F0F6FC"
-                       Margin="0,0,0,20"/>
-            
-            <UniformGrid Columns="3">
-                <!-- RAM Management -->
-                <Border Margin="0,0,10,0" CornerRadius="14" Cursor="Hand">
-                    <Border.Background>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                            <GradientStop Color="#58A6FF" Offset="0"/>
-                            <GradientStop Color="#388BFD" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Border.Background>
-                    <Button Command="{Binding OpenRamViewCommand}"
-                            Background="Transparent"
-                            BorderThickness="0"
-                            Cursor="Hand"
-                            Padding="24,20">
-                        <StackPanel>
-                            <TextBlock Text="🧠" FontSize="28" Margin="0,0,0,12"/>
-                            <TextBlock Text="RAM Management" 
-                                       FontSize="16" 
-                                       FontWeight="SemiBold"
-                                       Foreground="White"/>
-                            <TextBlock Text="Optimize memory usage" 
-                                       FontSize="12" 
-                                       Foreground="#CCFFFFFF"
-                                       Margin="0,4,0,0"/>
-                        </StackPanel>
-                    </Button>
-                </Border>
+            <StackPanel Grid.Row="3">
+                <TextBlock Text="Hızlı İşlemler" 
+                           FontSize="24" 
+                           FontWeight="Bold" 
+                           Foreground="#F0F6FC"
+                           Margin="0,0,0,20"/>
                 
-                <!-- Power Management -->
-                <Border Margin="5,0" CornerRadius="14" Cursor="Hand">
-                    <Border.Background>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                            <GradientStop Color="#3FB950" Offset="0"/>
-                            <GradientStop Color="#238636" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Border.Background>
-                    <Button Command="{Binding OpenPowerViewCommand}"
-                            Background="Transparent"
-                            BorderThickness="0"
-                            Cursor="Hand"
-                            Padding="24,20">
-                        <StackPanel>
-                            <TextBlock Text="⚡" FontSize="28" Margin="0,0,0,12"/>
-                            <TextBlock Text="Power Management" 
-                                       FontSize="16" 
-                                       FontWeight="SemiBold"
-                                       Foreground="White"/>
-                            <TextBlock Text="Control power plans" 
-                                       FontSize="12" 
-                                       Foreground="#CCFFFFFF"
-                                       Margin="0,4,0,0"/>
-                        </StackPanel>
-                    </Button>
-                </Border>
-                
-                <!-- Disk Cleanup -->
-                <Border Margin="10,0,0,0" CornerRadius="14" Cursor="Hand">
-                    <Border.Background>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                            <GradientStop Color="#A371F7" Offset="0"/>
-                            <GradientStop Color="#8957E5" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Border.Background>
-                    <Button Command="{Binding OpenCleanupViewCommand}"
-                            Background="Transparent"
-                            BorderThickness="0"
-                            Cursor="Hand"
-                            Padding="24,20">
-                        <StackPanel>
-                            <TextBlock Text="🧹" FontSize="28" Margin="0,0,0,12"/>
-                            <TextBlock Text="Disk Cleanup" 
-                                       FontSize="16" 
-                                       FontWeight="SemiBold"
-                                       Foreground="White"/>
-                            <TextBlock Text="Free up disk space" 
-                                       FontSize="12" 
-                                       Foreground="#CCFFFFFF"
-                                       Margin="0,4,0,0"/>
-                        </StackPanel>
-                    </Button>
-                </Border>
-            </UniformGrid>
-        </StackPanel>
-    </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="16"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="16"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <!-- RAM Management -->
+                    <Border Grid.Column="0" CornerRadius="16" Cursor="Hand">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#58A6FF" Offset="0"/>
+                                <GradientStop Color="#388BFD" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Button Command="{Binding OpenRamViewCommand}"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Cursor="Hand"
+                                Padding="28,24">
+                            <StackPanel>
+                                <TextBlock Text="🧠" FontSize="32" Margin="0,0,0,14"/>
+                                <TextBlock Text="RAM Yönetimi" 
+                                           FontSize="18" 
+                                           FontWeight="SemiBold"
+                                           Foreground="White"/>
+                                <TextBlock Text="Bellek kullanımını optimize edin" 
+                                           FontSize="13" 
+                                           Foreground="#CCFFFFFF"
+                                           Margin="0,6,0,0"/>
+                            </StackPanel>
+                        </Button>
+                    </Border>
+                    
+                    <!-- Power Management -->
+                    <Border Grid.Column="2" CornerRadius="16" Cursor="Hand">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#3FB950" Offset="0"/>
+                                <GradientStop Color="#238636" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Button Command="{Binding OpenPowerViewCommand}"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Cursor="Hand"
+                                Padding="28,24">
+                            <StackPanel>
+                                <TextBlock Text="⚡" FontSize="32" Margin="0,0,0,14"/>
+                                <TextBlock Text="Güç Yönetimi" 
+                                           FontSize="18" 
+                                           FontWeight="SemiBold"
+                                           Foreground="White"/>
+                                <TextBlock Text="Güç planlarını yönetin" 
+                                           FontSize="13" 
+                                           Foreground="#CCFFFFFF"
+                                           Margin="0,6,0,0"/>
+                            </StackPanel>
+                        </Button>
+                    </Border>
+                    
+                    <!-- Disk Cleanup -->
+                    <Border Grid.Column="4" CornerRadius="16" Cursor="Hand">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#A371F7" Offset="0"/>
+                                <GradientStop Color="#8957E5" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Button Command="{Binding OpenCleanupViewCommand}"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Cursor="Hand"
+                                Padding="28,24">
+                            <StackPanel>
+                                <TextBlock Text="🧹" FontSize="32" Margin="0,0,0,14"/>
+                                <TextBlock Text="Disk Temizliği" 
+                                           FontSize="18" 
+                                           FontWeight="SemiBold"
+                                           Foreground="White"/>
+                                <TextBlock Text="Disk alanı açın" 
+                                           FontSize="13" 
+                                           Foreground="#CCFFFFFF"
+                                           Margin="0,6,0,0"/>
+                            </StackPanel>
+                        </Button>
+                    </Border>
+                </Grid>
+            </StackPanel>
+
+            <!-- Tips Section -->
+            <Border Grid.Row="4" Margin="0,32,0,0" Padding="24" CornerRadius="14"
+                    Background="#161B22" BorderThickness="1" BorderBrush="#30363D">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Border Grid.Column="0" 
+                            Width="48" Height="48" 
+                            CornerRadius="12"
+                            Margin="0,0,18,0">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#D29922" Offset="0"/>
+                                <GradientStop Color="#B08020" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <TextBlock Text="💡" FontSize="22" 
+                                   HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center"/>
+                    </Border>
+                    
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock Text="İpucu: Performans Optimizasyonu" 
+                                   FontWeight="SemiBold" 
+                                   FontSize="15"
+                                   Foreground="#D29922"/>
+                        <TextBlock FontSize="13" 
+                                   Foreground="#8B949E"
+                                   Margin="0,6,0,0"
+                                   TextWrapping="Wrap">
+                            <Run Text="Düzenli RAM temizliği ve gereksiz uygulamaların kapatılması sisteminizin daha hızlı çalışmasını sağlar. Güç planını 'Yüksek Performans' olarak ayarlamak oyun ve ağır iş yükleri için önerilir."/>
+                        </TextBlock>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </ScrollViewer>
 </UserControl>

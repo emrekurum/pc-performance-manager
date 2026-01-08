@@ -57,3 +57,4 @@ public enum ProcessRiskLevel
     High        // Yüksek risk - sistem etkilenebilir
 }
 
+

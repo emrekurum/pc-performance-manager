@@ -194,11 +194,11 @@
                         BorderThickness="0,1,0,0"
                         BorderBrush="#21262D">
                     <StackPanel>
-                        <TextBlock Text="v1.0.0" 
+                        <TextBlock Text="v1.1.0" 
                                    FontSize="12" 
                                    Foreground="#484F58"
                                    HorizontalAlignment="Center"/>
-                        <TextBlock Text="© 2026 PC Performance Manager" 
+                        <TextBlock Text="© 2025 PC Performance Manager" 
                                    FontSize="10" 
                                    Foreground="#30363D"
                                    HorizontalAlignment="Center"

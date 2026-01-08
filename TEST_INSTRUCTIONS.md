@@ -35,3 +35,4 @@ Uygulamayı test etmeden önce çalışan tüm PcPerformanceManager.exe process'
 
 
 
+

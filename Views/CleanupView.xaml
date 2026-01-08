@@ -5,332 +5,286 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converters="clr-namespace:PcPerformanceManager.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="700" d:DesignWidth="900">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+             d:DesignHeight="800" d:DesignWidth="1000">
+    
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <Grid Margin="0,0,10,20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-        <!-- Header -->
-        <Grid Grid.Row="0" Margin="0,0,0,28">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            
-            <StackPanel Grid.Column="0">
-                <TextBlock Text="Disk Cleanup" 
-                           FontSize="32" 
-                           FontWeight="Bold" 
-                           Foreground="#F0F6FC"/>
-                <TextBlock Text="Free up disk space by removing unnecessary files" 
-                           FontSize="14" 
-                           Foreground="#8B949E"
-                           Margin="0,6,0,0"/>
-            </StackPanel>
-            
-            <StackPanel Grid.Column="1" Orientation="Horizontal">
-                <Button Command="{Binding AnalyzeCommand}"
-                        IsEnabled="{Binding IsAnalyzing, Converter={StaticResource InverseBooleanConverter}}"
-                        Style="{StaticResource PrimaryButton}"
-                        Margin="0,0,12,0">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="🔍" FontSize="14" Margin="0,0,8,0"/>
-                        <TextBlock Text="Analyze"/>
-                    </StackPanel>
-                </Button>
-                <Button Command="{Binding CleanupCommand}"
-                        IsEnabled="{Binding IsCleaning, Converter={StaticResource InverseBooleanConverter}}"
-                        Style="{StaticResource DangerButton}">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="🧹" FontSize="14" Margin="0,0,8,0"/>
-                        <TextBlock Text="Clean Selected"/>
-                    </StackPanel>
-                </Button>
-            </StackPanel>
-        </Grid>
-
-        <!-- Controls Bar -->
-        <Border Grid.Row="1" 
-                Background="#161B22" 
-                Padding="20,16" 
-                CornerRadius="12" 
-                BorderThickness="1"
-                BorderBrush="#30363D"
-                Margin="0,0,0,20">
-            <Grid>
+            <!-- Header -->
+            <Grid Grid.Row="0" Margin="0,0,0,28">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 
-                <StackPanel Grid.Column="0" Orientation="Horizontal">
-                    <Button Content="Select All" 
-                            Command="{Binding SelectAllCommand}"
-                            Style="{StaticResource SecondaryButton}"
-                            Padding="16,10"
-                            FontSize="13"
-                            Margin="0,0,10,0"/>
-                    <Button Content="Deselect All" 
-                            Command="{Binding DeselectAllCommand}"
-                            Style="{StaticResource SecondaryButton}"
-                            Padding="16,10"
-                            FontSize="13"/>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Disk Temizliği" 
+                               FontSize="32" 
+                               FontWeight="Bold" 
+                               Foreground="#F0F6FC"/>
+                    <TextBlock Text="Gereksiz dosyaları temizleyerek disk alanı açın" 
+                               FontSize="14" 
+                               Foreground="#8B949E"
+                               Margin="0,8,0,0"/>
                 </StackPanel>
                 
                 <StackPanel Grid.Column="1" Orientation="Horizontal">
-                    <Border Background="#21262D" 
-                            CornerRadius="8" 
-                            Padding="12,8"
-                            VerticalAlignment="Center">
+                    <Button Command="{Binding AnalyzeCommand}"
+                            IsEnabled="{Binding IsAnalyzing, Converter={StaticResource InverseBooleanConverter}}"
+                            Style="{StaticResource PrimaryButton}"
+                            Padding="20,14"
+                            Margin="0,0,14,0">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="📋" FontSize="14" Margin="0,0,8,0"/>
-                            <TextBlock Text="{Binding StatusMessage}" 
-                                       FontSize="13" 
-                                       Foreground="#8B949E"/>
+                            <TextBlock Text="🔍" FontSize="16" Margin="0,0,10,0"/>
+                            <TextBlock Text="Analiz Et" FontSize="14"/>
                         </StackPanel>
-                    </Border>
+                    </Button>
+                    <Button Command="{Binding CleanupCommand}"
+                            IsEnabled="{Binding IsCleaning, Converter={StaticResource InverseBooleanConverter}}"
+                            Style="{StaticResource DangerButton}"
+                            Padding="20,14">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="🧹" FontSize="16" Margin="0,0,10,0"/>
+                            <TextBlock Text="Seçilenleri Temizle" FontSize="14"/>
+                        </StackPanel>
+                    </Button>
                 </StackPanel>
             </Grid>
-        </Border>
 
-        <!-- Main Content -->
-        <Border Grid.Row="2" 
-                Background="#161B22" 
-                BorderBrush="#30363D" 
-                BorderThickness="1" 
-                CornerRadius="14">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-
-                <!-- Summary Card -->
-                <Border Grid.Row="0" 
-                        Margin="20,20,20,0"
-                        Padding="20" 
-                        CornerRadius="12"
-                        Visibility="{Binding SelectedItemsCount, Converter={StaticResource CountToVisibilityConverter}}">
-                    <Border.Background>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                            <GradientStop Color="#153FB950" Offset="0"/>
-                            <GradientStop Color="#0A3FB950" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Border.Background>
-                    <Border.BorderBrush>
-                        <SolidColorBrush Color="#3FB950" Opacity="0.3"/>
-                    </Border.BorderBrush>
-                    <Border.BorderThickness>1</Border.BorderThickness>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Border Grid.Column="0" 
-                                Width="48" Height="48" 
-                                CornerRadius="12"
-                                Margin="0,0,16,0">
-                            <Border.Background>
-                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                    <GradientStop Color="#3FB950" Offset="0"/>
-                                    <GradientStop Color="#238636" Offset="1"/>
-                                </LinearGradientBrush>
-                            </Border.Background>
-                            <TextBlock Text="✓" FontSize="22" FontWeight="Bold" Foreground="White" 
-                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <TextBlock FontSize="16" FontWeight="SemiBold" Foreground="#3FB950">
-                                <Run Text="{Binding SelectedItemsCount}"/>
-                                <Run Text=" items selected"/>
-                            </TextBlock>
-                            <TextBlock FontSize="14" Foreground="#8B949E" Margin="0,4,0,0">
-                                <Run Text="Total size: "/>
-                                <Run Text="{Binding TotalBytesToClean, Converter={StaticResource BytesToGBConverter}, StringFormat='{}{0:F2}'}" 
-                                     Foreground="#F0F6FC" FontWeight="SemiBold"/>
-                                <Run Text=" GB"/>
-                            </TextBlock>
-                        </StackPanel>
-                    </Grid>
-                </Border>
-
-                <!-- Result Message -->
-                <Border Grid.Row="1" 
-                        Margin="20,16,20,0"
-                        Padding="16" 
-                        CornerRadius="10"
-                        Visibility="{Binding LastCleanupResult, Converter={StaticResource StringToVisibilityConverter}}">
-                    <Border.Background>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                            <GradientStop Color="#1558A6FF" Offset="0"/>
-                            <GradientStop Color="#0A58A6FF" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Border.Background>
-                    <Border.BorderBrush>
-                        <SolidColorBrush Color="#58A6FF" Opacity="0.3"/>
-                    </Border.BorderBrush>
-                    <Border.BorderThickness>1</Border.BorderThickness>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="ℹ️" FontSize="16" Margin="0,0,12,0"/>
-                        <TextBlock Text="{Binding LastCleanupResult}" 
-                                   FontSize="14" 
-                                   Foreground="#58A6FF"
-                                   TextWrapping="Wrap"
-                                   VerticalAlignment="Center"/>
+            <!-- Controls Bar -->
+            <Border Grid.Row="1" 
+                    Background="#161B22" 
+                    Padding="22,18" 
+                    CornerRadius="14" 
+                    BorderThickness="1"
+                    BorderBrush="#30363D"
+                    Margin="0,0,0,24">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <StackPanel Grid.Column="0" Orientation="Horizontal">
+                        <Button Content="Tümünü Seç" 
+                                Command="{Binding SelectAllCommand}"
+                                Style="{StaticResource SecondaryButton}"
+                                Padding="18,12"
+                                FontSize="13"
+                                Margin="0,0,12,0"/>
+                        <Button Content="Seçimi Kaldır" 
+                                Command="{Binding DeselectAllCommand}"
+                                Style="{StaticResource SecondaryButton}"
+                                Padding="18,12"
+                                FontSize="13"/>
                     </StackPanel>
-                </Border>
+                    
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <Border Background="#21262D" 
+                                CornerRadius="10" 
+                                Padding="16,10"
+                                VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="📋" FontSize="15" Margin="0,0,10,0"/>
+                                <TextBlock Text="{Binding StatusMessage}" 
+                                           FontSize="13" 
+                                           Foreground="#8B949E"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+            </Border>
 
-                <!-- Cleanup Items DataGrid -->
-                <DataGrid Grid.Row="2" 
-                          ItemsSource="{Binding CleanupItems}"
-                          AutoGenerateColumns="False"
-                          CanUserAddRows="False"
-                          CanUserDeleteRows="False"
-                          GridLinesVisibility="None"
-                          HeadersVisibility="Column"
-                          SelectionMode="Single"
-                          Background="Transparent"
-                          Foreground="#F0F6FC"
-                          BorderThickness="0"
-                          RowBackground="#161B22"
-                          AlternatingRowBackground="#1C2128"
-                          Margin="0,16,0,0">
-                    <DataGrid.ColumnHeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="Background" Value="#21262D"/>
-                            <Setter Property="Foreground" Value="#8B949E"/>
-                            <Setter Property="Padding" Value="16,12"/>
-                            <Setter Property="FontWeight" Value="SemiBold"/>
-                            <Setter Property="FontSize" Value="13"/>
-                            <Setter Property="BorderThickness" Value="0,0,0,1"/>
-                            <Setter Property="BorderBrush" Value="#30363D"/>
-                        </Style>
-                    </DataGrid.ColumnHeaderStyle>
-                    <DataGrid.RowStyle>
-                        <Style TargetType="DataGridRow">
-                            <Setter Property="Background" Value="#161B22"/>
-                            <Setter Property="Foreground" Value="#F0F6FC"/>
-                            <Setter Property="BorderThickness" Value="0"/>
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#21262D"/>
-                                </Trigger>
-                                <Trigger Property="IsSelected" Value="True">
-                                    <Setter Property="Background" Value="#1A58A6FF"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </DataGrid.RowStyle>
-                    <DataGrid.CellStyle>
-                        <Style TargetType="DataGridCell">
-                            <Setter Property="Foreground" Value="#F0F6FC"/>
-                            <Setter Property="BorderThickness" Value="0"/>
-                            <Setter Property="VerticalAlignment" Value="Center"/>
-                            <Style.Triggers>
-                                <Trigger Property="IsSelected" Value="True">
-                                    <Setter Property="Background" Value="Transparent"/>
-                                    <Setter Property="Foreground" Value="#F0F6FC"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </DataGrid.CellStyle>
-                    <DataGrid.Columns>
-                        <DataGridCheckBoxColumn Header="" Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}" Width="50">
-                            <DataGridCheckBoxColumn.ElementStyle>
-                                <Style TargetType="CheckBox">
-                                    <Setter Property="HorizontalAlignment" Value="Center"/>
-                                    <Setter Property="Margin" Value="12,0"/>
-                                </Style>
-                            </DataGridCheckBoxColumn.ElementStyle>
-                            <DataGridCheckBoxColumn.EditingElementStyle>
-                                <Style TargetType="CheckBox">
-                                    <Setter Property="HorizontalAlignment" Value="Center"/>
-                                    <Setter Property="Margin" Value="12,0"/>
-                                </Style>
-                            </DataGridCheckBoxColumn.EditingElementStyle>
-                        </DataGridCheckBoxColumn>
-                        <DataGridTextColumn Header="Name" 
-                                            Binding="{Binding Name}" 
-                                            Width="180">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Padding" Value="12,10"/>
-                                    <Setter Property="VerticalAlignment" Value="Center"/>
-                                    <Setter Property="Foreground" Value="#F0F6FC"/>
-                                    <Setter Property="FontWeight" Value="SemiBold"/>
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                        <DataGridTextColumn Header="Description" 
-                                            Binding="{Binding Description}" 
-                                            Width="*">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Padding" Value="12,10"/>
-                                    <Setter Property="VerticalAlignment" Value="Center"/>
-                                    <Setter Property="Foreground" Value="#8B949E"/>
-                                    <Setter Property="TextWrapping" Value="NoWrap"/>
-                                    <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                        <DataGridTemplateColumn Header="Category" Width="140">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Border Background="#21262D" 
-                                            CornerRadius="6" 
-                                            Padding="10,5"
-                                            Margin="6,4"
-                                            HorizontalAlignment="Left">
-                                        <TextBlock Text="{Binding Category}" 
-                                                   FontSize="11" 
-                                                   Foreground="#A371F7"
-                                                   FontWeight="SemiBold"/>
-                                    </Border>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTextColumn Header="Size" 
-                                            Binding="{Binding SizeGB, Mode=OneWay, StringFormat='{}{0:F2} GB'}" 
-                                            Width="100">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Padding" Value="12,10"/>
-                                    <Setter Property="VerticalAlignment" Value="Center"/>
-                                    <Setter Property="Foreground" Value="#D29922"/>
-                                    <Setter Property="FontWeight" Value="Bold"/>
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </Grid>
-        </Border>
+            <!-- Main Content -->
+            <Border Grid.Row="2" 
+                    Background="#161B22" 
+                    BorderBrush="#30363D" 
+                    BorderThickness="1" 
+                    CornerRadius="16">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-        <!-- Loading Indicator -->
-        <Border Grid.Row="3" 
-                Padding="16" 
-                CornerRadius="10"
-                Margin="0,16,0,0"
-                Visibility="{Binding IsAnalyzing, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <Border.Background>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                    <GradientStop Color="#A371F7" Offset="0"/>
-                    <GradientStop Color="#8957E5" Offset="1"/>
-                </LinearGradientBrush>
-            </Border.Background>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBlock Text="🔍" FontSize="14" Margin="0,0,10,0"/>
-                <TextBlock Text="Analyzing files, please wait..." 
-                           Foreground="White" 
-                           FontSize="14"
-                           FontWeight="SemiBold"/>
-            </StackPanel>
-        </Border>
-    </Grid>
+                    <!-- Summary Card -->
+                    <Border Grid.Row="0" 
+                            Margin="22,22,22,0"
+                            Padding="22" 
+                            CornerRadius="14"
+                            Visibility="{Binding SelectedItemsCount, Converter={StaticResource CountToVisibilityConverter}}">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Color="#153FB950" Offset="0"/>
+                                <GradientStop Color="#0A3FB950" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Border.BorderBrush>
+                            <SolidColorBrush Color="#3FB950" Opacity="0.3"/>
+                        </Border.BorderBrush>
+                        <Border.BorderThickness>1</Border.BorderThickness>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0" 
+                                    Width="52" Height="52" 
+                                    CornerRadius="14"
+                                    Margin="0,0,18,0">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#3FB950" Offset="0"/>
+                                        <GradientStop Color="#238636" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <TextBlock Text="✓" FontSize="24" FontWeight="Bold" Foreground="White" 
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock FontSize="17" FontWeight="SemiBold" Foreground="#3FB950">
+                                    <Run Text="{Binding SelectedItemsCount}"/>
+                                    <Run Text=" öğe seçildi"/>
+                                </TextBlock>
+                                <TextBlock FontSize="14" Foreground="#8B949E" Margin="0,6,0,0">
+                                    <Run Text="Toplam boyut: "/>
+                                    <Run Text="{Binding TotalBytesToClean, Converter={StaticResource BytesToGBConverter}, StringFormat='{}{0:F2}'}" 
+                                         Foreground="#F0F6FC" FontWeight="SemiBold"/>
+                                    <Run Text=" GB"/>
+                                </TextBlock>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <!-- Result Message -->
+                    <Border Grid.Row="1" 
+                            Margin="22,18,22,0"
+                            Padding="18" 
+                            CornerRadius="12"
+                            Visibility="{Binding LastCleanupResult, Converter={StaticResource StringToVisibilityConverter}}">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Color="#1558A6FF" Offset="0"/>
+                                <GradientStop Color="#0A58A6FF" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Border.BorderBrush>
+                            <SolidColorBrush Color="#58A6FF" Opacity="0.3"/>
+                        </Border.BorderBrush>
+                        <Border.BorderThickness>1</Border.BorderThickness>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="ℹ️" FontSize="17" Margin="0,0,14,0"/>
+                            <TextBlock Text="{Binding LastCleanupResult}" 
+                                       FontSize="14" 
+                                       Foreground="#58A6FF"
+                                       TextWrapping="Wrap"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Cleanup Items List -->
+                    <ItemsControl Grid.Row="2" 
+                                  ItemsSource="{Binding CleanupItems}"
+                                  Margin="0,18,0,0">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="Transparent" 
+                                        BorderBrush="#30363D" 
+                                        BorderThickness="0,0,0,1"
+                                        Padding="22,16">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#21262D"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="50"/>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="140"/>
+                                            <ColumnDefinition Width="100"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <CheckBox Grid.Column="0" 
+                                                  IsChecked="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}"
+                                                  VerticalAlignment="Center"
+                                                  HorizontalAlignment="Center"
+                                                  Cursor="Hand"/>
+
+                                        <TextBlock Grid.Column="1" 
+                                                   Text="{Binding Name}" 
+                                                   FontSize="14" 
+                                                   FontWeight="SemiBold" 
+                                                   Foreground="#F0F6FC"
+                                                   VerticalAlignment="Center"/>
+
+                                        <TextBlock Grid.Column="2" 
+                                                   Text="{Binding Description}" 
+                                                   FontSize="13" 
+                                                   Foreground="#8B949E"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   VerticalAlignment="Center"
+                                                   Margin="16,0"/>
+
+                                        <Border Grid.Column="3" 
+                                                Background="#21262D" 
+                                                CornerRadius="8" 
+                                                Padding="12,6" 
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Category}" 
+                                                       FontSize="12" 
+                                                       Foreground="#A371F7" 
+                                                       FontWeight="SemiBold"/>
+                                        </Border>
+
+                                        <TextBlock Grid.Column="4" 
+                                                   Text="{Binding SizeGB, Mode=OneWay, StringFormat='{}{0:F2} GB'}" 
+                                                   FontSize="14" 
+                                                   Foreground="#D29922" 
+                                                   FontWeight="Bold"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Right"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+            </Border>
+
+            <!-- Loading Indicator -->
+            <Border Grid.Row="3" 
+                    Padding="20,18" 
+                    CornerRadius="12"
+                    Margin="0,20,0,0"
+                    Visibility="{Binding IsAnalyzing, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#A371F7" Offset="0"/>
+                        <GradientStop Color="#8957E5" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="🔍" FontSize="16" Margin="0,0,12,0"/>
+                    <TextBlock Text="Dosyalar analiz ediliyor, lütfen bekleyin..." 
+                               Foreground="White" 
+                               FontSize="14"
+                               FontWeight="SemiBold"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </ScrollViewer>
 </UserControl>
