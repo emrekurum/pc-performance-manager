@@ -170,6 +170,7 @@ public partial class StartupViewModel : ObservableObject
         {
             int successCount = 0;
             int failCount = 0;
+            int criticalCount = 0;
 
             foreach (var program in selectedPrograms)
             {
@@ -182,6 +183,11 @@ public partial class StartupViewModel : ObservableObject
                     }
                     else
                     {
+                        // Kritik uygulama kontrolü - eğer Description'da "Kritik" varsa
+                        if (program.Description?.Contains("Kritik", StringComparison.OrdinalIgnoreCase) == true)
+                        {
+                            criticalCount++;
+                        }
                         failCount++;
                     }
                 }
@@ -193,8 +199,17 @@ public partial class StartupViewModel : ObservableObject
 
             UpdateStatistics();
             UpdateEstimatedStartupTime();
-            StatusMessage = $"{successCount} program devre dışı bırakıldı" + 
-                           (failCount > 0 ? $", {failCount} başarısız" : "");
+            
+            if (criticalCount > 0)
+            {
+                StatusMessage = $"{successCount} program devre dışı bırakıldı. {criticalCount} kritik uygulama korundu" + 
+                               (failCount > criticalCount ? $", {failCount - criticalCount} başarısız" : "");
+            }
+            else
+            {
+                StatusMessage = $"{successCount} program devre dışı bırakıldı" + 
+                               (failCount > 0 ? $", {failCount} başarısız" : "");
+            }
 
             if (failCount > 0)
             {
