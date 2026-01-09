@@ -18,6 +18,11 @@
                     <converters:CountToVisibilityConverter x:Key="CountToVisibilityConverter"/>
                     <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
                     <converters:BytesToGBConverter x:Key="BytesToGBConverter"/>
+                    <converters:ImpactToColorConverter x:Key="ImpactToColorConverter"/>
+                    <converters:EnabledToBackgroundConverter x:Key="EnabledToBackgroundConverter"/>
+                    <converters:EnabledToTextConverter x:Key="EnabledToTextConverter"/>
+                    <converters:EnabledToButtonStyleConverter x:Key="EnabledToButtonStyleConverter"/>
+                    <converters:EnabledToToggleTextConverter x:Key="EnabledToToggleTextConverter"/>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
