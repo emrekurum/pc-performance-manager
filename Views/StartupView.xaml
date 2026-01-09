@@ -224,127 +224,129 @@
             </Grid>
 
             <!-- Programs List -->
-            <Border Grid.Row="3" 
-                    CornerRadius="16" 
-                    Padding="0"
-                    Background="#161B22" 
-                    BorderThickness="1" 
-                    BorderBrush="#30363D">
-                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                    <ItemsControl ItemsSource="{Binding StartupPrograms}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate DataType="{x:Type models:StartupProgram}">
-                                <Border Margin="16,12,16,0"
-                                        CornerRadius="12"
-                                        Padding="20"
-                                        Background="#21262D"
-                                        BorderThickness="1"
-                                        BorderBrush="#30363D">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        
-                                        <!-- Checkbox -->
-                                        <CheckBox Grid.Column="0"
-                                                  IsChecked="{Binding IsSelected}"
-                                                  Margin="0,0,20,0"
-                                                  VerticalAlignment="Center"
-                                                  Foreground="#F0F6FC"/>
-                                        
-                                        <!-- Program Info -->
-                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                            <TextBlock Text="{Binding DisplayName}" 
-                                                       FontSize="16" 
-                                                       FontWeight="SemiBold"
-                                                       Foreground="#F0F6FC"
-                                                       Margin="0,0,0,6"/>
-                                            <TextBlock Text="{Binding Command}" 
-                                                       FontSize="12" 
-                                                       Foreground="#8B949E"
-                                                       TextTrimming="CharacterEllipsis"
-                                                       Margin="0,0,0,4"/>
-                                            <StackPanel Orientation="Horizontal">
-                                                <Border CornerRadius="6" 
-                                                        Padding="6,2" 
-                                                        Margin="0,0,8,0"
-                                                        Background="#30363D">
-                                                    <TextBlock Text="{Binding LocationDisplay}" 
+            <Grid Grid.Row="3">
+                <Border CornerRadius="16" 
+                        Padding="0"
+                        Background="#161B22" 
+                        BorderThickness="1" 
+                        BorderBrush="#30363D">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <ItemsControl ItemsSource="{Binding StartupPrograms}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="{x:Type models:StartupProgram}">
+                                    <Border Margin="16,12,16,12"
+                                            CornerRadius="12"
+                                            Padding="20"
+                                            Background="#21262D"
+                                            BorderThickness="1"
+                                            BorderBrush="#30363D">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            
+                                            <!-- Checkbox -->
+                                            <CheckBox Grid.Column="0"
+                                                      IsChecked="{Binding IsSelected}"
+                                                      Margin="0,0,20,0"
+                                                      VerticalAlignment="Center"
+                                                      Foreground="#F0F6FC"/>
+                                            
+                                            <!-- Program Info -->
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,0,20,0">
+                                                <TextBlock Text="{Binding DisplayName}" 
+                                                           FontSize="16" 
+                                                           FontWeight="SemiBold"
+                                                           Foreground="#F0F6FC"
+                                                           Margin="0,0,0,8"/>
+                                                <TextBlock Text="{Binding Command}" 
+                                                           FontSize="12" 
+                                                           Foreground="#8B949E"
+                                                           TextTrimming="CharacterEllipsis"
+                                                           Margin="0,0,0,8"/>
+                                                <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                                                    <Border CornerRadius="6" 
+                                                            Padding="6,4" 
+                                                            Margin="0,0,8,0"
+                                                            Background="#30363D">
+                                                        <TextBlock Text="{Binding LocationDisplay}" 
+                                                                   FontSize="11" 
+                                                                   Foreground="#8B949E"/>
+                                                    </Border>
+                                                    <Border CornerRadius="6" 
+                                                            Padding="6,4" 
+                                                            Margin="0,0,8,0"
+                                                            Background="{Binding Impact, Converter={StaticResource ImpactToColorConverter}}">
+                                                        <TextBlock Text="{Binding ImpactDisplay}" 
+                                                                   FontSize="11" 
+                                                                   FontWeight="SemiBold"
+                                                                   Foreground="White"/>
+                                                    </Border>
+                                                    <TextBlock Text="{Binding Publisher}" 
                                                                FontSize="11" 
-                                                               Foreground="#8B949E"/>
-                                                </Border>
-                                                <Border CornerRadius="6" 
-                                                        Padding="6,2" 
-                                                        Margin="0,0,8,0"
-                                                        Background="{Binding Impact, Converter={StaticResource ImpactToColorConverter}}">
-                                                    <TextBlock Text="{Binding ImpactDisplay}" 
-                                                               FontSize="11" 
-                                                               Foreground="White"/>
-                                                </Border>
-                                                <TextBlock Text="{Binding Publisher}" 
-                                                           FontSize="11" 
-                                                           Foreground="#8B949E"/>
+                                                               Foreground="#8B949E"
+                                                               VerticalAlignment="Center"/>
+                                                </StackPanel>
                                             </StackPanel>
-                                        </StackPanel>
+                                            
+                                            <!-- Status Badge -->
+                                            <Border Grid.Column="2"
+                                                    CornerRadius="6"
+                                                    Padding="12,8"
+                                                    Margin="0,0,12,0"
+                                                    VerticalAlignment="Center"
+                                                    Background="{Binding IsEnabled, Converter={StaticResource EnabledToBackgroundConverter}}">
+                                                <TextBlock Text="{Binding IsEnabled, Converter={StaticResource EnabledToTextConverter}}" 
+                                                           FontSize="12" 
+                                                           FontWeight="SemiBold"
+                                                           Foreground="White"/>
+                                            </Border>
+                                            
+                                            <!-- Toggle Button -->
+                                            <Button Grid.Column="3"
+                                                    Command="{Binding DataContext.ToggleStartupCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    CommandParameter="{Binding}"
+                                                    IsEnabled="{Binding DataContext.IsProcessing, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource InverseBooleanConverter}}"
+                                                    Style="{Binding IsEnabled, Converter={StaticResource EnabledToButtonStyleConverter}}"
+                                                    Padding="20,12"
+                                                    VerticalAlignment="Center"
+                                                    MinWidth="150">
+                                                <TextBlock Text="{Binding IsEnabled, Converter={StaticResource EnabledToToggleTextConverter}}" 
+                                                           FontSize="13"
+                                                           FontWeight="SemiBold"/>
+                                            </Button>
+                                        </Grid>
                                         
-                                        <!-- Status Badge -->
-                                        <Border Grid.Column="2"
-                                                CornerRadius="6"
-                                                Padding="10,6"
-                                                Margin="20,0"
-                                                Background="{Binding IsEnabled, Converter={StaticResource EnabledToBackgroundConverter}}">
-                                            <TextBlock Text="{Binding IsEnabled, Converter={StaticResource EnabledToTextConverter}}" 
-                                                       FontSize="12" 
-                                                       FontWeight="SemiBold"
-                                                       Foreground="White"/>
-                                        </Border>
-                                        
-                                        <!-- Toggle Button -->
-                                        <Button Grid.Column="3"
-                                                Command="{Binding DataContext.ToggleStartupCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                CommandParameter="{Binding}"
-                                                IsEnabled="{Binding DataContext.IsProcessing, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource InverseBooleanConverter}}"
-                                                Style="{Binding IsEnabled, Converter={StaticResource EnabledToButtonStyleConverter}}"
-                                                Padding="20,10"
-                                                Margin="12,0,0,0"
-                                                VerticalAlignment="Center">
-                                            <TextBlock Text="{Binding IsEnabled, Converter={StaticResource EnabledToToggleTextConverter}}" 
-                                                       FontSize="13"/>
-                                        </Button>
-                                    </Grid>
-                                    
-                                    <Border.Style>
-                                        <Style TargetType="Border">
-                                            <Setter Property="Effect" Value="{StaticResource CardShadow}"/>
-                                            <Style.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter Property="BorderBrush" Value="#58A6FF"/>
-                                                    <Setter Property="Background" Value="#1C2128"/>
-                                                </Trigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Border.Style>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </ScrollViewer>
-            </Border>
-
-            <!-- Status Message -->
-            <TextBlock Grid.Row="3"
-                       Grid.ColumnSpan="2"
-                       Text="{Binding StatusMessage}"
-                       FontSize="12"
-                       Foreground="#8B949E"
-                       HorizontalAlignment="Left"
-                       VerticalAlignment="Bottom"
-                       Margin="20,0,0,20"
-                       Opacity="0.8"/>
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Setter Property="Effect" Value="{StaticResource CardShadow}"/>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="BorderBrush" Value="#58A6FF"/>
+                                                        <Setter Property="Background" Value="#1C2128"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Border>
+                
+                <!-- Status Message -->
+                <TextBlock Text="{Binding StatusMessage}"
+                           FontSize="12"
+                           Foreground="#8B949E"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Bottom"
+                           Margin="20,0,0,20"
+                           Opacity="0.8"/>
+            </Grid>
         </Grid>
     </ScrollViewer>
 </UserControl>
