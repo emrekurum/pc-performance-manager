@@ -148,22 +148,23 @@
             <Grid Grid.Row="2" Margin="0,0,0,24">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition Width="16"/>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition Width="16"/>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition Width="16"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition Width="16"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 
                 <Button Grid.Column="0"
                         Command="{Binding SelectAllCommand}"
                         Style="{StaticResource SecondaryButton}"
-                        Padding="16,10">
+                        Padding="18,12"
+                        MinWidth="120">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="✓" FontSize="14" Margin="0,0,8,0"/>
                         <TextBlock Text="Tümünü Seç" FontSize="13"/>
@@ -173,7 +174,8 @@
                 <Button Grid.Column="2"
                         Command="{Binding DeselectAllCommand}"
                         Style="{StaticResource SecondaryButton}"
-                        Padding="16,10">
+                        Padding="18,12"
+                        MinWidth="130">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="✗" FontSize="14" Margin="0,0,8,0"/>
                         <TextBlock Text="Seçimi Kaldır" FontSize="13"/>
@@ -183,7 +185,8 @@
                 <Button Grid.Column="4"
                         Command="{Binding SelectHighImpactCommand}"
                         Style="{StaticResource SecondaryButton}"
-                        Padding="16,10">
+                        Padding="18,12"
+                        MinWidth="130">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="⚠" FontSize="14" Margin="0,0,8,0"/>
                         <TextBlock Text="Yüksek Etki" FontSize="13"/>
@@ -193,7 +196,8 @@
                 <Button Grid.Column="6"
                         Command="{Binding SelectDisabledCommand}"
                         Style="{StaticResource SecondaryButton}"
-                        Padding="16,10">
+                        Padding="18,12"
+                        MinWidth="130">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="○" FontSize="14" Margin="0,0,8,0"/>
                         <TextBlock Text="Devre Dışı" FontSize="13"/>
@@ -204,10 +208,11 @@
                         Command="{Binding DisableSelectedCommand}"
                         IsEnabled="{Binding IsProcessing, Converter={StaticResource InverseBooleanConverter}}"
                         Style="{StaticResource DangerButton}"
-                        Padding="20,12">
+                        Padding="24,14"
+                        MinWidth="200">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="🚫" FontSize="14" Margin="0,0,8,0"/>
-                        <TextBlock Text="Seçilenleri Devre Dışı Bırak" FontSize="13" FontWeight="SemiBold"/>
+                        <TextBlock Text="🚫" FontSize="14" Margin="0,0,10,0"/>
+                        <TextBlock Text="Seçilenleri Devre Dışı Bırak" FontSize="13" FontWeight="SemiBold" TextWrapping="NoWrap"/>
                     </StackPanel>
                 </Button>
                 
@@ -215,10 +220,11 @@
                         Command="{Binding EnableSelectedCommand}"
                         IsEnabled="{Binding IsProcessing, Converter={StaticResource InverseBooleanConverter}}"
                         Style="{StaticResource SuccessButton}"
-                        Padding="20,12">
+                        Padding="24,14"
+                        MinWidth="200">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="✓" FontSize="14" Margin="0,0,8,0"/>
-                        <TextBlock Text="Seçilenleri Etkinleştir" FontSize="13" FontWeight="SemiBold"/>
+                        <TextBlock Text="✓" FontSize="14" Margin="0,0,10,0"/>
+                        <TextBlock Text="Seçilenleri Etkinleştir" FontSize="13" FontWeight="SemiBold" TextWrapping="NoWrap"/>
                     </StackPanel>
                 </Button>
             </Grid>
@@ -251,12 +257,12 @@
                                             <!-- Checkbox -->
                                             <CheckBox Grid.Column="0"
                                                       IsChecked="{Binding IsSelected}"
-                                                      Margin="0,0,20,0"
+                                                      Margin="0,0,24,0"
                                                       VerticalAlignment="Center"
                                                       Foreground="#F0F6FC"/>
                                             
                                             <!-- Program Info -->
-                                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,0,20,0">
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,0,24,0">
                                                 <TextBlock Text="{Binding DisplayName}" 
                                                            FontSize="16" 
                                                            FontWeight="SemiBold"
@@ -266,7 +272,8 @@
                                                            FontSize="12" 
                                                            Foreground="#8B949E"
                                                            TextTrimming="CharacterEllipsis"
-                                                           Margin="0,0,0,8"/>
+                                                           Margin="0,0,0,8"
+                                                           ToolTip="{Binding Command}"/>
                                                 <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
                                                     <Border CornerRadius="6" 
                                                             Padding="6,4" 
@@ -295,14 +302,17 @@
                                             <!-- Status Badge -->
                                             <Border Grid.Column="2"
                                                     CornerRadius="6"
-                                                    Padding="12,8"
-                                                    Margin="0,0,12,0"
+                                                    Padding="14,10"
+                                                    Margin="0,0,16,0"
                                                     VerticalAlignment="Center"
+                                                    MinWidth="90"
+                                                    HorizontalAlignment="Center"
                                                     Background="{Binding IsEnabled, Converter={StaticResource EnabledToBackgroundConverter}}">
                                                 <TextBlock Text="{Binding IsEnabled, Converter={StaticResource EnabledToTextConverter}}" 
                                                            FontSize="12" 
                                                            FontWeight="SemiBold"
-                                                           Foreground="White"/>
+                                                           Foreground="White"
+                                                           TextAlignment="Center"/>
                                             </Border>
                                             
                                             <!-- Toggle Button -->
@@ -311,12 +321,15 @@
                                                     CommandParameter="{Binding}"
                                                     IsEnabled="{Binding DataContext.IsProcessing, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource InverseBooleanConverter}}"
                                                     Style="{Binding IsEnabled, Converter={StaticResource EnabledToButtonStyleConverter}}"
-                                                    Padding="20,12"
+                                                    Padding="24,14"
                                                     VerticalAlignment="Center"
-                                                    MinWidth="150">
+                                                    MinWidth="180"
+                                                    HorizontalAlignment="Stretch">
                                                 <TextBlock Text="{Binding IsEnabled, Converter={StaticResource EnabledToToggleTextConverter}}" 
                                                            FontSize="13"
-                                                           FontWeight="SemiBold"/>
+                                                           FontWeight="SemiBold"
+                                                           TextWrapping="NoWrap"
+                                                           TextAlignment="Center"/>
                                             </Button>
                                         </Grid>
                                         
