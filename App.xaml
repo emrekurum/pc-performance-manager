@@ -25,6 +25,8 @@
                     <converters:EnabledToToggleTextConverter x:Key="EnabledToToggleTextConverter"/>
                     <converters:ServiceStatusToColorConverter x:Key="ServiceStatusToColorConverter"/>
                     <converters:ServiceStatusToVisibilityConverter x:Key="ServiceStatusToVisibilityConverter"/>
+                    <converters:TabVisibilityConverter x:Key="TabVisibilityConverter"/>
+                    <converters:DiskUsageToColorConverter x:Key="DiskUsageToColorConverter"/>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
