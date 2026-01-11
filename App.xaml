@@ -23,6 +23,8 @@
                     <converters:EnabledToTextConverter x:Key="EnabledToTextConverter"/>
                     <converters:EnabledToButtonStyleConverter x:Key="EnabledToButtonStyleConverter"/>
                     <converters:EnabledToToggleTextConverter x:Key="EnabledToToggleTextConverter"/>
+                    <converters:ServiceStatusToColorConverter x:Key="ServiceStatusToColorConverter"/>
+                    <converters:ServiceStatusToVisibilityConverter x:Key="ServiceStatusToVisibilityConverter"/>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
