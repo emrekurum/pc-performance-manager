@@ -1,0 +1,570 @@
+<UserControl x:Class="PcPerformanceManager.Views.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModels="clr-namespace:PcPerformanceManager.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="1000">
+    
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <Grid Margin="0,0,10,20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header Section -->
+            <Grid Grid.Row="0" Margin="0,0,0,28">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Ayarlar" 
+                               FontSize="32" 
+                               FontWeight="Bold" 
+                               Foreground="#F0F6FC"/>
+                    <TextBlock Text="Uygulama tercihlerinizi yapılandırın" 
+                               FontSize="14" 
+                               Foreground="#8B949E"
+                               Margin="0,6,0,0"/>
+                </StackPanel>
+                
+                <!-- Status Message -->
+                <TextBlock Grid.Column="1" 
+                           Text="{Binding StatusMessage}" 
+                           FontSize="13" 
+                           Foreground="#8B949E"
+                           VerticalAlignment="Center"
+                           Margin="0,0,20,0"/>
+            </Grid>
+
+            <!-- Status Message Bar -->
+            <Border Grid.Row="1" 
+                    Background="#161B22" 
+                    Padding="20,16" 
+                    CornerRadius="12" 
+                    Margin="0,0,0,24"
+                    BorderThickness="1"
+                    BorderBrush="#30363D"
+                    Visibility="{Binding HasUnsavedChanges, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="⚠️" FontSize="16" Margin="0,0,12,0" VerticalAlignment="Center"/>
+                    <TextBlock Text="Kaydedilmemiş değişiklikler var" 
+                               FontSize="14" 
+                               Foreground="#F85149"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Settings Content -->
+            <Grid Grid.Row="2" Margin="0,0,0,24">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="24"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Left Column -->
+                <StackPanel Grid.Column="0">
+                    <!-- Genel Ayarlar -->
+                    <Border CornerRadius="12" Padding="24" Margin="0,0,0,20"
+                            Background="#161B22" BorderThickness="1" BorderBrush="#30363D">
+                        <StackPanel>
+                            <TextBlock Text="🔧 Genel Ayarlar" 
+                                       FontSize="18" 
+                                       FontWeight="Bold" 
+                                       Foreground="#F0F6FC"
+                                       Margin="0,0,0,20"/>
+                            
+                            <!-- Start with Windows -->
+                            <Grid Margin="0,0,0,16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Windows ile Başlat" 
+                                               FontSize="14" 
+                                               FontWeight="SemiBold"
+                                               Foreground="#F0F6FC"
+                                               Margin="0,0,0,4"/>
+                                    <TextBlock Text="Uygulamanın Windows başlatıldığında otomatik açılması" 
+                                               FontSize="12" 
+                                               Foreground="#8B949E"/>
+                                </StackPanel>
+                                <CheckBox Grid.Column="1" 
+                                          IsChecked="{Binding Settings.StartWithWindows, Mode=TwoWay}"
+                                          VerticalAlignment="Center"
+                                          Style="{StaticResource ModernCheckBox}"/>
+                            </Grid>
+
+                            <!-- Minimize to Tray -->
+                            <Grid Margin="0,0,0,16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Sistem Tepsisine Küçült" 
+                                               FontSize="14" 
+                                               FontWeight="SemiBold"
+                                               Foreground="#F0F6FC"
+                                               Margin="0,0,0,4"/>
+                                    <TextBlock Text="Kapatma butonuna tıklandığında uygulamayı sistem tepsisine gönder" 
+                                               FontSize="12" 
+                                               Foreground="#8B949E"/>
+                                </StackPanel>
+                                <CheckBox Grid.Column="1" 
+                                          IsChecked="{Binding Settings.MinimizeToTray, Mode=TwoWay}"
+                                          VerticalAlignment="Center"
+                                          Style="{StaticResource ModernCheckBox}"/>
+                            </Grid>
+
+                            <!-- Check for Updates -->
+                            <Grid Margin="0,0,0,16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Otomatik Güncelleme Kontrolü" 
+                                               FontSize="14" 
+                                               FontWeight="SemiBold"
+                                               Foreground="#F0F6FC"
+                                               Margin="0,0,0,4"/>
+                                    <TextBlock Text="Uygulama başlatıldığında güncellemeleri kontrol et" 
+                                               FontSize="12" 
+                                               Foreground="#8B949E"/>
+                                </StackPanel>
+                                <CheckBox Grid.Column="1" 
+                                          IsChecked="{Binding Settings.CheckForUpdates, Mode=TwoWay}"
+                                          VerticalAlignment="Center"
+                                          Style="{StaticResource ModernCheckBox}"/>
+                            </Grid>
+
+                            <!-- Language -->
+                            <Grid Margin="0,0,0,16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Dil" 
+                                               FontSize="14" 
+                                               FontWeight="SemiBold"
+                                               Foreground="#F0F6FC"
+                                               Margin="0,0,0,4"/>
+                                    <TextBlock Text="Uygulama dili" 
+                                               FontSize="12" 
+                                               Foreground="#8B949E"/>
+                                </StackPanel>
+                                <ComboBox Grid.Column="1" 
+                                          SelectedValue="{Binding Settings.Language, Mode=TwoWay}"
+                                          SelectedValuePath="Tag"
+                                          MinWidth="120"
+                                          VerticalAlignment="Center"
+                                          Background="#21262D"
+                                          Foreground="#F0F6FC"
+                                          BorderBrush="#30363D"
+                                          BorderThickness="1"
+                                          Padding="12,10">
+                                    <ComboBoxItem Content="Türkçe" Tag="tr-TR"/>
+                                    <ComboBoxItem Content="English" Tag="en-US"/>
+                                </ComboBox>
+                            </Grid>
+
+                            <!-- Theme -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Tema" 
+                                               FontSize="14" 
+                                               FontWeight="SemiBold"
+                                               Foreground="#F0F6FC"
+                                               Margin="0,0,0,4"/>
+                                    <TextBlock Text="Uygulama teması" 
+                                               FontSize="12" 
+                                               Foreground="#8B949E"/>
+                                </StackPanel>
+                                <ComboBox Grid.Column="1" 
+                                          SelectedValue="{Binding Settings.Theme, Mode=TwoWay}"
+                                          SelectedValuePath="Tag"
+                                          MinWidth="120"
+                                          VerticalAlignment="Center"
+                                          Background="#21262D"
+                                          Foreground="#F0F6FC"
+                                          BorderBrush="#30363D"
+                                          BorderThickness="1"
+                                          Padding="12,10">
+                                    <ComboBoxItem Content="Koyu" Tag="Dark"/>
+                                    <ComboBoxItem Content="Açık" Tag="Light"/>
+                                </ComboBox>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Performans Ayarları -->
+                    <Border CornerRadius="12" Padding="24"
+                            Background="#161B22" BorderThickness="1" BorderBrush="#30363D">
+                        <StackPanel>
+                            <TextBlock Text="⚡ Performans Ayarları" 
+                                       FontSize="18" 
+                                       FontWeight="Bold" 
+                                       Foreground="#F0F6FC"
+                                       Margin="0,0,0,20"/>
+                            
+                            <!-- Auto Refresh -->
+                            <Grid Margin="0,0,0,16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Otomatik Yenileme" 
+                                               FontSize="14" 
+                                               FontWeight="SemiBold"
+                                               Foreground="#F0F6FC"
+                                               Margin="0,0,0,4"/>
+                                    <TextBlock Text="Sistem bilgilerini otomatik olarak güncelle" 
+                                               FontSize="12" 
+                                               Foreground="#8B949E"/>
+                                </StackPanel>
+                                <CheckBox Grid.Column="1" 
+                                          IsChecked="{Binding Settings.AutoRefreshEnabled, Mode=TwoWay}"
+                                          VerticalAlignment="Center"
+                                          Style="{StaticResource ModernCheckBox}"/>
+                            </Grid>
+
+                            <!-- Refresh Interval -->
+                            <Grid Margin="0,0,0,16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Yenileme Aralığı (saniye)" 
+                                               FontSize="14" 
+                                               FontWeight="SemiBold"
+                                               Foreground="#F0F6FC"
+                                               Margin="0,0,0,4"/>
+                                    <TextBlock Text="Otomatik yenileme sıklığı" 
+                                               FontSize="12" 
+                                               Foreground="#8B949E"/>
+                                </StackPanel>
+                                <TextBox Grid.Column="1" 
+                                         Text="{Binding Settings.RefreshIntervalSeconds, Mode=TwoWay}"
+                                         MinWidth="80"
+                                         VerticalAlignment="Center"
+                                         HorizontalContentAlignment="Center"
+                                         Padding="8,6"/>
+                            </Grid>
+
+                            <!-- Auto RAM Cleanup -->
+                            <Grid Margin="0,0,0,16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Otomatik RAM Temizleme" 
+                                               FontSize="14" 
+                                               FontWeight="SemiBold"
+                                               Foreground="#F0F6FC"
+                                               Margin="0,0,0,4"/>
+                                    <TextBlock Text="RAM kullanımı belirlenen eşiği aştığında otomatik temizle" 
+                                               FontSize="12" 
+                                               Foreground="#8B949E"/>
+                                </StackPanel>
+                                <CheckBox Grid.Column="1" 
+                                          IsChecked="{Binding Settings.AutoRamCleanupEnabled, Mode=TwoWay}"
+                                          VerticalAlignment="Center"
+                                          Style="{StaticResource ModernCheckBox}"/>
+                            </Grid>
+
+                            <!-- RAM Cleanup Threshold -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="RAM Temizleme Eşiği (MB)" 
+                                               FontSize="14" 
+                                               FontWeight="SemiBold"
+                                               Foreground="#F0F6FC"
+                                               Margin="0,0,0,4"/>
+                                    <TextBlock Text="Otomatik temizleme için minimum RAM kullanımı" 
+                                               FontSize="12" 
+                                               Foreground="#8B949E"/>
+                                </StackPanel>
+                                <TextBox Grid.Column="1" 
+                                         Text="{Binding Settings.RamCleanupThresholdMB, Mode=TwoWay}"
+                                         MinWidth="80"
+                                         VerticalAlignment="Center"
+                                         HorizontalContentAlignment="Center"
+                                         Padding="8,6"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <!-- Right Column -->
+                <StackPanel Grid.Column="2">
+                    <!-- Bildirimler -->
+                    <Border CornerRadius="12" Padding="24" Margin="0,0,0,20"
+                            Background="#161B22" BorderThickness="1" BorderBrush="#30363D">
+                        <StackPanel>
+                            <TextBlock Text="🔔 Bildirimler" 
+                                       FontSize="18" 
+                                       FontWeight="Bold" 
+                                       Foreground="#F0F6FC"
+                                       Margin="0,0,0,20"/>
+                            
+                            <!-- Show Notifications -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Bildirimleri Göster" 
+                                               FontSize="14" 
+                                               FontWeight="SemiBold"
+                                               Foreground="#F0F6FC"
+                                               Margin="0,0,0,4"/>
+                                    <TextBlock Text="Sistem bildirimlerini görüntüle" 
+                                               FontSize="12" 
+                                               Foreground="#8B949E"/>
+                                </StackPanel>
+                                <CheckBox Grid.Column="1" 
+                                          IsChecked="{Binding Settings.ShowNotifications, Mode=TwoWay}"
+                                          VerticalAlignment="Center"
+                                          Style="{StaticResource ModernCheckBox}"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Dashboard Ayarları -->
+                    <Border CornerRadius="12" Padding="24" Margin="0,0,0,20"
+                            Background="#161B22" BorderThickness="1" BorderBrush="#30363D">
+                        <StackPanel>
+                            <TextBlock Text="📊 Dashboard Ayarları" 
+                                       FontSize="18" 
+                                       FontWeight="Bold" 
+                                       Foreground="#F0F6FC"
+                                       Margin="0,0,0,20"/>
+                            
+                            <!-- Show CPU Card -->
+                            <Grid Margin="0,0,0,16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" 
+                                           Text="CPU Kartını Göster" 
+                                           FontSize="14" 
+                                           Foreground="#F0F6FC"
+                                           VerticalAlignment="Center"/>
+                                <CheckBox Grid.Column="1" 
+                                          IsChecked="{Binding Settings.ShowCpuCard, Mode=TwoWay}"
+                                          VerticalAlignment="Center"
+                                          Style="{StaticResource ModernCheckBox}"/>
+                            </Grid>
+
+                            <!-- Show Memory Card -->
+                            <Grid Margin="0,0,0,16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" 
+                                           Text="RAM Kartını Göster" 
+                                           FontSize="14" 
+                                           Foreground="#F0F6FC"
+                                           VerticalAlignment="Center"/>
+                                <CheckBox Grid.Column="1" 
+                                          IsChecked="{Binding Settings.ShowMemoryCard, Mode=TwoWay}"
+                                          VerticalAlignment="Center"
+                                          Style="{StaticResource ModernCheckBox}"/>
+                            </Grid>
+
+                            <!-- Show Disk Card -->
+                            <Grid Margin="0,0,0,16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" 
+                                           Text="Disk Kartını Göster" 
+                                           FontSize="14" 
+                                           Foreground="#F0F6FC"
+                                           VerticalAlignment="Center"/>
+                                <CheckBox Grid.Column="1" 
+                                          IsChecked="{Binding Settings.ShowDiskCard, Mode=TwoWay}"
+                                          VerticalAlignment="Center"
+                                          Style="{StaticResource ModernCheckBox}"/>
+                            </Grid>
+
+                            <!-- Show Power Card -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" 
+                                           Text="Güç Planı Kartını Göster" 
+                                           FontSize="14" 
+                                           Foreground="#F0F6FC"
+                                           VerticalAlignment="Center"/>
+                                <CheckBox Grid.Column="1" 
+                                          IsChecked="{Binding Settings.ShowPowerCard, Mode=TwoWay}"
+                                          VerticalAlignment="Center"
+                                          Style="{StaticResource ModernCheckBox}"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Diğer Ayarlar -->
+                    <Border CornerRadius="12" Padding="24"
+                            Background="#161B22" BorderThickness="1" BorderBrush="#30363D">
+                        <StackPanel>
+                            <TextBlock Text="🔍 Diğer Ayarlar" 
+                                       FontSize="18" 
+                                       FontWeight="Bold" 
+                                       Foreground="#F0F6FC"
+                                       Margin="0,0,0,20"/>
+                            
+                            <!-- Auto Cleanup on Startup -->
+                            <Grid Margin="0,0,0,16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Başlangıçta Otomatik Temizlik" 
+                                               FontSize="14" 
+                                               FontWeight="SemiBold"
+                                               Foreground="#F0F6FC"
+                                               Margin="0,0,0,4"/>
+                                    <TextBlock Text="Uygulama başlatıldığında otomatik temizlik yap" 
+                                               FontSize="12" 
+                                               Foreground="#8B949E"/>
+                                </StackPanel>
+                                <CheckBox Grid.Column="1" 
+                                          IsChecked="{Binding Settings.AutoCleanupOnStartup, Mode=TwoWay}"
+                                          VerticalAlignment="Center"
+                                          Style="{StaticResource ModernCheckBox}"/>
+                            </Grid>
+
+                            <!-- Enable Logging -->
+                            <Grid Margin="0,0,0,16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Loglama" 
+                                               FontSize="14" 
+                                               FontWeight="SemiBold"
+                                               Foreground="#F0F6FC"
+                                               Margin="0,0,0,4"/>
+                                    <TextBlock Text="Uygulama aktivitelerini logla" 
+                                               FontSize="12" 
+                                               Foreground="#8B949E"/>
+                                </StackPanel>
+                                <CheckBox Grid.Column="1" 
+                                          IsChecked="{Binding Settings.EnableLogging, Mode=TwoWay}"
+                                          VerticalAlignment="Center"
+                                          Style="{StaticResource ModernCheckBox}"/>
+                            </Grid>
+
+                            <!-- Log Level -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Log Seviyesi" 
+                                               FontSize="14" 
+                                               FontWeight="SemiBold"
+                                               Foreground="#F0F6FC"
+                                               Margin="0,0,0,4"/>
+                                    <TextBlock Text="Loglama detay seviyesi" 
+                                               FontSize="12" 
+                                               Foreground="#8B949E"/>
+                                </StackPanel>
+                                <ComboBox Grid.Column="1" 
+                                          SelectedItem="{Binding Settings.LogLevel, Mode=TwoWay}"
+                                          MinWidth="120"
+                                          VerticalAlignment="Center">
+                                    <ComboBoxItem Content="Debug" Tag="Debug"/>
+                                    <ComboBoxItem Content="Info" Tag="Info"/>
+                                    <ComboBoxItem Content="Warning" Tag="Warning"/>
+                                    <ComboBoxItem Content="Error" Tag="Error"/>
+                                </ComboBox>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
+
+            <!-- Action Buttons -->
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Save Button -->
+                <Button Grid.Column="1" 
+                        Command="{Binding SaveSettingsCommand}"
+                        IsEnabled="{Binding IsSaving, Converter={StaticResource InverseBooleanConverter}}"
+                        Style="{StaticResource PrimaryButton}"
+                        Padding="32,14"
+                        MinWidth="150">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="💾" FontSize="16" Margin="0,0,10,0"/>
+                        <TextBlock Text="Kaydet" FontSize="14" FontWeight="SemiBold"/>
+                    </StackPanel>
+                </Button>
+
+                <!-- Reset Button -->
+                <Button Grid.Column="3" 
+                        Command="{Binding ResetToDefaultsCommand}"
+                        Style="{StaticResource SecondaryButton}"
+                        Padding="32,14"
+                        MinWidth="150">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="🔄" FontSize="16" Margin="0,0,10,0"/>
+                        <TextBlock Text="Varsayılanlara Dön" FontSize="14"/>
+                    </StackPanel>
+                </Button>
+
+                <!-- Reload Button -->
+                <Button Grid.Column="5" 
+                        Command="{Binding LoadSettingsCommand}"
+                        Style="{StaticResource SecondaryButton}"
+                        Padding="32,14"
+                        MinWidth="150">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="↻" FontSize="16" Margin="0,0,10,0"/>
+                        <TextBlock Text="Yeniden Yükle" FontSize="14"/>
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</UserControl>
