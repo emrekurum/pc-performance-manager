@@ -28,7 +28,8 @@ public partial class MainViewModel : ObservableObject
             new NavigationItem { Title = "Başlangıç", Icon = "🚀" },
             new NavigationItem { Title = "Servisler", Icon = "⚙️" },
             new NavigationItem { Title = "Güç", Icon = "⚡" },
-            new NavigationItem { Title = "Temizlik", Icon = "🧹" }
+            new NavigationItem { Title = "Temizlik", Icon = "🧹" },
+            new NavigationItem { Title = "Ayarlar", Icon = "🔧" }
         };
 
         SelectedNavigationItem = NavigationItems[0];
@@ -48,6 +49,7 @@ public partial class MainViewModel : ObservableObject
             "Servisler" => CreateViewWithViewModel("Servisler"),
             "Güç" => CreateViewWithViewModel("Güç"),
             "Temizlik" => CreateViewWithViewModel("Temizlik"),
+            "Ayarlar" => CreateViewWithViewModel("Ayarlar"),
             _ => CreateViewWithViewModel("Dashboard")
         };
     }
@@ -65,6 +67,7 @@ public partial class MainViewModel : ObservableObject
                 "Servisler" => new ServiceView { DataContext = new ServiceViewModel() },
                 "Güç" => new PowerView { DataContext = new PowerViewModel() },
                 "Temizlik" => new CleanupView { DataContext = new CleanupViewModel() },
+                "Ayarlar" => new SettingsView { DataContext = new SettingsViewModel() },
                 _ => new DashboardView { DataContext = new DashboardViewModel() }
             };
         }
