@@ -34,6 +34,8 @@ public partial class DashboardViewModel : ObservableObject
     [ObservableProperty]
     private string statusMessage = "Ready";
 
+    private System.Windows.Threading.DispatcherTimer? _autoRefreshTimer;
+
     // Formatted strings for display
     public string MemoryUsedDisplay => $"{MemoryInfo.UsedGB:F1} GB / {MemoryInfo.TotalGB:F1} GB";
     public string DiskUsedDisplay => $"{SystemInfo.UsedDiskGB:F1} GB / {SystemInfo.TotalDiskGB:F1} GB";
@@ -47,6 +49,30 @@ public partial class DashboardViewModel : ObservableObject
         LoadSystemInfo();
         LoadMemoryInfo();
         _ = RefreshDataAsync(); // Fire and forget
+        InitializeAutoRefresh();
+    }
+
+    private void InitializeAutoRefresh()
+    {
+        try
+        {
+            var settingsService = new SettingsService();
+            var settings = settingsService.LoadSettingsAsync().GetAwaiter().GetResult();
+            
+            if (settings.AutoRefreshEnabled)
+            {
+                _autoRefreshTimer = new System.Windows.Threading.DispatcherTimer
+                {
+                    Interval = TimeSpan.FromSeconds(settings.RefreshIntervalSeconds)
+                };
+                _autoRefreshTimer.Tick += async (s, e) => await RefreshDataAsync();
+                _autoRefreshTimer.Start();
+            }
+        }
+        catch
+        {
+            // Settings yüklenemezse auto refresh devre dışı
+        }
     }
 
     private void LoadSystemInfo()
@@ -122,6 +148,98 @@ public partial class DashboardViewModel : ObservableObject
     partial void OnSystemInfoChanged(SystemInfo value)
     {
         OnPropertyChanged(nameof(DiskUsedDisplay));
+    }
+
+    public void UpdateVisibility(AppSettings settings)
+    {
+        // Dashboard kartlarının görünürlüğünü güncelle
+        OnPropertyChanged(nameof(ShowCpuCard));
+        OnPropertyChanged(nameof(ShowMemoryCard));
+        OnPropertyChanged(nameof(ShowDiskCard));
+        OnPropertyChanged(nameof(ShowPowerCard));
+        
+        // Auto refresh'i güncelle
+        _autoRefreshTimer?.Stop();
+        _autoRefreshTimer = null;
+        
+        if (settings.AutoRefreshEnabled)
+        {
+            _autoRefreshTimer = new System.Windows.Threading.DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(settings.RefreshIntervalSeconds)
+            };
+            _autoRefreshTimer.Tick += async (s, e) => await RefreshDataAsync();
+            _autoRefreshTimer.Start();
+        }
+    }
+
+    // Visibility properties for dashboard cards
+    public bool ShowCpuCard
+    {
+        get
+        {
+            try
+            {
+                var settingsService = new Services.SettingsService();
+                var settings = settingsService.LoadSettingsAsync().GetAwaiter().GetResult();
+                return settings.ShowCpuCard;
+            }
+            catch
+            {
+                return true;
+            }
+        }
+    }
+
+    public bool ShowMemoryCard
+    {
+        get
+        {
+            try
+            {
+                var settingsService = new Services.SettingsService();
+                var settings = settingsService.LoadSettingsAsync().GetAwaiter().GetResult();
+                return settings.ShowMemoryCard;
+            }
+            catch
+            {
+                return true;
+            }
+        }
+    }
+
+    public bool ShowDiskCard
+    {
+        get
+        {
+            try
+            {
+                var settingsService = new Services.SettingsService();
+                var settings = settingsService.LoadSettingsAsync().GetAwaiter().GetResult();
+                return settings.ShowDiskCard;
+            }
+            catch
+            {
+                return true;
+            }
+        }
+    }
+
+    public bool ShowPowerCard
+    {
+        get
+        {
+            try
+            {
+                var settingsService = new Services.SettingsService();
+                var settings = settingsService.LoadSettingsAsync().GetAwaiter().GetResult();
+                return settings.ShowPowerCard;
+            }
+            catch
+            {
+                return true;
+            }
+        }
     }
 
     [RelayCommand]
