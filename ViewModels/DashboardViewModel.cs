@@ -159,8 +159,12 @@ public partial class DashboardViewModel : ObservableObject
         OnPropertyChanged(nameof(ShowPowerCard));
         
         // Auto refresh'i güncelle
-        _autoRefreshTimer?.Stop();
-        _autoRefreshTimer = null;
+        if (_autoRefreshTimer != null)
+        {
+            _autoRefreshTimer.Stop();
+            _autoRefreshTimer.Tick -= async (s, e) => await RefreshDataAsync();
+            _autoRefreshTimer = null;
+        }
         
         if (settings.AutoRefreshEnabled)
         {
