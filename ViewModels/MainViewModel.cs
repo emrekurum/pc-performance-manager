@@ -1,7 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
-using System.Windows.Controls;
 using PcPerformanceManager.Models;
 using PcPerformanceManager.Views;
 
@@ -16,7 +15,7 @@ public partial class MainViewModel : ObservableObject
     private NavigationItem? selectedNavigationItem;
 
     [ObservableProperty]
-    private UserControl? currentContent;
+    private System.Windows.Controls.UserControl? currentContent;
 
     public MainViewModel()
     {
@@ -54,7 +53,7 @@ public partial class MainViewModel : ObservableObject
         };
     }
 
-    private UserControl CreateViewWithViewModel(string viewName)
+    private System.Windows.Controls.UserControl CreateViewWithViewModel(string viewName)
     {
         try
         {
@@ -76,6 +75,16 @@ public partial class MainViewModel : ObservableObject
             System.Diagnostics.Debug.WriteLine($"Error creating view {viewName}: {ex.Message}");
             System.Windows.MessageBox.Show($"Error loading view: {ex.Message}", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
             return new DashboardView { DataContext = new DashboardViewModel() };
+        }
+    }
+
+    public void UpdateDashboardVisibility(AppSettings settings)
+    {
+        // Dashboard görünümünü güncelle
+        if (CurrentContent is DashboardView dashboardView && 
+            dashboardView.DataContext is DashboardViewModel dashboardViewModel)
+        {
+            dashboardViewModel.UpdateVisibility(settings);
         }
     }
 }
