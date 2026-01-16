@@ -11,6 +11,7 @@ namespace PcPerformanceManager.ViewModels;
 public partial class SettingsViewModel : ObservableObject
 {
     private readonly ISettingsService _settingsService;
+    private readonly IWindowsStartupService _windowsStartupService;
 
     [ObservableProperty]
     private AppSettings settings = new();
@@ -27,6 +28,7 @@ public partial class SettingsViewModel : ObservableObject
     public SettingsViewModel()
     {
         _settingsService = new SettingsService();
+        _windowsStartupService = new WindowsStartupService();
         _ = LoadSettingsAsync(); // Fire and forget
     }
 
@@ -36,6 +38,10 @@ public partial class SettingsViewModel : ObservableObject
         try
         {
             Settings = await _settingsService.LoadSettingsAsync();
+            
+            // Windows ile başlatma durumunu kontrol et ve senkronize et
+            Settings.StartWithWindows = _windowsStartupService.IsStartupEnabled();
+            
             HasUnsavedChanges = false;
             StatusMessage = "Ayarlar yüklendi";
         }
@@ -57,12 +63,32 @@ public partial class SettingsViewModel : ObservableObject
 
         try
         {
+            // Windows ile başlatma ayarını uygula
+            if (Settings.StartWithWindows)
+            {
+                if (!_windowsStartupService.EnableStartup())
+                {
+                    StatusMessage = "Windows ile başlatma ayarı uygulanamadı";
+                }
+            }
+            else
+            {
+                if (!_windowsStartupService.DisableStartup())
+                {
+                    StatusMessage = "Windows ile başlatma kapatılamadı";
+                }
+            }
+
             var success = await _settingsService.SaveSettingsAsync(Settings);
 
             if (success)
             {
                 HasUnsavedChanges = false;
                 StatusMessage = "Ayarlar başarıyla kaydedildi";
+                
+                // Ayarları uygulamaya bildir
+                ApplySettings();
+                
                 MessageBox.Show("Ayarlar başarıyla kaydedildi!",
                     "Başarılı", MessageBoxButton.OK, MessageBoxImage.Information);
             }
@@ -82,6 +108,21 @@ public partial class SettingsViewModel : ObservableObject
         finally
         {
             IsSaving = false;
+        }
+    }
+
+    private void ApplySettings()
+    {
+        // Ayarların uygulanması için App ve MainWindow'a sinyal gönder
+        if (Application.Current.MainWindow is MainWindow mainWindow)
+        {
+            mainWindow.ApplySettings(Settings);
+        }
+        
+        // Dashboard kartlarını güncelle
+        if (Application.Current.MainWindow?.DataContext is MainViewModel mainViewModel)
+        {
+            mainViewModel.UpdateDashboardVisibility(Settings);
         }
     }
 
