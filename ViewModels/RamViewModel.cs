@@ -63,6 +63,26 @@ public partial class RamViewModel : ObservableObject
         _memoryService = new MemoryService();
         LoadMemoryInfo();
         _ = RefreshDataAsync(); // Fire and forget
+        InitializeAutoRefresh();
+    }
+
+    private void InitializeAutoRefresh()
+    {
+        try
+        {
+            var settingsService = new SettingsService();
+            var settings = settingsService.LoadSettingsAsync().GetAwaiter().GetResult();
+            
+            if (settings.AutoRefreshEnabled)
+            {
+                RefreshIntervalSeconds = settings.RefreshIntervalSeconds;
+                IsAutoRefreshEnabled = true;
+            }
+        }
+        catch
+        {
+            // Settings yüklenemezse auto refresh devre dışı
+        }
     }
 
     private void LoadMemoryInfo()
@@ -114,8 +134,18 @@ public partial class RamViewModel : ObservableObject
 
     private void StopAutoRefresh()
     {
-        _refreshTimer?.Stop();
-        _refreshTimer = null;
+        if (_refreshTimer != null)
+        {
+            _refreshTimer.Stop();
+            _refreshTimer.Tick -= async (s, e) => await RefreshDataAsync();
+            _refreshTimer = null;
+        }
+    }
+
+    // Dispose pattern for timer cleanup
+    public void Dispose()
+    {
+        StopAutoRefresh();
     }
 
     [RelayCommand]
