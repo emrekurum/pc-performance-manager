@@ -1,8 +1,6 @@
-using System.Windows.Controls;
-
 namespace PcPerformanceManager.Views;
 
-public partial class CleanupView : UserControl
+public partial class CleanupView : System.Windows.Controls.UserControl
 {
     public CleanupView()
     {

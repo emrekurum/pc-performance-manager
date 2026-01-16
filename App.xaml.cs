@@ -4,7 +4,7 @@ using System.Windows;
 
 namespace PcPerformanceManager;
 
-public partial class App : Application
+public partial class App : System.Windows.Application
 {
     protected override void OnStartup(StartupEventArgs e)
     {
@@ -18,14 +18,14 @@ public partial class App : Application
         {
             var error = $"Unhandled Exception: {args.ExceptionObject}";
             LogMessage(error);
-            MessageBox.Show(error, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            System.Windows.MessageBox.Show(error, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         };
 
         DispatcherUnhandledException += (sender, args) =>
         {
             var error = $"Dispatcher Exception: {args.Exception}";
             LogMessage(error);
-            MessageBox.Show(error, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            System.Windows.MessageBox.Show(error, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             args.Handled = true;
         };
 

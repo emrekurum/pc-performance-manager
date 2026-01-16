@@ -1,10 +1,9 @@
 using System.Windows;
-using System.Windows.Controls;
 using PcPerformanceManager.ViewModels;
 
 namespace PcPerformanceManager.Views;
 
-public partial class RamView : UserControl
+public partial class RamView : System.Windows.Controls.UserControl
 {
     public RamView()
     {
@@ -13,7 +12,7 @@ public partial class RamView : UserControl
 
     private async void ClearProcessButton_Click(object sender, RoutedEventArgs e)
     {
-        if (sender is Button button && button.Tag is int processId && DataContext is RamViewModel viewModel)
+        if (sender is System.Windows.Controls.Button button && button.Tag is int processId && DataContext is RamViewModel viewModel)
         {
             var process = viewModel.Processes.FirstOrDefault(p => p.ProcessId == processId);
             if (process == null) return;

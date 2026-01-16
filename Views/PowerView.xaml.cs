@@ -1,8 +1,6 @@
-using System.Windows.Controls;
-
 namespace PcPerformanceManager.Views;
 
-public partial class PowerView : UserControl
+public partial class PowerView : System.Windows.Controls.UserControl
 {
     public PowerView()
     {

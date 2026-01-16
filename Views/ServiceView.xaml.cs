@@ -1,8 +1,6 @@
-using System.Windows.Controls;
-
 namespace PcPerformanceManager.Views;
 
-public partial class ServiceView : UserControl
+public partial class ServiceView : System.Windows.Controls.UserControl
 {
     public ServiceView()
     {
