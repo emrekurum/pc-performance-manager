@@ -94,7 +94,8 @@
                 
                 <!-- CPU Card -->
                 <Border Grid.Column="0" CornerRadius="16" Padding="24"
-                        Background="#161B22" BorderThickness="1" BorderBrush="#30363D">
+                        Background="#161B22" BorderThickness="1" BorderBrush="#30363D"
+                        Visibility="{Binding ShowCpuCard, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -152,7 +153,8 @@
 
                 <!-- RAM Card -->
                 <Border Grid.Column="2" CornerRadius="16" Padding="24"
-                        Background="#161B22" BorderThickness="1" BorderBrush="#30363D">
+                        Background="#161B22" BorderThickness="1" BorderBrush="#30363D"
+                        Visibility="{Binding ShowMemoryCard, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -207,7 +209,8 @@
 
                 <!-- Disk Card -->
                 <Border Grid.Column="4" CornerRadius="16" Padding="24"
-                        Background="#161B22" BorderThickness="1" BorderBrush="#30363D">
+                        Background="#161B22" BorderThickness="1" BorderBrush="#30363D"
+                        Visibility="{Binding ShowDiskCard, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -253,7 +256,8 @@
 
                 <!-- Power Plan Card -->
                 <Border Grid.Column="6" CornerRadius="16" Padding="24"
-                        Background="#161B22" BorderThickness="1" BorderBrush="#30363D">
+                        Background="#161B22" BorderThickness="1" BorderBrush="#30363D"
+                        Visibility="{Binding ShowPowerCard, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
