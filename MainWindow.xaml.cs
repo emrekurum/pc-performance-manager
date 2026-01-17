@@ -40,8 +40,30 @@ public partial class MainWindow : Window
 
     public void ApplySettings(AppSettings settings)
     {
-        // Tema değiştirme (şimdilik sadece dark tema destekleniyor)
-        // Gelecekte light tema desteği eklenebilir
+        // Tema değiştirme kontrolü
+        if (settings.Theme == "Light")
+        {
+            // Light tema henüz desteklenmiyor - kullanıcıya bilgi ver
+            System.Windows.MessageBox.Show(
+                "Light tema özelliği henüz kullanılamıyor. Sadece Dark tema desteklenmektedir.",
+                "Tema Değişikliği",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+        }
+        
+        // Dil değiştirme kontrolü
+        if (settings.Language != "tr-TR")
+        {
+            // Localization sistemi henüz kurulmadı - kullanıcıya bilgi ver
+            System.Windows.MessageBox.Show(
+                $"Dil değişikliği özelliği henüz kullanılamıyor. Şu anda sadece Türkçe desteklenmektedir.\n\n" +
+                $"Seçilen dil: {settings.Language}\n" +
+                $"Dil değişikliği özelliği gelecek güncellemede eklenecektir.",
+                "Dil Değişikliği",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+        }
+        
         // Not: Minimize to tray özelliği şimdilik devre dışı (UseWindowsForms gerektiriyor)
     }
 }
