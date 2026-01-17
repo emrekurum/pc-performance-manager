@@ -34,6 +34,18 @@ public partial class DashboardViewModel : ObservableObject
     [ObservableProperty]
     private string statusMessage = "Ready";
 
+    [ObservableProperty]
+    private bool showCpuCard = true;
+
+    [ObservableProperty]
+    private bool showMemoryCard = true;
+
+    [ObservableProperty]
+    private bool showDiskCard = true;
+
+    [ObservableProperty]
+    private bool showPowerCard = true;
+
     private System.Windows.Threading.DispatcherTimer? _autoRefreshTimer;
 
     // Formatted strings for display
@@ -50,6 +62,24 @@ public partial class DashboardViewModel : ObservableObject
         LoadMemoryInfo();
         _ = RefreshDataAsync(); // Fire and forget
         InitializeAutoRefresh();
+        InitializeCardVisibility();
+    }
+
+    private void InitializeCardVisibility()
+    {
+        try
+        {
+            var settingsService = new SettingsService();
+            var settings = settingsService.LoadSettingsAsync().GetAwaiter().GetResult();
+            ShowCpuCard = settings.ShowCpuCard;
+            ShowMemoryCard = settings.ShowMemoryCard;
+            ShowDiskCard = settings.ShowDiskCard;
+            ShowPowerCard = settings.ShowPowerCard;
+        }
+        catch
+        {
+            // Varsayılan değerler zaten set edilmiş
+        }
     }
 
     private void InitializeAutoRefresh()
@@ -153,10 +183,10 @@ public partial class DashboardViewModel : ObservableObject
     public void UpdateVisibility(AppSettings settings)
     {
         // Dashboard kartlarının görünürlüğünü güncelle
-        OnPropertyChanged(nameof(ShowCpuCard));
-        OnPropertyChanged(nameof(ShowMemoryCard));
-        OnPropertyChanged(nameof(ShowDiskCard));
-        OnPropertyChanged(nameof(ShowPowerCard));
+        ShowCpuCard = settings.ShowCpuCard;
+        ShowMemoryCard = settings.ShowMemoryCard;
+        ShowDiskCard = settings.ShowDiskCard;
+        ShowPowerCard = settings.ShowPowerCard;
         
         // Auto refresh'i güncelle
         if (_autoRefreshTimer != null)
@@ -174,75 +204,6 @@ public partial class DashboardViewModel : ObservableObject
             };
             _autoRefreshTimer.Tick += async (s, e) => await RefreshDataAsync();
             _autoRefreshTimer.Start();
-        }
-    }
-
-    // Visibility properties for dashboard cards
-    public bool ShowCpuCard
-    {
-        get
-        {
-            try
-            {
-                var settingsService = new Services.SettingsService();
-                var settings = settingsService.LoadSettingsAsync().GetAwaiter().GetResult();
-                return settings.ShowCpuCard;
-            }
-            catch
-            {
-                return true;
-            }
-        }
-    }
-
-    public bool ShowMemoryCard
-    {
-        get
-        {
-            try
-            {
-                var settingsService = new Services.SettingsService();
-                var settings = settingsService.LoadSettingsAsync().GetAwaiter().GetResult();
-                return settings.ShowMemoryCard;
-            }
-            catch
-            {
-                return true;
-            }
-        }
-    }
-
-    public bool ShowDiskCard
-    {
-        get
-        {
-            try
-            {
-                var settingsService = new Services.SettingsService();
-                var settings = settingsService.LoadSettingsAsync().GetAwaiter().GetResult();
-                return settings.ShowDiskCard;
-            }
-            catch
-            {
-                return true;
-            }
-        }
-    }
-
-    public bool ShowPowerCard
-    {
-        get
-        {
-            try
-            {
-                var settingsService = new Services.SettingsService();
-                var settings = settingsService.LoadSettingsAsync().GetAwaiter().GetResult();
-                return settings.ShowPowerCard;
-            }
-            catch
-            {
-                return true;
-            }
         }
     }
 
