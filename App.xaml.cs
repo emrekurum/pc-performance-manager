@@ -32,17 +32,29 @@ public partial class App : System.Windows.Application
         // Manually create and show MainWindow
         try
         {
+            LogMessage("Creating MainWindow...");
             var mainWindow = new MainWindow();
+            LogMessage("MainWindow created successfully.");
             this.MainWindow = mainWindow;
+            LogMessage("Setting MainWindow property...");
             mainWindow.Show();
+            LogMessage("MainWindow.Show() called.");
             mainWindow.Activate();
-            LogMessage("MainWindow created and shown.");
+            LogMessage("MainWindow.Activate() called.");
+            LogMessage("MainWindow created and shown successfully.");
         }
         catch (Exception ex)
         {
             var error = $"Failed to create MainWindow: {ex.Message}\n\n{ex.StackTrace}";
             LogMessage(error);
-            System.Windows.MessageBox.Show(error, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            try
+            {
+                System.Windows.MessageBox.Show(error, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch
+            {
+                // MessageBox da başarısız olabilir
+            }
         }
 
         LogMessage("Application startup complete.");

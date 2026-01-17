@@ -61,16 +61,16 @@ public partial class DashboardViewModel : ObservableObject
         LoadSystemInfo();
         LoadMemoryInfo();
         _ = RefreshDataAsync(); // Fire and forget
-        InitializeAutoRefresh();
-        InitializeCardVisibility();
+        _ = InitializeAutoRefreshAsync(); // Async - UI thread'de deadlock önleme
+        _ = InitializeCardVisibilityAsync();
     }
 
-    private void InitializeCardVisibility()
+    private async Task InitializeCardVisibilityAsync()
     {
         try
         {
             var settingsService = new SettingsService();
-            var settings = settingsService.LoadSettingsAsync().GetAwaiter().GetResult();
+            var settings = await settingsService.LoadSettingsAsync().ConfigureAwait(true);
             ShowCpuCard = settings.ShowCpuCard;
             ShowMemoryCard = settings.ShowMemoryCard;
             ShowDiskCard = settings.ShowDiskCard;
@@ -82,12 +82,12 @@ public partial class DashboardViewModel : ObservableObject
         }
     }
 
-    private void InitializeAutoRefresh()
+    private async Task InitializeAutoRefreshAsync()
     {
         try
         {
             var settingsService = new SettingsService();
-            var settings = settingsService.LoadSettingsAsync().GetAwaiter().GetResult();
+            var settings = await settingsService.LoadSettingsAsync().ConfigureAwait(true);
             
             if (settings.AutoRefreshEnabled)
             {

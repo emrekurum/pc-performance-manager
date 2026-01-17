@@ -9,14 +9,14 @@
     
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
         <Grid Margin="0,0,10,20">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-            <!-- Header -->
+        <!-- Header -->
             <Grid Grid.Row="0" Margin="0,0,0,28">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -46,7 +46,7 @@
                         </StackPanel>
                     </Button>
                     <Button Command="{Binding CleanupCommand}"
-                            IsEnabled="{Binding IsCleaning, Converter={StaticResource InverseBooleanConverter}}"
+                                IsEnabled="{Binding IsCleaning, Converter={StaticResource InverseBooleanConverter}}"
                             Style="{StaticResource DangerButton}"
                             Padding="20,14">
                         <StackPanel Orientation="Horizontal">
@@ -96,30 +96,30 @@
                                            FontSize="13" 
                                            Foreground="#8B949E"/>
                             </StackPanel>
-                        </Border>
-                    </StackPanel>
-                </Grid>
-            </Border>
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </Border>
 
             <!-- Main Content -->
-            <Border Grid.Row="2" 
+        <Border Grid.Row="2" 
                     Background="#161B22" 
                     BorderBrush="#30363D" 
-                    BorderThickness="1" 
+                BorderThickness="1" 
                     CornerRadius="16">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
                     <!-- Summary Card -->
-                    <Border Grid.Row="0" 
+                <Border Grid.Row="0" 
                             Margin="22,22,22,0"
                             Padding="22" 
                             CornerRadius="14"
-                            Visibility="{Binding SelectedItemsCount, Converter={StaticResource CountToVisibilityConverter}}">
+                        Visibility="{Binding SelectedItemsCount, Converter={StaticResource CountToVisibilityConverter}}">
                         <Border.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                                 <GradientStop Color="#153FB950" Offset="0"/>
@@ -150,7 +150,7 @@
                             </Border>
                             <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                 <TextBlock FontSize="17" FontWeight="SemiBold" Foreground="#3FB950">
-                                    <Run Text="{Binding SelectedItemsCount}"/>
+                            <Run Text="{Binding SelectedItemsCount}"/>
                                     <Run Text=" öğe seçildi"/>
                                 </TextBlock>
                                 <TextBlock FontSize="14" Foreground="#8B949E" Margin="0,6,0,0">
@@ -158,17 +158,17 @@
                                     <Run Text="{Binding TotalBytesToClean, Converter={StaticResource BytesToGBConverter}, StringFormat='{}{0:F2}'}" 
                                          Foreground="#F0F6FC" FontWeight="SemiBold"/>
                                     <Run Text=" GB"/>
-                                </TextBlock>
-                            </StackPanel>
+                        </TextBlock>
+                    </StackPanel>
                         </Grid>
-                    </Border>
+                </Border>
 
-                    <!-- Result Message -->
-                    <Border Grid.Row="1" 
+                <!-- Result Message -->
+                <Border Grid.Row="1" 
                             Margin="22,18,22,0"
                             Padding="18" 
                             CornerRadius="12"
-                            Visibility="{Binding LastCleanupResult, Converter={StaticResource StringToVisibilityConverter}}">
+                        Visibility="{Binding LastCleanupResult, Converter={StaticResource StringToVisibilityConverter}}">
                         <Border.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                                 <GradientStop Color="#1558A6FF" Offset="0"/>
@@ -181,17 +181,17 @@
                         <Border.BorderThickness>1</Border.BorderThickness>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="ℹ️" FontSize="17" Margin="0,0,14,0"/>
-                            <TextBlock Text="{Binding LastCleanupResult}" 
-                                       FontSize="14" 
+                    <TextBlock Text="{Binding LastCleanupResult}" 
+                               FontSize="14" 
                                        Foreground="#58A6FF"
                                        TextWrapping="Wrap"
                                        VerticalAlignment="Center"/>
                         </StackPanel>
-                    </Border>
+                </Border>
 
-                    <!-- Cleanup Items List -->
+                <!-- Cleanup Items List -->
                     <ItemsControl Grid.Row="2" 
-                                  ItemsSource="{Binding CleanupItems}"
+                          ItemsSource="{Binding CleanupItems}"
                                   Margin="0,18,0,0">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
@@ -262,15 +262,15 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                </Grid>
-            </Border>
+            </Grid>
+        </Border>
 
-            <!-- Loading Indicator -->
-            <Border Grid.Row="3" 
+        <!-- Loading Indicator -->
+        <Border Grid.Row="3" 
                     Padding="20,18" 
                     CornerRadius="12"
                     Margin="0,20,0,0"
-                    Visibility="{Binding IsAnalyzing, Converter={StaticResource BooleanToVisibilityConverter}}">
+                Visibility="{Binding IsAnalyzing, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Border.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                         <GradientStop Color="#A371F7" Offset="0"/>
@@ -280,11 +280,11 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <TextBlock Text="🔍" FontSize="16" Margin="0,0,12,0"/>
                     <TextBlock Text="Dosyalar analiz ediliyor, lütfen bekleyin..." 
-                               Foreground="White" 
-                               FontSize="14"
+                       Foreground="White" 
+                       FontSize="14"
                                FontWeight="SemiBold"/>
                 </StackPanel>
-            </Border>
-        </Grid>
+        </Border>
+    </Grid>
     </ScrollViewer>
 </UserControl>

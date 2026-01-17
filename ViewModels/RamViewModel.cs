@@ -63,15 +63,15 @@ public partial class RamViewModel : ObservableObject
         _memoryService = new MemoryService();
         LoadMemoryInfo();
         _ = RefreshDataAsync(); // Fire and forget
-        InitializeAutoRefresh();
+        _ = InitializeAutoRefreshAsync(); // Async - UI thread deadlock önleme
     }
 
-    private void InitializeAutoRefresh()
+    private async Task InitializeAutoRefreshAsync()
     {
         try
         {
             var settingsService = new SettingsService();
-            var settings = settingsService.LoadSettingsAsync().GetAwaiter().GetResult();
+            var settings = await settingsService.LoadSettingsAsync().ConfigureAwait(true);
             
             if (settings.AutoRefreshEnabled)
             {
