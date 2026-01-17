@@ -164,15 +164,11 @@
                                                Foreground="#8B949E"/>
                                 </StackPanel>
                                 <ComboBox Grid.Column="1" 
+                                          Style="{StaticResource ModernComboBox}"
                                           SelectedValue="{Binding Settings.Language, Mode=TwoWay}"
                                           SelectedValuePath="Tag"
                                           MinWidth="120"
-                                          VerticalAlignment="Center"
-                                          Background="#21262D"
-                                          Foreground="#F0F6FC"
-                                          BorderBrush="#30363D"
-                                          BorderThickness="1"
-                                          Padding="12,10">
+                                          VerticalAlignment="Center">
                                     <ComboBoxItem Content="Türkçe" Tag="tr-TR"/>
                                     <ComboBoxItem Content="English" Tag="en-US"/>
                                 </ComboBox>
@@ -195,15 +191,11 @@
                                                Foreground="#8B949E"/>
                                 </StackPanel>
                                 <ComboBox Grid.Column="1" 
+                                          Style="{StaticResource ModernComboBox}"
                                           SelectedValue="{Binding Settings.Theme, Mode=TwoWay}"
                                           SelectedValuePath="Tag"
                                           MinWidth="120"
-                                          VerticalAlignment="Center"
-                                          Background="#21262D"
-                                          Foreground="#F0F6FC"
-                                          BorderBrush="#30363D"
-                                          BorderThickness="1"
-                                          Padding="12,10">
+                                          VerticalAlignment="Center">
                                     <ComboBoxItem Content="Koyu" Tag="Dark"/>
                                     <ComboBoxItem Content="Açık" Tag="Light"/>
                                 </ComboBox>
@@ -260,11 +252,12 @@
                                                Foreground="#8B949E"/>
                                 </StackPanel>
                                 <TextBox Grid.Column="1" 
+                                         Style="{StaticResource ModernTextBox}"
                                          Text="{Binding Settings.RefreshIntervalSeconds, Mode=TwoWay}"
                                          MinWidth="80"
                                          VerticalAlignment="Center"
                                          HorizontalContentAlignment="Center"
-                                         Padding="8,6"/>
+                                         Padding="10,8"/>
                             </Grid>
 
                             <!-- Auto RAM Cleanup -->
@@ -306,11 +299,12 @@
                                                Foreground="#8B949E"/>
                                 </StackPanel>
                                 <TextBox Grid.Column="1" 
+                                         Style="{StaticResource ModernTextBox}"
                                          Text="{Binding Settings.RamCleanupThresholdMB, Mode=TwoWay}"
                                          MinWidth="80"
                                          VerticalAlignment="Center"
                                          HorizontalContentAlignment="Center"
-                                         Padding="8,6"/>
+                                         Padding="10,8"/>
                             </Grid>
                         </StackPanel>
                     </Border>
@@ -503,7 +497,9 @@
                                                Foreground="#8B949E"/>
                                 </StackPanel>
                                 <ComboBox Grid.Column="1" 
-                                          SelectedItem="{Binding Settings.LogLevel, Mode=TwoWay}"
+                                          Style="{StaticResource ModernComboBox}"
+                                          SelectedValue="{Binding Settings.LogLevel, Mode=TwoWay}"
+                                          SelectedValuePath="Tag"
                                           MinWidth="120"
                                           VerticalAlignment="Center">
                                     <ComboBoxItem Content="Debug" Tag="Debug"/>
