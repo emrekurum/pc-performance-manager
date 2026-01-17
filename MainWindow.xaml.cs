@@ -9,21 +9,32 @@ public partial class MainWindow : Window
 {
     public MainWindow()
     {
-        InitializeComponent();
-        LoadSettings();
+        try
+        {
+            InitializeComponent();
+            // LoadSettings'ı async olarak çağır, window'un gösterilmesini engelleme
+            _ = LoadSettingsAsync();
+        }
+        catch (Exception ex)
+        {
+            System.Windows.MessageBox.Show($"Window initialization error: {ex.Message}\n\n{ex.StackTrace}", 
+                "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            throw;
+        }
     }
 
-    private void LoadSettings()
+    private async System.Threading.Tasks.Task LoadSettingsAsync()
     {
         try
         {
             var settingsService = new Services.SettingsService();
-            var settings = settingsService.LoadSettingsAsync().GetAwaiter().GetResult();
+            var settings = await settingsService.LoadSettingsAsync();
             ApplySettings(settings);
         }
-        catch
+        catch (Exception ex)
         {
             // Settings yüklenemezse varsayılan değerler kullanılır
+            System.Diagnostics.Debug.WriteLine($"Settings load error: {ex.Message}");
         }
     }
 

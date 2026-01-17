@@ -1,9 +1,8 @@
-﻿<Application x:Class="PcPerformanceManager.App"
+<Application x:Class="PcPerformanceManager.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:PcPerformanceManager"
-             xmlns:converters="clr-namespace:PcPerformanceManager.Converters"
-             StartupUri="MainWindow.xaml">
+             xmlns:converters="clr-namespace:PcPerformanceManager.Converters">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

@@ -29,6 +29,22 @@ public partial class App : System.Windows.Application
             args.Handled = true;
         };
 
+        // Manually create and show MainWindow
+        try
+        {
+            var mainWindow = new MainWindow();
+            this.MainWindow = mainWindow;
+            mainWindow.Show();
+            mainWindow.Activate();
+            LogMessage("MainWindow created and shown.");
+        }
+        catch (Exception ex)
+        {
+            var error = $"Failed to create MainWindow: {ex.Message}\n\n{ex.StackTrace}";
+            LogMessage(error);
+            System.Windows.MessageBox.Show(error, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
         LogMessage("Application startup complete.");
     }
 
