@@ -1,14 +1,24 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
+using PcPerformanceManager.Services;
 
 namespace PcPerformanceManager;
 
 public partial class App : System.Windows.Application
 {
+    public static ILocalizationService LocalizationService { get; private set; } = null!;
+
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
+
+        // Initialize localization service
+        LocalizationService = new LocalizationService();
+        
+        // Load language from settings
+        _ = LoadLanguageFromSettingsAsync();
 
         // Log startup
         LogMessage("Application starting...");
@@ -58,6 +68,22 @@ public partial class App : System.Windows.Application
         }
 
         LogMessage("Application startup complete.");
+    }
+
+    private async Task LoadLanguageFromSettingsAsync()
+    {
+        try
+        {
+            var settingsService = new SettingsService();
+            var settings = await settingsService.LoadSettingsAsync();
+            LocalizationService.ChangeLanguage(settings.Language);
+        }
+        catch (Exception ex)
+        {
+            LogMessage($"Language load error: {ex.Message}");
+            // Varsayılan olarak Türkçe kullan
+            LocalizationService.ChangeLanguage("tr-TR");
+        }
     }
 
     private void LogMessage(string message)
