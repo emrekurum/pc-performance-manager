@@ -20,7 +20,7 @@ public partial class SettingsViewModel : ObservableObject
     private bool isSaving;
 
     [ObservableProperty]
-    private string statusMessage = "Hazır";
+    private string statusMessage;
 
     [ObservableProperty]
     private bool hasUnsavedChanges;
@@ -29,6 +29,7 @@ public partial class SettingsViewModel : ObservableObject
     {
         _settingsService = new SettingsService();
         _windowsStartupService = new WindowsStartupService();
+        StatusMessage = App.LocalizationService.GetString("Ready", "Ready");
         _ = LoadSettingsAsync(); // Fire and forget
     }
 
@@ -43,13 +44,15 @@ public partial class SettingsViewModel : ObservableObject
             Settings.StartWithWindows = _windowsStartupService.IsStartupEnabled();
             
             HasUnsavedChanges = false;
-            StatusMessage = "Ayarlar yüklendi";
+            StatusMessage = App.LocalizationService.GetString("SettingsLoaded", "Settings loaded");
         }
         catch (Exception ex)
         {
-            StatusMessage = $"Hata: {ex.Message}";
-            MessageBox.Show($"Ayarlar yüklenirken hata oluştu:\n{ex.Message}",
-                "Hata", MessageBoxButton.OK, MessageBoxImage.Error);
+            var errorMsg = App.LocalizationService.GetString("SettingsLoadError", "An error occurred while loading settings:");
+            StatusMessage = $"{errorMsg} {ex.Message}";
+            var errorTitle = App.LocalizationService.GetString("Error", "Error");
+            MessageBox.Show($"{errorMsg}\n{ex.Message}",
+                errorTitle, MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 
@@ -59,7 +62,7 @@ public partial class SettingsViewModel : ObservableObject
         if (IsSaving) return;
 
         IsSaving = true;
-        StatusMessage = "Ayarlar kaydediliyor...";
+        StatusMessage = App.LocalizationService.GetString("SavingSettings", "Saving settings...");
 
         try
         {
@@ -68,14 +71,14 @@ public partial class SettingsViewModel : ObservableObject
             {
                 if (!_windowsStartupService.EnableStartup())
                 {
-                    StatusMessage = "Windows ile başlatma ayarı uygulanamadı";
+                    StatusMessage = App.LocalizationService.GetString("StartupFailed", "Start with Windows setting could not be applied");
                 }
             }
             else
             {
                 if (!_windowsStartupService.DisableStartup())
                 {
-                    StatusMessage = "Windows ile başlatma kapatılamadı";
+                    StatusMessage = App.LocalizationService.GetString("StartupDisableFailed", "Start with Windows could not be disabled");
                 }
             }
 
@@ -84,26 +87,31 @@ public partial class SettingsViewModel : ObservableObject
             if (success)
             {
                 HasUnsavedChanges = false;
-                StatusMessage = "Ayarlar başarıyla kaydedildi";
+                StatusMessage = App.LocalizationService.GetString("SettingsSaved", "Settings saved successfully");
                 
                 // Ayarları uygulamaya bildir
                 ApplySettings();
                 
-                MessageBox.Show("Ayarlar başarıyla kaydedildi!",
-                    "Başarılı", MessageBoxButton.OK, MessageBoxImage.Information);
+                var successMsg = App.LocalizationService.GetString("SettingsSaveSuccess", "Settings saved successfully!");
+                var successTitle = App.LocalizationService.GetString("Success", "Success");
+                MessageBox.Show(successMsg,
+                    successTitle, MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
-                StatusMessage = "Ayarlar kaydedilemedi";
-                MessageBox.Show("Ayarlar kaydedilemedi. Lütfen tekrar deneyin.",
-                    "Hata", MessageBoxButton.OK, MessageBoxImage.Warning);
+                StatusMessage = App.LocalizationService.GetString("SettingsSaveFailed", "Settings could not be saved");
+                var errorMsg = App.LocalizationService.GetString("SettingsSaveError", "Settings could not be saved. Please try again.");
+                var errorTitle = App.LocalizationService.GetString("Error", "Error");
+                MessageBox.Show(errorMsg,
+                    errorTitle, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
         catch (Exception ex)
         {
-            StatusMessage = $"Hata: {ex.Message}";
-            MessageBox.Show($"Ayarlar kaydedilirken hata oluştu:\n{ex.Message}",
-                "Hata", MessageBoxButton.OK, MessageBoxImage.Error);
+            var errorMsg = App.LocalizationService.GetString("SettingsSaveErrorTitle", "An error occurred while saving settings:");
+            StatusMessage = $"{errorMsg} {ex.Message}";
+            MessageBox.Show($"{errorMsg}\n{ex.Message}",
+                App.LocalizationService.GetString("Error", "Error"), MessageBoxButton.OK, MessageBoxImage.Error);
         }
         finally
         {
@@ -129,9 +137,11 @@ public partial class SettingsViewModel : ObservableObject
     [RelayCommand]
     private Task ResetToDefaultsAsync()
     {
+        var confirmMsg = App.LocalizationService.GetString("ResetConfirmation", "All settings will be reset to default values. Do you want to continue?");
+        var confirmTitle = App.LocalizationService.GetString("ResetTitle", "Reset Settings");
         var result = MessageBox.Show(
-            "Tüm ayarlar varsayılan değerlere sıfırlanacak. Devam etmek istiyor musunuz?",
-            "Ayarları Sıfırla",
+            confirmMsg,
+            confirmTitle,
             MessageBoxButton.YesNo,
             MessageBoxImage.Question);
 
@@ -141,13 +151,14 @@ public partial class SettingsViewModel : ObservableObject
         {
             Settings = _settingsService.GetDefaultSettings();
             HasUnsavedChanges = true;
-            StatusMessage = "Ayarlar varsayılan değerlere sıfırlandı";
+            StatusMessage = App.LocalizationService.GetString("SettingsReset", "Settings reset to default values");
         }
         catch (Exception ex)
         {
-            StatusMessage = $"Hata: {ex.Message}";
-            MessageBox.Show($"Ayarlar sıfırlanırken hata oluştu:\n{ex.Message}",
-                "Hata", MessageBoxButton.OK, MessageBoxImage.Error);
+            var errorMsg = App.LocalizationService.GetString("Error", "Error");
+            StatusMessage = $"{errorMsg}: {ex.Message}";
+            MessageBox.Show($"Settings reset error:\n{ex.Message}",
+                errorMsg, MessageBoxButton.OK, MessageBoxImage.Error);
         }
         
         return Task.CompletedTask;
