@@ -24,11 +24,11 @@
                 </Grid.ColumnDefinitions>
                 
                 <StackPanel Grid.Column="0">
-                    <TextBlock Text="Ayarlar" 
+                    <TextBlock Text="{StaticResource SettingsTitle}" 
                                FontSize="32" 
                                FontWeight="Bold" 
                                Foreground="#F0F6FC"/>
-                    <TextBlock Text="Uygulama tercihlerinizi yapılandırın" 
+                    <TextBlock Text="{StaticResource SettingsSubtitle}" 
                                FontSize="14" 
                                Foreground="#8B949E"
                                Margin="0,6,0,0"/>
@@ -54,7 +54,7 @@
                     Visibility="{Binding HasUnsavedChanges, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="⚠️" FontSize="16" Margin="0,0,12,0" VerticalAlignment="Center"/>
-                    <TextBlock Text="Kaydedilmemiş değişiklikler var" 
+                    <TextBlock Text="{StaticResource UnsavedChanges}" 
                                FontSize="14" 
                                Foreground="#F85149"
                                VerticalAlignment="Center"/>
@@ -75,7 +75,7 @@
                     <Border CornerRadius="12" Padding="24" Margin="0,0,0,20"
                             Background="#161B22" BorderThickness="1" BorderBrush="#30363D">
                         <StackPanel>
-                            <TextBlock Text="🔧 Genel Ayarlar" 
+                            <TextBlock Text="{StaticResource GeneralSettings}" 
                                        FontSize="18" 
                                        FontWeight="Bold" 
                                        Foreground="#F0F6FC"
@@ -88,12 +88,12 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <StackPanel Grid.Column="0">
-                                    <TextBlock Text="Windows ile Başlat" 
+                                    <TextBlock Text="{StaticResource StartWithWindows}" 
                                                FontSize="14" 
                                                FontWeight="SemiBold"
                                                Foreground="#F0F6FC"
                                                Margin="0,0,0,4"/>
-                                    <TextBlock Text="Uygulamanın Windows başlatıldığında otomatik açılması" 
+                                    <TextBlock Text="{StaticResource StartWithWindowsDesc}" 
                                                FontSize="12" 
                                                Foreground="#8B949E"/>
                                 </StackPanel>
@@ -110,12 +110,12 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <StackPanel Grid.Column="0">
-                                    <TextBlock Text="Sistem Tepsisine Küçült" 
+                                    <TextBlock Text="{StaticResource MinimizeToTray}" 
                                                FontSize="14" 
                                                FontWeight="SemiBold"
                                                Foreground="#F0F6FC"
                                                Margin="0,0,0,4"/>
-                                    <TextBlock Text="Kapatma butonuna tıklandığında uygulamayı sistem tepsisine gönder" 
+                                    <TextBlock Text="{StaticResource MinimizeToTrayDesc}" 
                                                FontSize="12" 
                                                Foreground="#8B949E"/>
                                 </StackPanel>
@@ -132,12 +132,12 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <StackPanel Grid.Column="0">
-                                    <TextBlock Text="Otomatik Güncelleme Kontrolü" 
+                                    <TextBlock Text="{StaticResource CheckForUpdates}" 
                                                FontSize="14" 
                                                FontWeight="SemiBold"
                                                Foreground="#F0F6FC"
                                                Margin="0,0,0,4"/>
-                                    <TextBlock Text="Uygulama başlatıldığında güncellemeleri kontrol et" 
+                                    <TextBlock Text="{StaticResource CheckForUpdatesDesc}" 
                                                FontSize="12" 
                                                Foreground="#8B949E"/>
                                 </StackPanel>
@@ -154,12 +154,12 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <StackPanel Grid.Column="0">
-                                    <TextBlock Text="Dil" 
+                                    <TextBlock Text="{StaticResource Language}" 
                                                FontSize="14" 
                                                FontWeight="SemiBold"
                                                Foreground="#F0F6FC"
                                                Margin="0,0,0,4"/>
-                                    <TextBlock Text="Uygulama dili" 
+                                    <TextBlock Text="{StaticResource LanguageDesc}" 
                                                FontSize="12" 
                                                Foreground="#8B949E"/>
                                 </StackPanel>
@@ -169,8 +169,8 @@
                                           SelectedValuePath="Tag"
                                           MinWidth="120"
                                           VerticalAlignment="Center">
-                                    <ComboBoxItem Content="Türkçe" Tag="tr-TR"/>
-                                    <ComboBoxItem Content="English" Tag="en-US"/>
+                                    <ComboBoxItem Content="{StaticResource Turkish}" Tag="tr-TR"/>
+                                    <ComboBoxItem Content="{StaticResource English}" Tag="en-US"/>
                                 </ComboBox>
                             </Grid>
 
@@ -181,12 +181,12 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <StackPanel Grid.Column="0">
-                                    <TextBlock Text="Tema" 
+                                    <TextBlock Text="{StaticResource Theme}" 
                                                FontSize="14" 
                                                FontWeight="SemiBold"
                                                Foreground="#F0F6FC"
                                                Margin="0,0,0,4"/>
-                                    <TextBlock Text="Uygulama teması" 
+                                    <TextBlock Text="{StaticResource ThemeDesc}" 
                                                FontSize="12" 
                                                Foreground="#8B949E"/>
                                 </StackPanel>
@@ -196,8 +196,8 @@
                                           SelectedValuePath="Tag"
                                           MinWidth="120"
                                           VerticalAlignment="Center">
-                                    <ComboBoxItem Content="Koyu" Tag="Dark"/>
-                                    <ComboBoxItem Content="Açık" Tag="Light"/>
+                                    <ComboBoxItem Content="{StaticResource Dark}" Tag="Dark"/>
+                                    <ComboBoxItem Content="{StaticResource Light}" Tag="Light"/>
                                 </ComboBox>
                             </Grid>
                         </StackPanel>
@@ -207,7 +207,7 @@
                     <Border CornerRadius="12" Padding="24"
                             Background="#161B22" BorderThickness="1" BorderBrush="#30363D">
                         <StackPanel>
-                            <TextBlock Text="⚡ Performans Ayarları" 
+                            <TextBlock Text="{StaticResource PerformanceSettings}" 
                                        FontSize="18" 
                                        FontWeight="Bold" 
                                        Foreground="#F0F6FC"
@@ -220,12 +220,12 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <StackPanel Grid.Column="0">
-                                    <TextBlock Text="Otomatik Yenileme" 
+                                    <TextBlock Text="{StaticResource AutoRefresh}" 
                                                FontSize="14" 
                                                FontWeight="SemiBold"
                                                Foreground="#F0F6FC"
                                                Margin="0,0,0,4"/>
-                                    <TextBlock Text="Sistem bilgilerini otomatik olarak güncelle" 
+                                    <TextBlock Text="{StaticResource AutoRefreshDesc}" 
                                                FontSize="12" 
                                                Foreground="#8B949E"/>
                                 </StackPanel>
@@ -242,12 +242,12 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <StackPanel Grid.Column="0">
-                                    <TextBlock Text="Yenileme Aralığı (saniye)" 
+                                    <TextBlock Text="{StaticResource RefreshInterval}" 
                                                FontSize="14" 
                                                FontWeight="SemiBold"
                                                Foreground="#F0F6FC"
                                                Margin="0,0,0,4"/>
-                                    <TextBlock Text="Otomatik yenileme sıklığı" 
+                                    <TextBlock Text="{StaticResource RefreshIntervalDesc}" 
                                                FontSize="12" 
                                                Foreground="#8B949E"/>
                                 </StackPanel>
@@ -267,12 +267,12 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <StackPanel Grid.Column="0">
-                                    <TextBlock Text="Otomatik RAM Temizleme" 
+                                    <TextBlock Text="{StaticResource AutoRamCleanup}" 
                                                FontSize="14" 
                                                FontWeight="SemiBold"
                                                Foreground="#F0F6FC"
                                                Margin="0,0,0,4"/>
-                                    <TextBlock Text="RAM kullanımı belirlenen eşiği aştığında otomatik temizle" 
+                                    <TextBlock Text="{StaticResource AutoRamCleanupDesc}" 
                                                FontSize="12" 
                                                Foreground="#8B949E"/>
                                 </StackPanel>
@@ -289,12 +289,12 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <StackPanel Grid.Column="0">
-                                    <TextBlock Text="RAM Temizleme Eşiği (MB)" 
+                                    <TextBlock Text="{StaticResource RamCleanupThreshold}" 
                                                FontSize="14" 
                                                FontWeight="SemiBold"
                                                Foreground="#F0F6FC"
                                                Margin="0,0,0,4"/>
-                                    <TextBlock Text="Otomatik temizleme için minimum RAM kullanımı" 
+                                    <TextBlock Text="{StaticResource RamCleanupThresholdDesc}" 
                                                FontSize="12" 
                                                Foreground="#8B949E"/>
                                 </StackPanel>
@@ -316,7 +316,7 @@
                     <Border CornerRadius="12" Padding="24" Margin="0,0,0,20"
                             Background="#161B22" BorderThickness="1" BorderBrush="#30363D">
                         <StackPanel>
-                            <TextBlock Text="🔔 Bildirimler" 
+                            <TextBlock Text="{StaticResource Notifications}" 
                                        FontSize="18" 
                                        FontWeight="Bold" 
                                        Foreground="#F0F6FC"
@@ -329,12 +329,12 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <StackPanel Grid.Column="0">
-                                    <TextBlock Text="Bildirimleri Göster" 
+                                    <TextBlock Text="{StaticResource ShowNotifications}" 
                                                FontSize="14" 
                                                FontWeight="SemiBold"
                                                Foreground="#F0F6FC"
                                                Margin="0,0,0,4"/>
-                                    <TextBlock Text="Sistem bildirimlerini görüntüle" 
+                                    <TextBlock Text="{StaticResource ShowNotificationsDesc}" 
                                                FontSize="12" 
                                                Foreground="#8B949E"/>
                                 </StackPanel>
@@ -350,7 +350,7 @@
                     <Border CornerRadius="12" Padding="24" Margin="0,0,0,20"
                             Background="#161B22" BorderThickness="1" BorderBrush="#30363D">
                         <StackPanel>
-                            <TextBlock Text="📊 Dashboard Ayarları" 
+                            <TextBlock Text="{StaticResource DashboardSettings}" 
                                        FontSize="18" 
                                        FontWeight="Bold" 
                                        Foreground="#F0F6FC"
@@ -363,7 +363,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" 
-                                           Text="CPU Kartını Göster" 
+                                           Text="{StaticResource ShowCpuCard}" 
                                            FontSize="14" 
                                            Foreground="#F0F6FC"
                                            VerticalAlignment="Center"/>
@@ -380,7 +380,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" 
-                                           Text="RAM Kartını Göster" 
+                                           Text="{StaticResource ShowMemoryCard}" 
                                            FontSize="14" 
                                            Foreground="#F0F6FC"
                                            VerticalAlignment="Center"/>
@@ -397,7 +397,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" 
-                                           Text="Disk Kartını Göster" 
+                                           Text="{StaticResource ShowDiskCard}" 
                                            FontSize="14" 
                                            Foreground="#F0F6FC"
                                            VerticalAlignment="Center"/>
@@ -414,7 +414,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" 
-                                           Text="Güç Planı Kartını Göster" 
+                                           Text="{StaticResource ShowPowerCard}" 
                                            FontSize="14" 
                                            Foreground="#F0F6FC"
                                            VerticalAlignment="Center"/>
@@ -430,7 +430,7 @@
                     <Border CornerRadius="12" Padding="24"
                             Background="#161B22" BorderThickness="1" BorderBrush="#30363D">
                         <StackPanel>
-                            <TextBlock Text="🔍 Diğer Ayarlar" 
+                            <TextBlock Text="{StaticResource OtherSettings}" 
                                        FontSize="18" 
                                        FontWeight="Bold" 
                                        Foreground="#F0F6FC"
@@ -443,12 +443,12 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <StackPanel Grid.Column="0">
-                                    <TextBlock Text="Başlangıçta Otomatik Temizlik" 
+                                    <TextBlock Text="{StaticResource AutoCleanupOnStartup}" 
                                                FontSize="14" 
                                                FontWeight="SemiBold"
                                                Foreground="#F0F6FC"
                                                Margin="0,0,0,4"/>
-                                    <TextBlock Text="Uygulama başlatıldığında otomatik temizlik yap" 
+                                    <TextBlock Text="{StaticResource AutoCleanupOnStartupDesc}" 
                                                FontSize="12" 
                                                Foreground="#8B949E"/>
                                 </StackPanel>
@@ -465,12 +465,12 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <StackPanel Grid.Column="0">
-                                    <TextBlock Text="Loglama" 
+                                    <TextBlock Text="{StaticResource EnableLogging}" 
                                                FontSize="14" 
                                                FontWeight="SemiBold"
                                                Foreground="#F0F6FC"
                                                Margin="0,0,0,4"/>
-                                    <TextBlock Text="Uygulama aktivitelerini logla" 
+                                    <TextBlock Text="{StaticResource EnableLoggingDesc}" 
                                                FontSize="12" 
                                                Foreground="#8B949E"/>
                                 </StackPanel>
@@ -487,12 +487,12 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <StackPanel Grid.Column="0">
-                                    <TextBlock Text="Log Seviyesi" 
+                                    <TextBlock Text="{StaticResource LogLevel}" 
                                                FontSize="14" 
                                                FontWeight="SemiBold"
                                                Foreground="#F0F6FC"
                                                Margin="0,0,0,4"/>
-                                    <TextBlock Text="Loglama detay seviyesi" 
+                                    <TextBlock Text="{StaticResource LogLevelDesc}" 
                                                FontSize="12" 
                                                Foreground="#8B949E"/>
                                 </StackPanel>
@@ -533,7 +533,7 @@
                         MinWidth="150">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="💾" FontSize="16" Margin="0,0,10,0"/>
-                        <TextBlock Text="Kaydet" FontSize="14" FontWeight="SemiBold"/>
+                        <TextBlock Text="{StaticResource Save}" FontSize="14" FontWeight="SemiBold"/>
                     </StackPanel>
                 </Button>
 
@@ -545,7 +545,7 @@
                         MinWidth="150">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="🔄" FontSize="16" Margin="0,0,10,0"/>
-                        <TextBlock Text="Varsayılanlara Dön" FontSize="14"/>
+                        <TextBlock Text="{StaticResource ResetToDefaults}" FontSize="14"/>
                     </StackPanel>
                 </Button>
 
@@ -557,7 +557,7 @@
                         MinWidth="150">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="↻" FontSize="16" Margin="0,0,10,0"/>
-                        <TextBlock Text="Yeniden Yükle" FontSize="14"/>
+                        <TextBlock Text="{StaticResource Reload}" FontSize="14"/>
                     </StackPanel>
                 </Button>
             </Grid>
