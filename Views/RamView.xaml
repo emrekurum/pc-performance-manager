@@ -24,11 +24,11 @@
                 </Grid.ColumnDefinitions>
                 
                 <StackPanel Grid.Column="0">
-                    <TextBlock Text="RAM Yönetimi" 
+                    <TextBlock Text="{StaticResource RamManagementTitle}" 
                                FontSize="32" 
                                FontWeight="Bold" 
                                Foreground="#F0F6FC"/>
-                    <TextBlock Text="Sistem belleğinizi izleyin ve optimize edin" 
+                    <TextBlock Text="{StaticResource RamManagementSubtitle}" 
                                FontSize="14" 
                                Foreground="#8B949E"
                                Margin="0,8,0,0"/>
@@ -41,7 +41,7 @@
                         Padding="24,14">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="🔄" FontSize="16" Margin="0,0,10,0"/>
-                        <TextBlock Text="Yenile" FontSize="14"/>
+                        <TextBlock Text="{StaticResource Refresh}" FontSize="14"/>
                     </StackPanel>
                 </Button>
             </Grid>
@@ -70,7 +70,7 @@
                                 </Border.Background>
                                 <TextBlock Text="📊" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
-                            <TextBlock Text="Toplam RAM" FontSize="14" Foreground="#8B949E" VerticalAlignment="Center"/>
+                            <TextBlock Text="{StaticResource TotalRam}" FontSize="14" Foreground="#8B949E" VerticalAlignment="Center"/>
                         </StackPanel>
                         <TextBlock Text="{Binding TotalMemoryDisplay, Mode=OneWay}" 
                                    FontSize="36" FontWeight="Bold" Foreground="#58A6FF"/>

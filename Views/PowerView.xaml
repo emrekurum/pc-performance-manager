@@ -23,11 +23,11 @@
                 </Grid.ColumnDefinitions>
                 
                 <StackPanel Grid.Column="0">
-                    <TextBlock Text="Güç Yönetimi" 
+                    <TextBlock Text="{StaticResource PowerManagementTitle}" 
                                FontSize="32" 
                                FontWeight="Bold" 
                                Foreground="#F0F6FC"/>
-                    <TextBlock Text="Optimum performans için sistem güç planlarını yapılandırın" 
+                    <TextBlock Text="{StaticResource PowerManagementSubtitle}" 
                                FontSize="14" 
                                Foreground="#8B949E"
                                Margin="0,8,0,0"/>
@@ -40,7 +40,7 @@
                         Padding="24,14">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="🔄" FontSize="16" Margin="0,0,10,0"/>
-                        <TextBlock Text="Yenile" FontSize="14"/>
+                        <TextBlock Text="{StaticResource Refresh}" FontSize="14"/>
                     </StackPanel>
                 </Button>
             </Grid>
