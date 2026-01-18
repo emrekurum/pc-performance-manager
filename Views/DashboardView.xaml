@@ -25,11 +25,11 @@
                 </Grid.ColumnDefinitions>
                 
                 <StackPanel Grid.Column="0">
-                    <TextBlock Text="Sistem Özeti" 
+                    <TextBlock Text="{StaticResource DashboardTitle}" 
                                FontSize="32" 
                                FontWeight="Bold" 
                                Foreground="#F0F6FC"/>
-                    <TextBlock Text="Sistem performansınızı gerçek zamanlı takip edin" 
+                    <TextBlock Text="{StaticResource DashboardSubtitle}" 
                                FontSize="14" 
                                Foreground="#8B949E"
                                Margin="0,6,0,0"/>
@@ -43,7 +43,7 @@
                         Padding="24,14">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="🔄" FontSize="16" Margin="0,0,10,0"/>
-                        <TextBlock Text="Yenile" FontSize="14"/>
+                        <TextBlock Text="{StaticResource Refresh}" FontSize="14"/>
                     </StackPanel>
                 </Button>
             </Grid>
@@ -72,7 +72,7 @@
                                Foreground="#8B949E"
                                VerticalAlignment="Center"/>
                     <TextBlock Grid.Column="2" 
-                               Text="🟢 Sistem Aktif" 
+                               Text="{StaticResource SystemActive}" 
                                FontSize="12" 
                                Foreground="#3FB950"
                                FontWeight="SemiBold"
@@ -116,7 +116,7 @@
                                 </Border.Background>
                                 <TextBlock Text="💻" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
-                            <TextBlock Text="İşlemci" FontSize="15" FontWeight="SemiBold" Foreground="#8B949E" VerticalAlignment="Center"/>
+                            <TextBlock Text="{StaticResource Cpu}" FontSize="15" FontWeight="SemiBold" Foreground="#8B949E" VerticalAlignment="Center"/>
                         </StackPanel>
                         
                         <!-- Value -->
@@ -145,7 +145,8 @@
                                    MaxHeight="34"/>
                         
                         <TextBlock Grid.Row="4" Margin="0,10,0,0" FontSize="12" Foreground="#8B949E">
-                            <Run Text="Çekirdek: "/>
+                            <Run Text="{StaticResource Cores}"/>
+                            <Run Text=": "/>
                             <Run Text="{Binding SystemInfo.CpuCores, Mode=OneWay}" Foreground="#F0F6FC" FontWeight="SemiBold"/>
                         </TextBlock>
                     </Grid>
@@ -174,7 +175,7 @@
                                 </Border.Background>
                                 <TextBlock Text="🧠" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
-                            <TextBlock Text="Bellek" FontSize="15" FontWeight="SemiBold" Foreground="#8B949E" VerticalAlignment="Center"/>
+                            <TextBlock Text="{StaticResource Memory}" FontSize="15" FontWeight="SemiBold" Foreground="#8B949E" VerticalAlignment="Center"/>
                         </StackPanel>
                         
                         <TextBlock Grid.Row="1" 
@@ -192,12 +193,18 @@
                                      Margin="0,0,0,16"/>
                         
                         <TextBlock Grid.Row="3" 
-                                   Text="{Binding MemoryInfo.UsedPercentage, Mode=OneWay, StringFormat='%{0:F1} Kullanımda'}" 
                                    FontSize="12" 
-                                   Foreground="#8B949E"/>
+                                   Foreground="#8B949E">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="%{0:F1} {1}">
+                                    <Binding Path="MemoryInfo.UsedPercentage" Mode="OneWay"/>
+                                    <Binding Source="{StaticResource InUse}"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
                         
                         <Button Grid.Row="4" 
-                                Content="RAM Temizle" 
+                                Content="{StaticResource RamCleanup}" 
                                 Command="{Binding QuickRamCleanupCommand}"
                                 Style="{StaticResource DangerButton}"
                                 Padding="14,10"
@@ -230,7 +237,7 @@
                                 </Border.Background>
                                 <TextBlock Text="💾" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
-                            <TextBlock Text="Disk" FontSize="15" FontWeight="SemiBold" Foreground="#8B949E" VerticalAlignment="Center"/>
+                            <TextBlock Text="{StaticResource Disk}" FontSize="15" FontWeight="SemiBold" Foreground="#8B949E" VerticalAlignment="Center"/>
                         </StackPanel>
                         
                         <TextBlock Grid.Row="1" 
@@ -249,7 +256,8 @@
                         
                         <TextBlock Grid.Row="3" FontSize="12" Foreground="#8B949E">
                             <Run Text="{Binding SystemInfo.FreeDiskGB, Mode=OneWay, StringFormat='{}{0:F1}'}"/>
-                            <Run Text=" GB Boş"/>
+                            <Run Text=" "/>
+                            <Run Text="{StaticResource GBFree}"/>
                         </TextBlock>
                     </Grid>
                 </Border>
@@ -276,27 +284,56 @@
                                 </Border.Background>
                                 <TextBlock Text="⚡" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
-                            <TextBlock Text="Güç" FontSize="15" FontWeight="SemiBold" Foreground="#8B949E" VerticalAlignment="Center"/>
+                            <TextBlock Text="{StaticResource Power}" FontSize="15" FontWeight="SemiBold" Foreground="#8B949E" VerticalAlignment="Center"/>
                         </StackPanel>
                         
                         <TextBlock Grid.Row="1" 
-                                   Text="{Binding ActivePowerPlan.Name, Mode=OneWay, FallbackValue='Bilinmiyor'}" 
                                    FontSize="18" 
                                    FontWeight="Bold" 
                                    Foreground="#3FB950"
                                    TextTrimming="CharacterEllipsis"
-                                   Margin="0,0,0,10"/>
+                                   Margin="0,0,0,10">
+                            <TextBlock.Text>
+                                <Binding Path="ActivePowerPlan.Name" Mode="OneWay"/>
+                            </TextBlock.Text>
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Text" Value="{Binding ActivePowerPlan.Name, Mode=OneWay}"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="Text" Value="">
+                                            <Setter Property="Text" Value="{StaticResource Unknown}"/>
+                                        </Trigger>
+                                        <DataTrigger Binding="{Binding ActivePowerPlan}" Value="{x:Null}">
+                                            <Setter Property="Text" Value="{StaticResource Unknown}"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
                         
                         <TextBlock Grid.Row="2" 
-                                   Text="{Binding ActivePowerPlan.Description, Mode=OneWay, FallbackValue='Aktif güç planı yok'}" 
                                    FontSize="11" 
                                    Foreground="#484F58"
                                    TextWrapping="Wrap"
                                    MaxHeight="40"
-                                   Margin="0,0,0,14"/>
+                                   Margin="0,0,0,14">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Text" Value="{Binding ActivePowerPlan.Description, Mode=OneWay}"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="Text" Value="">
+                                            <Setter Property="Text" Value="{StaticResource NoActivePowerPlan}"/>
+                                        </Trigger>
+                                        <DataTrigger Binding="{Binding ActivePowerPlan}" Value="{x:Null}">
+                                            <Setter Property="Text" Value="{StaticResource NoActivePowerPlan}"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
                         
                         <Button Grid.Row="3" 
-                                Content="Yönet" 
+                                Content="{StaticResource Manage}" 
                                 Command="{Binding OpenPowerViewCommand}"
                                 Style="{StaticResource SuccessButton}"
                                 Padding="14,10"
@@ -309,7 +346,7 @@
 
             <!-- Quick Actions Section -->
             <StackPanel Grid.Row="3">
-                <TextBlock Text="Hızlı İşlemler" 
+                <TextBlock Text="{StaticResource QuickActions}" 
                            FontSize="24" 
                            FontWeight="Bold" 
                            Foreground="#F0F6FC"
@@ -339,11 +376,11 @@
                                 Padding="28,24">
                             <StackPanel>
                                 <TextBlock Text="🧠" FontSize="32" Margin="0,0,0,14"/>
-                                <TextBlock Text="RAM Yönetimi" 
+                                <TextBlock Text="{StaticResource RamManagement}" 
                                            FontSize="18" 
                                            FontWeight="SemiBold"
                                            Foreground="White"/>
-                                <TextBlock Text="Bellek kullanımını optimize edin" 
+                                <TextBlock Text="{StaticResource RamManagementDesc}" 
                                            FontSize="13" 
                                            Foreground="#CCFFFFFF"
                                            Margin="0,6,0,0"/>
@@ -366,11 +403,11 @@
                                 Padding="28,24">
                             <StackPanel>
                                 <TextBlock Text="⚡" FontSize="32" Margin="0,0,0,14"/>
-                                <TextBlock Text="Güç Yönetimi" 
+                                <TextBlock Text="{StaticResource PowerManagement}" 
                                            FontSize="18" 
                                            FontWeight="SemiBold"
                                            Foreground="White"/>
-                                <TextBlock Text="Güç planlarını yönetin" 
+                                <TextBlock Text="{StaticResource PowerManagementDesc}" 
                                            FontSize="13" 
                                            Foreground="#CCFFFFFF"
                                            Margin="0,6,0,0"/>
@@ -393,11 +430,11 @@
                                 Padding="28,24">
                             <StackPanel>
                                 <TextBlock Text="🧹" FontSize="32" Margin="0,0,0,14"/>
-                                <TextBlock Text="Disk Temizliği" 
+                                <TextBlock Text="{StaticResource DiskCleanup}" 
                                            FontSize="18" 
                                            FontWeight="SemiBold"
                                            Foreground="White"/>
-                                <TextBlock Text="Disk alanı açın" 
+                                <TextBlock Text="{StaticResource DiskCleanupDesc}" 
                                            FontSize="13" 
                                            Foreground="#CCFFFFFF"
                                            Margin="0,6,0,0"/>
@@ -432,16 +469,15 @@
                     </Border>
                     
                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                        <TextBlock Text="İpucu: Performans Optimizasyonu" 
+                        <TextBlock Text="{StaticResource PerformanceTip}" 
                                    FontWeight="SemiBold" 
                                    FontSize="15"
                                    Foreground="#D29922"/>
-                        <TextBlock FontSize="13" 
+                        <TextBlock Text="{StaticResource PerformanceTipDesc}" 
+                                   FontSize="13" 
                                    Foreground="#8B949E"
                                    Margin="0,6,0,0"
-                                   TextWrapping="Wrap">
-                            <Run Text="Düzenli RAM temizliği ve gereksiz uygulamaların kapatılması sisteminizin daha hızlı çalışmasını sağlar. Güç planını 'Yüksek Performans' olarak ayarlamak oyun ve ağır iş yükleri için önerilir."/>
-                        </TextBlock>
+                                   TextWrapping="Wrap"/>
                     </StackPanel>
                 </Grid>
             </Border>
