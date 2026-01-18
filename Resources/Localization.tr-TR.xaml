@@ -79,4 +79,76 @@
     <system:String x:Key="StartupFailed">Windows ile başlatma ayarı uygulanamadı</system:String>
     <system:String x:Key="StartupDisableFailed">Windows ile başlatma kapatılamadı</system:String>
     
+    <!-- Navigation -->
+    <system:String x:Key="NavDashboard">Dashboard</system:String>
+    <system:String x:Key="NavRam">RAM</system:String>
+    <system:String x:Key="NavDiskAnalyzer">Disk Analizi</system:String>
+    <system:String x:Key="NavStartup">Başlangıç</system:String>
+    <system:String x:Key="NavServices">Servisler</system:String>
+    <system:String x:Key="NavPower">Güç</system:String>
+    <system:String x:Key="NavCleanup">Temizlik</system:String>
+    <system:String x:Key="NavSettings">Ayarlar</system:String>
+    
+    <!-- Common -->
+    <system:String x:Key="Refresh">Yenile</system:String>
+    <system:String x:Key="Manage">Yönet</system:String>
+    <system:String x:Key="SystemActive">🟢 Sistem Aktif</system:String>
+    <system:String x:Key="Unknown">Bilinmiyor</system:String>
+    <system:String x:Key="NoActivePowerPlan">Aktif güç planı yok</system:String>
+    <system:String x:Key="GBFree">GB Boş</system:String>
+    <system:String x:Key="InUse">Kullanımda</system:String>
+    <system:String x:Key="Cores">Çekirdek</system:String>
+    
+    <!-- Dashboard -->
+    <system:String x:Key="DashboardTitle">Sistem Özeti</system:String>
+    <system:String x:Key="DashboardSubtitle">Sistem performansınızı gerçek zamanlı takip edin</system:String>
+    <system:String x:Key="Cpu">İşlemci</system:String>
+    <system:String x:Key="Memory">Bellek</system:String>
+    <system:String x:Key="Disk">Disk</system:String>
+    <system:String x:Key="Power">Güç</system:String>
+    <system:String x:Key="RamCleanup">RAM Temizle</system:String>
+    <system:String x:Key="QuickActions">Hızlı İşlemler</system:String>
+    <system:String x:Key="RamManagement">RAM Yönetimi</system:String>
+    <system:String x:Key="RamManagementDesc">Bellek kullanımını optimize edin</system:String>
+    <system:String x:Key="PowerManagement">Güç Yönetimi</system:String>
+    <system:String x:Key="PowerManagementDesc">Güç planlarını yönetin</system:String>
+    <system:String x:Key="DiskCleanup">Disk Temizliği</system:String>
+    <system:String x:Key="DiskCleanupDesc">Disk alanı açın</system:String>
+    <system:String x:Key="PerformanceTip">İpucu: Performans Optimizasyonu</system:String>
+    <system:String x:Key="PerformanceTipDesc">Düzenli RAM temizliği ve gereksiz uygulamaların kapatılması sisteminizin daha hızlı çalışmasını sağlar. Güç planını 'Yüksek Performans' olarak ayarlamak oyun ve ağır iş yükleri için önerilir.</system:String>
+    
+    <!-- RAM View -->
+    <system:String x:Key="RamManagementTitle">RAM Yönetimi</system:String>
+    <system:String x:Key="RamManagementSubtitle">Sistem belleğinizi izleyin ve optimize edin</system:String>
+    <system:String x:Key="TotalRam">Toplam RAM</system:String>
+    <system:String x:Key="UsedRam">Kullanılan RAM</system:String>
+    <system:String x:Key="AvailableRam">Kullanılabilir RAM</system:String>
+    
+    <!-- Power View -->
+    <system:String x:Key="PowerManagementTitle">Güç Yönetimi</system:String>
+    <system:String x:Key="PowerManagementSubtitle">Optimum performans için sistem güç planlarını yapılandırın</system:String>
+    <system:String x:Key="ActivePowerPlan">Aktif Güç Planı</system:String>
+    <system:String x:Key="AvailablePowerPlans">Mevcut Güç Planları</system:String>
+    
+    <!-- Cleanup View -->
+    <system:String x:Key="CleanupTitle">Disk Temizliği</system:String>
+    <system:String x:Key="CleanupSubtitle">Gereksiz dosyaları temizleyerek disk alanı kazanın</system:String>
+    
+    <!-- Startup View -->
+    <system:String x:Key="StartupTitle">Başlangıç Programları</system:String>
+    <system:String x:Key="StartupSubtitle">Windows ile birlikte başlayan programları yönetin</system:String>
+    
+    <!-- Services View -->
+    <system:String x:Key="ServicesTitle">Windows Servisleri</system:String>
+    <system:String x:Key="ServicesSubtitle">Sistem servislerini görüntüleyin ve yönetin</system:String>
+    
+    <!-- Disk Analyzer View -->
+    <system:String x:Key="DiskAnalyzerTitle">Disk Analizi</system:String>
+    <system:String x:Key="DiskAnalyzerSubtitle">Disk kullanımınızı analiz edin ve büyük dosyaları bulun</system:String>
+    
+    <!-- MainWindow -->
+    <system:String x:Key="AppTitle">PC Performance Manager</system:String>
+    <system:String x:Key="AppVersion">v1.1.0</system:String>
+    <system:String x:Key="AppCopyright">© 2025 PC Performance Manager</system:String>
+    
 </ResourceDictionary>

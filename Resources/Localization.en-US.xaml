@@ -79,4 +79,76 @@
     <system:String x:Key="StartupFailed">Start with Windows setting could not be applied</system:String>
     <system:String x:Key="StartupDisableFailed">Start with Windows could not be disabled</system:String>
     
+    <!-- Navigation -->
+    <system:String x:Key="NavDashboard">Dashboard</system:String>
+    <system:String x:Key="NavRam">RAM</system:String>
+    <system:String x:Key="NavDiskAnalyzer">Disk Analyzer</system:String>
+    <system:String x:Key="NavStartup">Startup</system:String>
+    <system:String x:Key="NavServices">Services</system:String>
+    <system:String x:Key="NavPower">Power</system:String>
+    <system:String x:Key="NavCleanup">Cleanup</system:String>
+    <system:String x:Key="NavSettings">Settings</system:String>
+    
+    <!-- Common -->
+    <system:String x:Key="Refresh">Refresh</system:String>
+    <system:String x:Key="Manage">Manage</system:String>
+    <system:String x:Key="SystemActive">🟢 System Active</system:String>
+    <system:String x:Key="Unknown">Unknown</system:String>
+    <system:String x:Key="NoActivePowerPlan">No active power plan</system:String>
+    <system:String x:Key="GBFree">GB Free</system:String>
+    <system:String x:Key="InUse">In Use</system:String>
+    <system:String x:Key="Cores">Cores</system:String>
+    
+    <!-- Dashboard -->
+    <system:String x:Key="DashboardTitle">System Overview</system:String>
+    <system:String x:Key="DashboardSubtitle">Monitor your system performance in real-time</system:String>
+    <system:String x:Key="Cpu">Processor</system:String>
+    <system:String x:Key="Memory">Memory</system:String>
+    <system:String x:Key="Disk">Disk</system:String>
+    <system:String x:Key="Power">Power</system:String>
+    <system:String x:Key="RamCleanup">Clean RAM</system:String>
+    <system:String x:Key="QuickActions">Quick Actions</system:String>
+    <system:String x:Key="RamManagement">RAM Management</system:String>
+    <system:String x:Key="RamManagementDesc">Optimize memory usage</system:String>
+    <system:String x:Key="PowerManagement">Power Management</system:String>
+    <system:String x:Key="PowerManagementDesc">Manage power plans</system:String>
+    <system:String x:Key="DiskCleanup">Disk Cleanup</system:String>
+    <system:String x:Key="DiskCleanupDesc">Free up disk space</system:String>
+    <system:String x:Key="PerformanceTip">Tip: Performance Optimization</system:String>
+    <system:String x:Key="PerformanceTipDesc">Regular RAM cleanup and closing unnecessary applications helps your system run faster. Setting the power plan to 'High Performance' is recommended for gaming and heavy workloads.</system:String>
+    
+    <!-- RAM View -->
+    <system:String x:Key="RamManagementTitle">RAM Management</system:String>
+    <system:String x:Key="RamManagementSubtitle">Monitor and optimize your system memory</system:String>
+    <system:String x:Key="TotalRam">Total RAM</system:String>
+    <system:String x:Key="UsedRam">Used RAM</system:String>
+    <system:String x:Key="AvailableRam">Available RAM</system:String>
+    
+    <!-- Power View -->
+    <system:String x:Key="PowerManagementTitle">Power Management</system:String>
+    <system:String x:Key="PowerManagementSubtitle">Configure system power plans for optimal performance</system:String>
+    <system:String x:Key="ActivePowerPlan">Active Power Plan</system:String>
+    <system:String x:Key="AvailablePowerPlans">Available Power Plans</system:String>
+    
+    <!-- Cleanup View -->
+    <system:String x:Key="CleanupTitle">Disk Cleanup</system:String>
+    <system:String x:Key="CleanupSubtitle">Free up disk space by cleaning unnecessary files</system:String>
+    
+    <!-- Startup View -->
+    <system:String x:Key="StartupTitle">Startup Programs</system:String>
+    <system:String x:Key="StartupSubtitle">Manage programs that start with Windows</system:String>
+    
+    <!-- Services View -->
+    <system:String x:Key="ServicesTitle">Windows Services</system:String>
+    <system:String x:Key="ServicesSubtitle">View and manage system services</system:String>
+    
+    <!-- Disk Analyzer View -->
+    <system:String x:Key="DiskAnalyzerTitle">Disk Analyzer</system:String>
+    <system:String x:Key="DiskAnalyzerSubtitle">Analyze your disk usage and find large files</system:String>
+    
+    <!-- MainWindow -->
+    <system:String x:Key="AppTitle">PC Performance Manager</system:String>
+    <system:String x:Key="AppVersion">v1.1.0</system:String>
+    <system:String x:Key="AppCopyright">© 2025 PC Performance Manager</system:String>
+    
 </ResourceDictionary>
