@@ -1,7 +1,9 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
+using System.Windows;
 using PcPerformanceManager.Models;
+using PcPerformanceManager.Services;
 using PcPerformanceManager.Views;
 
 namespace PcPerformanceManager.ViewModels;
@@ -9,7 +11,7 @@ namespace PcPerformanceManager.ViewModels;
 public partial class MainViewModel : ObservableObject
 {
     [ObservableProperty]
-    private ObservableCollection<NavigationItem> navigationItems;
+    private ObservableCollection<NavigationItem> navigationItems = new();
 
     [ObservableProperty]
     private NavigationItem? selectedNavigationItem;
@@ -19,31 +21,60 @@ public partial class MainViewModel : ObservableObject
 
     public MainViewModel()
     {
-        NavigationItems = new ObservableCollection<NavigationItem>
-        {
-            new NavigationItem { Title = "Dashboard", Icon = "📊" },
-            new NavigationItem { Title = "RAM", Icon = "💾" },
-            new NavigationItem { Title = "Disk Analizi", Icon = "💿" },
-            new NavigationItem { Title = "Başlangıç", Icon = "🚀" },
-            new NavigationItem { Title = "Servisler", Icon = "⚙️" },
-            new NavigationItem { Title = "Güç", Icon = "⚡" },
-            new NavigationItem { Title = "Temizlik", Icon = "🧹" },
-            new NavigationItem { Title = "Ayarlar", Icon = "🔧" }
-        };
-
+        InitializeNavigationItems();
+        
         SelectedNavigationItem = NavigationItems[0];
         CurrentContent = CreateViewWithViewModel("Dashboard");
+        
+        // Listen for language changes
+        if (Application.Current is App app)
+        {
+            // Update navigation items when language changes
+            App.LocalizationService.ChangeLanguage(App.LocalizationService.CurrentLanguage);
+        }
+    }
+    
+    private void InitializeNavigationItems()
+    {
+        NavigationItems = new ObservableCollection<NavigationItem>
+        {
+            new NavigationItem { Key = "Dashboard", Title = GetLocalizedString("NavDashboard", "Dashboard"), Icon = "📊" },
+            new NavigationItem { Key = "RAM", Title = GetLocalizedString("NavRam", "RAM"), Icon = "💾" },
+            new NavigationItem { Key = "DiskAnalizi", Title = GetLocalizedString("NavDiskAnalyzer", "Disk Analyzer"), Icon = "💿" },
+            new NavigationItem { Key = "Başlangıç", Title = GetLocalizedString("NavStartup", "Startup"), Icon = "🚀" },
+            new NavigationItem { Key = "Servisler", Title = GetLocalizedString("NavServices", "Services"), Icon = "⚙️" },
+            new NavigationItem { Key = "Güç", Title = GetLocalizedString("NavPower", "Power"), Icon = "⚡" },
+            new NavigationItem { Key = "Temizlik", Title = GetLocalizedString("NavCleanup", "Cleanup"), Icon = "🧹" },
+            new NavigationItem { Key = "Ayarlar", Title = GetLocalizedString("NavSettings", "Settings"), Icon = "🔧" }
+        };
+    }
+    
+    public void RefreshNavigationItems()
+    {
+        foreach (var item in NavigationItems)
+        {
+            item.Title = GetLocalizedString($"Nav{item.Key}", item.Title);
+        }
+    }
+    
+    private string GetLocalizedString(string key, string defaultValue)
+    {
+        if (Application.Current?.Resources.Contains(key) == true)
+        {
+            return Application.Current.Resources[key]?.ToString() ?? defaultValue;
+        }
+        return defaultValue;
     }
 
     partial void OnSelectedNavigationItemChanged(NavigationItem? value)
     {
         if (value == null) return;
 
-        CurrentContent = value.Title switch
+        CurrentContent = value.Key switch
         {
             "Dashboard" => CreateViewWithViewModel("Dashboard"),
             "RAM" => CreateViewWithViewModel("RAM"),
-            "Disk Analizi" => CreateViewWithViewModel("Disk Analizi"),
+            "DiskAnalizi" => CreateViewWithViewModel("Disk Analizi"),
             "Başlangıç" => CreateViewWithViewModel("Başlangıç"),
             "Servisler" => CreateViewWithViewModel("Servisler"),
             "Güç" => CreateViewWithViewModel("Güç"),
