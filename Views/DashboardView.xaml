@@ -293,19 +293,16 @@
                                    Foreground="#3FB950"
                                    TextTrimming="CharacterEllipsis"
                                    Margin="0,0,0,10">
-                            <TextBlock.Text>
-                                <Binding Path="ActivePowerPlan.Name" Mode="OneWay"/>
-                            </TextBlock.Text>
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="Text" Value="{Binding ActivePowerPlan.Name, Mode=OneWay}"/>
                                     <Style.Triggers>
-                                        <Trigger Property="Text" Value="">
-                                            <Setter Property="Text" Value="{StaticResource Unknown}"/>
-                                        </Trigger>
                                         <DataTrigger Binding="{Binding ActivePowerPlan}" Value="{x:Null}">
                                             <Setter Property="Text" Value="{StaticResource Unknown}"/>
                                         </DataTrigger>
+                                        <Trigger Property="Text" Value="">
+                                            <Setter Property="Text" Value="{StaticResource Unknown}"/>
+                                        </Trigger>
                                     </Style.Triggers>
                                 </Style>
                             </TextBlock.Style>
@@ -321,12 +318,12 @@
                                 <Style TargetType="TextBlock">
                                     <Setter Property="Text" Value="{Binding ActivePowerPlan.Description, Mode=OneWay}"/>
                                     <Style.Triggers>
-                                        <Trigger Property="Text" Value="">
-                                            <Setter Property="Text" Value="{StaticResource NoActivePowerPlan}"/>
-                                        </Trigger>
                                         <DataTrigger Binding="{Binding ActivePowerPlan}" Value="{x:Null}">
                                             <Setter Property="Text" Value="{StaticResource NoActivePowerPlan}"/>
                                         </DataTrigger>
+                                        <Trigger Property="Text" Value="">
+                                            <Setter Property="Text" Value="{StaticResource NoActivePowerPlan}"/>
+                                        </Trigger>
                                     </Style.Triggers>
                                 </Style>
                             </TextBlock.Style>
