@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PcPerformanceManager"
         xmlns:viewModels="clr-namespace:PcPerformanceManager.ViewModels"
         mc:Ignorable="d"
-        Title="PC Performance Manager" Height="700" Width="1200"
+        Title="{StaticResource AppTitle}" Height="700" Width="1200"
         WindowStartupLocation="CenterScreen"
         Background="#0D1117"
         WindowStyle="SingleBorderWindow"
@@ -194,11 +194,11 @@
                         BorderThickness="0,1,0,0"
                         BorderBrush="#21262D">
                     <StackPanel>
-                        <TextBlock Text="v1.1.0" 
+                        <TextBlock Text="{StaticResource AppVersion}" 
                                    FontSize="12" 
                                    Foreground="#484F58"
                                    HorizontalAlignment="Center"/>
-                        <TextBlock Text="© 2025 PC Performance Manager" 
+                        <TextBlock Text="{StaticResource AppCopyright}" 
                                    FontSize="10" 
                                    Foreground="#30363D"
                                    HorizontalAlignment="Center"

@@ -60,9 +60,14 @@ public partial class MainWindow : Window
         {
             App.LocalizationService.ChangeLanguage(settings.Language);
             
-            // UI'ı yenilemek için tüm pencereleri güncelle
-            // Bu, resource dictionary değiştiği için otomatik olarak çalışacak
-            // Ancak bazı ViewModel'lerdeki string'ler için manuel güncelleme gerekebilir
+            // Navigation items'ı güncelle
+            if (DataContext is MainViewModel mainViewModel)
+            {
+                mainViewModel.RefreshNavigationItems();
+            }
+            
+            // Window title'ı güncelle
+            Title = App.LocalizationService.GetString("AppTitle", "PC Performance Manager");
         }
         
         // Not: Minimize to tray özelliği şimdilik devre dışı (UseWindowsForms gerektiriyor)
