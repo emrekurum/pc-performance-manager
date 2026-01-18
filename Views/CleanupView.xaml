@@ -24,11 +24,11 @@
                 </Grid.ColumnDefinitions>
                 
                 <StackPanel Grid.Column="0">
-                    <TextBlock Text="Disk Temizliği" 
+                    <TextBlock Text="{StaticResource CleanupTitle}" 
                                FontSize="32" 
                                FontWeight="Bold" 
                                Foreground="#F0F6FC"/>
-                    <TextBlock Text="Gereksiz dosyaları temizleyerek disk alanı açın" 
+                    <TextBlock Text="{StaticResource CleanupSubtitle}" 
                                FontSize="14" 
                                Foreground="#8B949E"
                                Margin="0,8,0,0"/>

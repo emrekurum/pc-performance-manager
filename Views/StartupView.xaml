@@ -25,11 +25,11 @@
                 </Grid.ColumnDefinitions>
                 
                 <StackPanel Grid.Column="0">
-                    <TextBlock Text="Başlangıç Programları" 
+                    <TextBlock Text="{StaticResource StartupTitle}" 
                                FontSize="32" 
                                FontWeight="Bold" 
                                Foreground="#F0F6FC"/>
-                    <TextBlock Text="Windows başlangıç programlarını yönetin ve başlangıç süresini optimize edin" 
+                    <TextBlock Text="{StaticResource StartupSubtitle}" 
                                FontSize="14" 
                                Foreground="#8B949E"
                                Margin="0,8,0,0"/>
@@ -42,7 +42,7 @@
                         Padding="24,14">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="🔄" FontSize="16" Margin="0,0,10,0"/>
-                        <TextBlock Text="Yenile" FontSize="14"/>
+                        <TextBlock Text="{StaticResource Refresh}" FontSize="14"/>
                     </StackPanel>
                 </Button>
             </Grid>
