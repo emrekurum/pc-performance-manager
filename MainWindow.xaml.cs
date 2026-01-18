@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using PcPerformanceManager.Models;
+using PcPerformanceManager.Services;
 using PcPerformanceManager.ViewModels;
 
 namespace PcPerformanceManager;
@@ -44,24 +45,24 @@ public partial class MainWindow : Window
         if (settings.Theme == "Light")
         {
             // Light tema henüz desteklenmiyor - kullanıcıya bilgi ver
+            var themeMsg = App.LocalizationService.GetString("ThemeNotSupported", 
+                "Light theme feature is not yet available. Only Dark theme is supported.");
+            var themeTitle = App.LocalizationService.GetString("ThemeChange", "Theme Change");
             System.Windows.MessageBox.Show(
-                "Light tema özelliği henüz kullanılamıyor. Sadece Dark tema desteklenmektedir.",
-                "Tema Değişikliği",
+                themeMsg,
+                themeTitle,
                 MessageBoxButton.OK,
                 MessageBoxImage.Information);
         }
         
-        // Dil değiştirme kontrolü
-        if (settings.Language != "tr-TR")
+        // Dil değiştirme - artık çalışıyor!
+        if (App.LocalizationService.CurrentLanguage != settings.Language)
         {
-            // Localization sistemi henüz kurulmadı - kullanıcıya bilgi ver
-            System.Windows.MessageBox.Show(
-                $"Dil değişikliği özelliği henüz kullanılamıyor. Şu anda sadece Türkçe desteklenmektedir.\n\n" +
-                $"Seçilen dil: {settings.Language}\n" +
-                $"Dil değişikliği özelliği gelecek güncellemede eklenecektir.",
-                "Dil Değişikliği",
-                MessageBoxButton.OK,
-                MessageBoxImage.Information);
+            App.LocalizationService.ChangeLanguage(settings.Language);
+            
+            // UI'ı yenilemek için tüm pencereleri güncelle
+            // Bu, resource dictionary değiştiği için otomatik olarak çalışacak
+            // Ancak bazı ViewModel'lerdeki string'ler için manuel güncelleme gerekebilir
         }
         
         // Not: Minimize to tray özelliği şimdilik devre dışı (UseWindowsForms gerektiriyor)
