@@ -1,0 +1,82 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    
+    <!-- Settings View -->
+    <system:String x:Key="SettingsTitle">Settings</system:String>
+    <system:String x:Key="SettingsSubtitle">Configure your application preferences</system:String>
+    <system:String x:Key="UnsavedChanges">You have unsaved changes</system:String>
+    <system:String x:Key="Ready">Ready</system:String>
+    <system:String x:Key="SettingsLoaded">Settings loaded</system:String>
+    <system:String x:Key="SavingSettings">Saving settings...</system:String>
+    <system:String x:Key="SettingsSaved">Settings saved successfully</system:String>
+    <system:String x:Key="SettingsSaveFailed">Settings could not be saved</system:String>
+    <system:String x:Key="SettingsReset">Settings reset to default values</system:String>
+    
+    <!-- General Settings -->
+    <system:String x:Key="GeneralSettings">🔧 General Settings</system:String>
+    <system:String x:Key="StartWithWindows">Start with Windows</system:String>
+    <system:String x:Key="StartWithWindowsDesc">Automatically open the application when Windows starts</system:String>
+    <system:String x:Key="MinimizeToTray">Minimize to System Tray</system:String>
+    <system:String x:Key="MinimizeToTrayDesc">Send the application to system tray when close button is clicked</system:String>
+    <system:String x:Key="CheckForUpdates">Automatic Update Check</system:String>
+    <system:String x:Key="CheckForUpdatesDesc">Check for updates when the application starts</system:String>
+    <system:String x:Key="Language">Language</system:String>
+    <system:String x:Key="LanguageDesc">Application language</system:String>
+    <system:String x:Key="Theme">Theme</system:String>
+    <system:String x:Key="ThemeDesc">Application theme</system:String>
+    <system:String x:Key="Turkish">Turkish</system:String>
+    <system:String x:Key="English">English</system:String>
+    <system:String x:Key="Dark">Dark</system:String>
+    <system:String x:Key="Light">Light</system:String>
+    
+    <!-- Performance Settings -->
+    <system:String x:Key="PerformanceSettings">⚡ Performance Settings</system:String>
+    <system:String x:Key="AutoRefresh">Auto Refresh</system:String>
+    <system:String x:Key="AutoRefreshDesc">Automatically update system information</system:String>
+    <system:String x:Key="RefreshInterval">Refresh Interval (seconds)</system:String>
+    <system:String x:Key="RefreshIntervalDesc">Auto refresh frequency</system:String>
+    <system:String x:Key="AutoRamCleanup">Auto RAM Cleanup</system:String>
+    <system:String x:Key="AutoRamCleanupDesc">Automatically clean RAM when usage exceeds the threshold</system:String>
+    <system:String x:Key="RamCleanupThreshold">RAM Cleanup Threshold (MB)</system:String>
+    <system:String x:Key="RamCleanupThresholdDesc">Minimum RAM usage for automatic cleanup</system:String>
+    
+    <!-- Notifications -->
+    <system:String x:Key="Notifications">🔔 Notifications</system:String>
+    <system:String x:Key="ShowNotifications">Show Notifications</system:String>
+    <system:String x:Key="ShowNotificationsDesc">Display system notifications</system:String>
+    
+    <!-- Dashboard Settings -->
+    <system:String x:Key="DashboardSettings">📊 Dashboard Settings</system:String>
+    <system:String x:Key="ShowCpuCard">Show CPU Card</system:String>
+    <system:String x:Key="ShowMemoryCard">Show Memory Card</system:String>
+    <system:String x:Key="ShowDiskCard">Show Disk Card</system:String>
+    <system:String x:Key="ShowPowerCard">Show Power Plan Card</system:String>
+    
+    <!-- Other Settings -->
+    <system:String x:Key="OtherSettings">🔍 Other Settings</system:String>
+    <system:String x:Key="AutoCleanupOnStartup">Auto Cleanup on Startup</system:String>
+    <system:String x:Key="AutoCleanupOnStartupDesc">Perform automatic cleanup when the application starts</system:String>
+    <system:String x:Key="EnableLogging">Logging</system:String>
+    <system:String x:Key="EnableLoggingDesc">Log application activities</system:String>
+    <system:String x:Key="LogLevel">Log Level</system:String>
+    <system:String x:Key="LogLevelDesc">Logging detail level</system:String>
+    
+    <!-- Buttons -->
+    <system:String x:Key="Save">Save</system:String>
+    <system:String x:Key="ResetToDefaults">Reset to Defaults</system:String>
+    <system:String x:Key="Reload">Reload</system:String>
+    
+    <!-- Messages -->
+    <system:String x:Key="SettingsSaveSuccess">Settings saved successfully!</system:String>
+    <system:String x:Key="SettingsSaveError">Settings could not be saved. Please try again.</system:String>
+    <system:String x:Key="SettingsLoadError">An error occurred while loading settings:</system:String>
+    <system:String x:Key="SettingsSaveErrorTitle">An error occurred while saving settings:</system:String>
+    <system:String x:Key="ResetConfirmation">All settings will be reset to default values. Do you want to continue?</system:String>
+    <system:String x:Key="ResetTitle">Reset Settings</system:String>
+    <system:String x:Key="Error">Error</system:String>
+    <system:String x:Key="Success">Success</system:String>
+    <system:String x:Key="StartupFailed">Start with Windows setting could not be applied</system:String>
+    <system:String x:Key="StartupDisableFailed">Start with Windows could not be disabled</system:String>
+    
+</ResourceDictionary>

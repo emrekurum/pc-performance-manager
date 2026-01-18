@@ -1,0 +1,82 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    
+    <!-- Settings View -->
+    <system:String x:Key="SettingsTitle">Ayarlar</system:String>
+    <system:String x:Key="SettingsSubtitle">Uygulama tercihlerinizi yapılandırın</system:String>
+    <system:String x:Key="UnsavedChanges">Kaydedilmemiş değişiklikler var</system:String>
+    <system:String x:Key="Ready">Hazır</system:String>
+    <system:String x:Key="SettingsLoaded">Ayarlar yüklendi</system:String>
+    <system:String x:Key="SavingSettings">Ayarlar kaydediliyor...</system:String>
+    <system:String x:Key="SettingsSaved">Ayarlar başarıyla kaydedildi</system:String>
+    <system:String x:Key="SettingsSaveFailed">Ayarlar kaydedilemedi</system:String>
+    <system:String x:Key="SettingsReset">Ayarlar varsayılan değerlere sıfırlandı</system:String>
+    
+    <!-- General Settings -->
+    <system:String x:Key="GeneralSettings">🔧 Genel Ayarlar</system:String>
+    <system:String x:Key="StartWithWindows">Windows ile Başlat</system:String>
+    <system:String x:Key="StartWithWindowsDesc">Uygulamanın Windows başlatıldığında otomatik açılması</system:String>
+    <system:String x:Key="MinimizeToTray">Sistem Tepsisine Küçült</system:String>
+    <system:String x:Key="MinimizeToTrayDesc">Kapatma butonuna tıklandığında uygulamayı sistem tepsisine gönder</system:String>
+    <system:String x:Key="CheckForUpdates">Otomatik Güncelleme Kontrolü</system:String>
+    <system:String x:Key="CheckForUpdatesDesc">Uygulama başlatıldığında güncellemeleri kontrol et</system:String>
+    <system:String x:Key="Language">Dil</system:String>
+    <system:String x:Key="LanguageDesc">Uygulama dili</system:String>
+    <system:String x:Key="Theme">Tema</system:String>
+    <system:String x:Key="ThemeDesc">Uygulama teması</system:String>
+    <system:String x:Key="Turkish">Türkçe</system:String>
+    <system:String x:Key="English">English</system:String>
+    <system:String x:Key="Dark">Koyu</system:String>
+    <system:String x:Key="Light">Açık</system:String>
+    
+    <!-- Performance Settings -->
+    <system:String x:Key="PerformanceSettings">⚡ Performans Ayarları</system:String>
+    <system:String x:Key="AutoRefresh">Otomatik Yenileme</system:String>
+    <system:String x:Key="AutoRefreshDesc">Sistem bilgilerini otomatik olarak güncelle</system:String>
+    <system:String x:Key="RefreshInterval">Yenileme Aralığı (saniye)</system:String>
+    <system:String x:Key="RefreshIntervalDesc">Otomatik yenileme sıklığı</system:String>
+    <system:String x:Key="AutoRamCleanup">Otomatik RAM Temizleme</system:String>
+    <system:String x:Key="AutoRamCleanupDesc">RAM kullanımı belirlenen eşiği aştığında otomatik temizle</system:String>
+    <system:String x:Key="RamCleanupThreshold">RAM Temizleme Eşiği (MB)</system:String>
+    <system:String x:Key="RamCleanupThresholdDesc">Otomatik temizleme için minimum RAM kullanımı</system:String>
+    
+    <!-- Notifications -->
+    <system:String x:Key="Notifications">🔔 Bildirimler</system:String>
+    <system:String x:Key="ShowNotifications">Bildirimleri Göster</system:String>
+    <system:String x:Key="ShowNotificationsDesc">Sistem bildirimlerini görüntüle</system:String>
+    
+    <!-- Dashboard Settings -->
+    <system:String x:Key="DashboardSettings">📊 Dashboard Ayarları</system:String>
+    <system:String x:Key="ShowCpuCard">CPU Kartını Göster</system:String>
+    <system:String x:Key="ShowMemoryCard">RAM Kartını Göster</system:String>
+    <system:String x:Key="ShowDiskCard">Disk Kartını Göster</system:String>
+    <system:String x:Key="ShowPowerCard">Güç Planı Kartını Göster</system:String>
+    
+    <!-- Other Settings -->
+    <system:String x:Key="OtherSettings">🔍 Diğer Ayarlar</system:String>
+    <system:String x:Key="AutoCleanupOnStartup">Başlangıçta Otomatik Temizlik</system:String>
+    <system:String x:Key="AutoCleanupOnStartupDesc">Uygulama başlatıldığında otomatik temizlik yap</system:String>
+    <system:String x:Key="EnableLogging">Loglama</system:String>
+    <system:String x:Key="EnableLoggingDesc">Uygulama aktivitelerini logla</system:String>
+    <system:String x:Key="LogLevel">Log Seviyesi</system:String>
+    <system:String x:Key="LogLevelDesc">Loglama detay seviyesi</system:String>
+    
+    <!-- Buttons -->
+    <system:String x:Key="Save">Kaydet</system:String>
+    <system:String x:Key="ResetToDefaults">Varsayılanlara Dön</system:String>
+    <system:String x:Key="Reload">Yeniden Yükle</system:String>
+    
+    <!-- Messages -->
+    <system:String x:Key="SettingsSaveSuccess">Ayarlar başarıyla kaydedildi!</system:String>
+    <system:String x:Key="SettingsSaveError">Ayarlar kaydedilemedi. Lütfen tekrar deneyin.</system:String>
+    <system:String x:Key="SettingsLoadError">Ayarlar yüklenirken hata oluştu:</system:String>
+    <system:String x:Key="SettingsSaveErrorTitle">Ayarlar kaydedilirken hata oluştu:</system:String>
+    <system:String x:Key="ResetConfirmation">Tüm ayarlar varsayılan değerlere sıfırlanacak. Devam etmek istiyor musunuz?</system:String>
+    <system:String x:Key="ResetTitle">Ayarları Sıfırla</system:String>
+    <system:String x:Key="Error">Hata</system:String>
+    <system:String x:Key="Success">Başarılı</system:String>
+    <system:String x:Key="StartupFailed">Windows ile başlatma ayarı uygulanamadı</system:String>
+    <system:String x:Key="StartupDisableFailed">Windows ile başlatma kapatılamadı</system:String>
+    
+</ResourceDictionary>
