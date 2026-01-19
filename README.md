@@ -2,6 +2,8 @@
 
 A modern Windows desktop application built with WPF and .NET 8.0 for optimizing system performance by managing RAM usage, power plans, and cleaning up unnecessary files.
 
+This application provides comprehensive system optimization tools with a user-friendly interface and real-time monitoring capabilities.
+
 ## Overview
 
 PC Performance Manager is a comprehensive system optimization tool designed for Windows 10/11. It provides users with powerful features to monitor system resources, optimize memory usage, manage power plans, and clean up temporary files to improve overall system performance.
