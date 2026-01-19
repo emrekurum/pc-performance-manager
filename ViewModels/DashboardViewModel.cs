@@ -51,6 +51,10 @@ public partial class DashboardViewModel : ObservableObject
     // Formatted strings for display
     public string MemoryUsedDisplay => $"{MemoryInfo.UsedGB:F1} GB / {MemoryInfo.TotalGB:F1} GB";
     public string DiskUsedDisplay => $"{SystemInfo.UsedDiskGB:F1} GB / {SystemInfo.TotalDiskGB:F1} GB";
+    
+    // Power plan display properties with localization fallback
+    public string ActivePowerPlanName => ActivePowerPlan?.Name ?? App.LocalizationService.GetString("Unknown", "Unknown");
+    public string ActivePowerPlanDescription => ActivePowerPlan?.Description ?? App.LocalizationService.GetString("NoActivePowerPlan", "No active power plan");
 
     public DashboardViewModel()
     {
@@ -156,6 +160,8 @@ public partial class DashboardViewModel : ObservableObject
 
                 OnPropertyChanged(nameof(MemoryUsedDisplay));
                 OnPropertyChanged(nameof(DiskUsedDisplay));
+                OnPropertyChanged(nameof(ActivePowerPlanName));
+                OnPropertyChanged(nameof(ActivePowerPlanDescription));
             });
 
             StatusMessage = "Data refreshed successfully";
