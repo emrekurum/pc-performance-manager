@@ -11,8 +11,7 @@
     <Company>emrekurum</Company>
     <Product>PC Performance Manager</Product>
     <Description>A modern Windows desktop application for optimizing system performance</Description>
-    <Copyright>Copyright © 2026</Copyright>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Copyright>Copyright © 2026 Emre KURUM. All Rights Reserved.</Copyright>
     <RepositoryUrl>https://github.com/emrekurum/pc-performance-manager.git</RepositoryUrl>
   </PropertyGroup>
 

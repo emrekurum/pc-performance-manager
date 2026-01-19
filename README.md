@@ -239,9 +239,29 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 Please ensure your code follows the existing code style and includes appropriate documentation.
 
-## License
+## Legal Notice / Yasal Uyarı
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+**English:**
+
+The source code of this project is made publicly available solely for review and educational purposes.
+
+⚠️ **Cannot be copied, distributed, or used for commercial purposes.**
+
+If you wish to use or license this project commercially, please contact me: [emrekurum07@hotmail.com]
+
+© 2026 Emre KURUM. All Rights Reserved.
+
+---
+
+**Türkçe:**
+
+Bu projenin kaynak kodları yalnızca inceleme ve eğitim amaçlı olarak halka açılmıştır.
+
+⚠️ **Kopyalanamaz, dağıtılamaz ve ticari amaçla kullanılamaz.**
+
+Bu projeyi ticari olarak kullanmak veya lisanslamak isterseniz lütfen benimle iletişime geçin: [emrekurum07@hotmail.com]
+
+© 2026 Emre KURUM. Tüm Hakları Saklıdır.
 
 ## Author
 
