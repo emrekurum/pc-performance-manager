@@ -272,7 +272,6 @@ Bu projeyi ticari olarak kullanmak veya lisanslamak isterseniz lütfen benimle i
 **vedat acat**
 
 - Email: acatvedat797@gmail.com
-- GitHub: [@vedatacat](https://github.com/vedatacat)
 
 ## Acknowledgments
 
