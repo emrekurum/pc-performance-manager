@@ -263,15 +263,11 @@ Bu projeyi ticari olarak kullanmak veya lisanslamak isterseniz lütfen benimle i
 
 © 2026 Emre KURUM. Tüm Hakları Saklıdır.
 
-## Authors
+## Author
 
 **emrekurum**
 
 - GitHub: [@emrekurum](https://github.com/emrekurum)
-
-**vedat acat**
-
-- Email: acatvedat797@gmail.com
 
 ## Acknowledgments
 
